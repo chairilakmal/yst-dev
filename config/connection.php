@@ -3,7 +3,7 @@
 $host        = "localhost";//localhost server
 $db_user     = "root";//database username
 $db_password = "";//database password
-$db_name     = "db_tugas_akhir";//database name
+$db_name     = "yst_db";//database name
 
 global $conn;
 $conn = mysqli_connect("$host","$db_user","$db_password","$db_name");

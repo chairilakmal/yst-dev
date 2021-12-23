@@ -67,11 +67,13 @@ if (isset($_POST["submit"])) {
     $tgl_penulisan              = date('Y-m-d', time());
 
 
+    $query = "INSERT INTO t_berita (judul_berita, tgl_kejadian, isi_berita,gambar_berita,tgl_penulisan)
+                VALUES ('$judul_berita', '$tgl_kejadian', '$isi_berita','$gambar','$tgl_penulisan')";
 
-    $query = "INSERT INTO t_berita
-                    VALUES 
-                  ('','$judul_berita','$tgl_kejadian','$isi_berita','$gambar','$tgl_penulisan')  
-                    ";
+    // $query = "INSERT INTO t_berita
+    //                 VALUES 
+    //               ('','$judul_berita','$tgl_kejadian','$isi_berita','$gambar','$tgl_penulisan')  
+    //                 ";
 
     mysqli_query($conn, $query);
     // var_dump($query);
