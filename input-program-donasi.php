@@ -76,10 +76,11 @@
         $penanggung_jawab           = $_POST["tb_penanggung_jawab"];
 
        
-        $query = "INSERT INTO t_program_donasi
-                    VALUES 
-                  ('','$nama_program_donasi','$deskripsi_singkat_donasi','$target_dana',' $deskripsi_lengkap_donasi','$gambar','$tgl_pdonasi','$tgl_selesai','$status_program_donasi','$penerima_donasi','','','$penanggung_jawab')  
-                    ";
+        $query = "INSERT INTO t_program_donasi (nama_program_donasi, deskripsi_singkat_donasi, target_dana,deskripsi_lengkap_donasi,foto_p_donasi,tgl_pdonasi,tgl_selesai,status_program_donasi,penerima_donasi,penanggung_jawab)
+                VALUES ('$nama_program_donasi','$deskripsi_singkat_donasi','$target_dana',' $deskripsi_lengkap_donasi','$gambar','$tgl_pdonasi','$tgl_selesai','$status_program_donasi','$penerima_donasi','$penanggung_jawab')  
+                     ";
+
+
      
         mysqli_query($conn,$query);
         // var_dump($query);die;
