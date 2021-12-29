@@ -174,7 +174,10 @@
                 ";
         }
 
+        
         mysqli_query($conn, $query);
+        // var_dump($query);die();
+        
 
         //cek keberhasilan
         if(mysqli_affected_rows($conn) > 0 ){

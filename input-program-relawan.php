@@ -86,10 +86,10 @@
        
         $tenggat_waktu               = $_POST["tb_tenggat_waktu"];
 
-        $query = "INSERT INTO t_program_relawan
-                    VALUES 
-                  ('','$nama_program_relawan','$deskripsi_singkat_relawan','$target_relawan','$tgl_pelaksanaan','$lokasi_program',' $deskripsi_lengkap_relawan','$gambar','$status_program_relawan','$tgl_prelawan','$lokasi_awal','$penanggung_jawab','$tenggat_waktu','')  
-                    ";
+
+$query = "INSERT INTO t_program_relawan (nama_program_relawan,deskripsi_singkat_relawan,target_relawan,tgl_pelaksanaan,lokasi_program,deskripsi_lengkap_relawan,foto_p_relawan,status_program_relawan,tgl_prelawan,lokasi_awal,penanggung_jawab,tenggat_waktu)
+VALUES ('$nama_program_relawan','$deskripsi_singkat_relawan','$target_relawan','$tgl_pelaksanaan','$lokasi_program',' $deskripsi_lengkap_relawan','$gambar','$status_program_relawan','$tgl_prelawan','$lokasi_awal','$penanggung_jawab','$tenggat_waktu')  
+     ";
 
         mysqli_query($conn,$query);
 
