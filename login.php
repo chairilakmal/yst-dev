@@ -22,7 +22,7 @@ if (isset($_POST["login"])) {
       $_SESSION["username"] = $row["username"];
       $_SESSION["level_user"] = $row["level_user"];
 
-      if ($_SESSION["level_user"] == "1") {
+      if ($_SESSION["level_user"] == "4") {
         header("Location: pilih-donasi.php");
       } else {
         header("Location: dashboard-admin.php");

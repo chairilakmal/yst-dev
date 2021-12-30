@@ -1,106 +1,106 @@
 <?php
-    session_start();
-    include 'config/connection.php';
+session_start();
+include 'config/connection.php';
 
 
-    if(!isset($_SESSION["username"])) {
-        header('Location: login.php?status=restrictedaccess');
-        exit;
-    }
+if (!isset($_SESSION["username"])) {
+    header('Location: login.php?status=restrictedaccess');
+    exit;
+}
 
-    function upload(){
-         //upload gambar
-         $namaFile = $_FILES['image_uploads']['name'];
-         $ukuranFile = $_FILES['image_uploads']['size'];
-         $error = $_FILES['image_uploads']['error'];
-         $tmpName = $_FILES['image_uploads']['tmp_name'];
- 
-            //  if($error === 4){
-            //      echo "
-            //          <script>
-            //              alert('gambar tidak ditemukan !');
-            //          </script>
-            //      ";
-            //      return false;
-            //  }
-    
-         //cek ekstensi gambar
-         $ekstensiGambarValid = ['jpg','jpeg','png'];
-         $ekstensiGambar = explode('.', $namaFile);
-         $ekstensiGambar = strtolower(end($ekstensiGambar));
- 
-             if( !in_array($ekstensiGambar, $ekstensiGambarValid)){
-                 echo "
+function upload()
+{
+    //upload gambar
+    $namaFile = $_FILES['image_uploads']['name'];
+    $ukuranFile = $_FILES['image_uploads']['size'];
+    $error = $_FILES['image_uploads']['error'];
+    $tmpName = $_FILES['image_uploads']['tmp_name'];
+
+    //  if($error === 4){
+    //      echo "
+    //          <script>
+    //              alert('gambar tidak ditemukan !');
+    //          </script>
+    //      ";
+    //      return false;
+    //  }
+
+    //cek ekstensi gambar
+    $ekstensiGambarValid = ['jpg', 'jpeg', 'png'];
+    $ekstensiGambar = explode('.', $namaFile);
+    $ekstensiGambar = strtolower(end($ekstensiGambar));
+
+    if (!in_array($ekstensiGambar, $ekstensiGambarValid)) {
+        echo "
                      <script>
                          alert('kesalahan pada format gambar !');
                      </script>
                  ";
-                 return false;
-             }
-
-        //generate nama baru
-        $namaFileBaru = uniqid();
-        $namaFileBaru .= '.';
-        $namaFileBaru .= $ekstensiGambar;
-       
- 
-         //lolos pengecekan
-         move_uploaded_file($tmpName,'img/'.$namaFileBaru);
- 
-         return $namaFileBaru;
+        return false;
     }
 
-
-    if(isset($_POST["submit"])) {
-
-        $nama_program_donasi        = $_POST["tb_nama_program_donasi"]; 
-        $nama_program_donasi        = htmlspecialchars($nama_program_donasi);
-
-        $deskripsi_singkat_donasi   = $_POST["tb_deskripsi_donasi_singkat"]; 
-        $deskripsi_singkat_donasi   = htmlspecialchars($deskripsi_singkat_donasi);
-
-        $target_dana                = $_POST["tb_target_dana"];
+    //generate nama baru
+    $namaFileBaru = uniqid();
+    $namaFileBaru .= '.';
+    $namaFileBaru .= $ekstensiGambar;
 
 
-        $deskripsi_lengkap_donasi   = $_POST["tb_deskripsi_donasi_lengkap"];
-        $deskripsi_lengkap_donasi   = htmlspecialchars($deskripsi_lengkap_donasi);
+    //lolos pengecekan
+    move_uploaded_file($tmpName, 'img/' . $namaFileBaru);
 
-        $status_program_donasi      = "Pending";
+    return $namaFileBaru;
+}
 
-        $gambar                     = upload();
 
-        $tgl_pdonasi                = date ('Y-m-d', time());
+if (isset($_POST["submit"])) {
 
-        $tgl_selesai                = $_POST["tb_tgl_selesai"];
-        $penerima_donasi            = $_POST["tb_penerima_donasi"];
-        $penanggung_jawab           = $_POST["tb_penanggung_jawab"];
+    $nama_program_donasi        = $_POST["tb_nama_program_donasi"];
+    $nama_program_donasi        = htmlspecialchars($nama_program_donasi);
 
-       
-        $query = "INSERT INTO t_program_donasi (nama_program_donasi, deskripsi_singkat_donasi, target_dana,deskripsi_lengkap_donasi,foto_p_donasi,tgl_pdonasi,tgl_selesai,status_program_donasi,penerima_donasi,penanggung_jawab)
+    $deskripsi_singkat_donasi   = $_POST["tb_deskripsi_donasi_singkat"];
+    $deskripsi_singkat_donasi   = htmlspecialchars($deskripsi_singkat_donasi);
+
+    $target_dana                = $_POST["tb_target_dana"];
+
+
+    $deskripsi_lengkap_donasi   = $_POST["tb_deskripsi_donasi_lengkap"];
+    $deskripsi_lengkap_donasi   = htmlspecialchars($deskripsi_lengkap_donasi);
+
+    $status_program_donasi      = "Pending";
+
+    $gambar                     = upload();
+
+    $tgl_pdonasi                = date('Y-m-d', time());
+
+    $tgl_selesai                = $_POST["tb_tgl_selesai"];
+    $penerima_donasi            = $_POST["tb_penerima_donasi"];
+    $penanggung_jawab           = $_POST["tb_penanggung_jawab"];
+
+
+    $query = "INSERT INTO t_program_donasi (nama_program_donasi, deskripsi_singkat_donasi, target_dana,deskripsi_lengkap_donasi,foto_p_donasi,tgl_pdonasi,tgl_selesai,status_program_donasi,penerima_donasi,penanggung_jawab)
                 VALUES ('$nama_program_donasi','$deskripsi_singkat_donasi','$target_dana',' $deskripsi_lengkap_donasi','$gambar','$tgl_pdonasi','$tgl_selesai','$status_program_donasi','$penerima_donasi','$penanggung_jawab')  
                      ";
 
 
-     
-        mysqli_query($conn,$query);
-        // var_dump($query);die;
 
-        //cek keberhasilan
-        if(mysqli_affected_rows($conn) > 0 ){
-            echo "
+    mysqli_query($conn, $query);
+    // var_dump($query);die;
+
+    //cek keberhasilan
+    if (mysqli_affected_rows($conn) > 0) {
+        echo "
             <script>
                 alert('Data berhasil ditambahkan!');
             </script>
             ";
-        }else{
-            echo "
+    } else {
+        echo "
                 <script>
                     alert('Data gagal ditambahkan!');
                 </script>
             ";
-        }
-
     }
+}
 
 ?>
 
@@ -125,8 +125,8 @@
     <link rel="stylesheet" type="text/css" href="css/dashboard-yst.css">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600&display=swap" rel="stylesheet"> 
-    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&family=Roboto:wght@500&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&family=Roboto:wght@500&display=swap" rel="stylesheet">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -140,16 +140,15 @@
                 </li>
             </ul>
             <!-- Right navbar links -->
-           <ul class="navbar-nav ml-auto user-wrapper"> 
+            <ul class="navbar-nav ml-auto user-wrapper">
                 <img src="img/user-default.jpg" width="30px" height="30px" alt="">
-                <li class="nav-item dropdown user-dropdown">  
-                    <a class="nav-link dropdown-toggle pr-4" href="#" id="navbarDropdownMenuLink" 
-                    role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <?php echo("{$_SESSION['username']}");?>
+                <li class="nav-item dropdown user-dropdown">
+                    <a class="nav-link dropdown-toggle pr-4" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <?php echo ("{$_SESSION['username']}"); ?>
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">      
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item" href="logout.php">Logout</a>
-                    </div>                   
+                    </div>
                 </li>
             </ul>
         </nav>
@@ -160,13 +159,13 @@
             <!-- Brand Logo -->
 
             <a href="dashboard-admin.php" class="brand-link">
-                <img src="img/logo-only.svg"  class="brand-image mt-1">
+                <img src="img/logo-only.svg" class="brand-image mt-1">
                 <span class="brand-text font-weight-bold mt-2"><i>Dashboard Admin</i></span>
             </a>
 
             <!-- Sidebar -->
             <div class="sidebar">
-           <!-- Sidebar Menu -->
+                <!-- Sidebar Menu -->
                 <nav class="mt-4">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
@@ -209,7 +208,7 @@
                             <a href="laporan-program-donasi.php" class="nav-link side-icon">
                                 <i class="nav-icon fas fa-calendar-check"></i>
                                 <p>
-                                    Lp.  Program Donasi
+                                    Lp. Program Donasi
                                 </p>
                             </a>
                         </li>
@@ -225,7 +224,7 @@
                             <a href="laporan-program-relawan.php" class="nav-link side-icon">
                                 <i class="nav-icon fas fa-calendar-check"></i>
                                 <p>
-                                    Lp.  Program Relawan
+                                    Lp. Program Relawan
                                 </p>
                             </a>
                         </li>
@@ -233,11 +232,11 @@
                             <a href="laporan-relawan.php" class="nav-link side-icon ">
                                 <i class="nav-icon fas fa-address-book"></i>
                                 <p>
-                                    Lp.  Relawan
+                                    Lp. Relawan
                                 </p>
                             </a>
                         </li>
-                        
+
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -247,66 +246,68 @@
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-        <main>
-                <div class="page-title-link ml-4 mb-4">     
-                            <a href="dashboard-admin.php">
-                                <i class="nav-icon fas fa-home mr-1"></i>Dashboard admin</a> > 
-                            <a href="dashboard-admin.php">
-                                <i class="nav-icon fas fa-cog mr-1"></i>Program donasi</a> >
-                            <a href="input-program-donasi.php">
-                                <i class="nav-icon fas fa-plus-square mr-1"></i>Input program donasi</a>
-                </div>               
+            <main>
+                <div class="page-title-link ml-4 mb-4">
+                    <a href="dashboard-admin.php">
+                        <i class="nav-icon fas fa-home mr-1"></i>Dashboard admin</a> >
+                    <a href="dashboard-admin.php">
+                        <i class="nav-icon fas fa-cog mr-1"></i>Program donasi</a> >
+                    <a href="input-program-donasi.php">
+                        <i class="nav-icon fas fa-plus-square mr-1"></i>Input program donasi</a>
+                </div>
                 <div class="form-profil">
-                    <div class="mt-2 regis-title"><h3>Input Program Donasi</h3></div>    
-                        <form action="" enctype="multipart/form-data" method="POST">
-                            <div class="form-group label-txt">
-                                <div class="form-group mt-4 mb-3">
-                                    <label for="tb_nama_program_donasi" class="label-txt">Nama Program<span class="red-star">*</span></label>
-                                    <input type="text" id="tb_nama_program_donasi" name="tb_nama_program_donasi" class="form-control" placeholder="Nama program donasi" Required>
-                                </div>
-                                <div class="form-group mt-4 mb-3">
-                                    <label for="tb_penanggung_jawab" class="label-txt">Penanggung Jawab<span class="red-star">*</span></label>
-                                    <input type="text" id="tb_penanggung_jawab" name="tb_penanggung_jawab" class="form-control" placeholder="Nama penanggung jawab" Required>
-                                </div>
-                                <div class="form-group mt-4 mb-3">
-                                    <label for="tb_penerima_donasi" class="label-txt">Penerima Donasi<span class="red-star">*</span></label>
-                                    <input type="text" id="tb_penerima_donasi" name="tb_penerima_donasi" class="form-control" placeholder="Penerima Donasi" Required>
-                                </div>                            
-                                <div class="form-group mb-3">
-                                    <label for="tb_target_dana" class="label-txt">Target Dana<span class="red-star">*</span></label>
-                                    <input type="number" id="tb_target_dana" name="tb_target_dana" class="form-control" placeholder="Target dana dikumpulkan" Required>
-                                </div>
-                                <div class="form-group mt-4 mb-3">
+                    <div class="mt-2 regis-title">
+                        <h3>Input Program Donasi</h3>
+                    </div>
+                    <form action="" enctype="multipart/form-data" method="POST">
+                        <div class="form-group label-txt">
+                            <div class="form-group mt-4 mb-3">
+                                <label for="tb_nama_program_donasi" class="label-txt">Nama Program<span class="red-star">*</span></label>
+                                <input type="text" id="tb_nama_program_donasi" name="tb_nama_program_donasi" class="form-control" placeholder="Nama program donasi" Required>
+                            </div>
+                            <div class="form-group mt-4 mb-3">
+                                <label for="tb_penanggung_jawab" class="label-txt">Penanggung Jawab<span class="red-star">*</span></label>
+                                <input type="text" id="tb_penanggung_jawab" name="tb_penanggung_jawab" class="form-control" placeholder="Nama penanggung jawab" Required>
+                            </div>
+                            <div class="form-group mt-4 mb-3">
+                                <label for="tb_penerima_donasi" class="label-txt">Penerima Donasi<span class="red-star">*</span></label>
+                                <input type="text" id="tb_penerima_donasi" name="tb_penerima_donasi" class="form-control" placeholder="Penerima Donasi" Required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="tb_target_dana" class="label-txt">Target Dana<span class="red-star">*</span></label>
+                                <input type="number" id="tb_target_dana" name="tb_target_dana" class="form-control" placeholder="Target dana dikumpulkan" Required>
+                            </div>
+                            <div class="form-group mt-4 mb-3">
                                 <label for="tb_tgl_selesai" class="label-txt">Tenggat Waktu Pengumpulan Donasi<span class="red-star">*</span></label>
-                                    <input type="datetime-local" id="tb_tgl_selesai" name="tb_tgl_selesai" class="form-control" placeholder="Tanggal akhir pengumpulan dana" Required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="tb_deskripsi_donasi_singkat" class="label-txt">Deskripsi Singkat<span class="red-star">*</span></label>
-                                    <textarea class="form-control" id="tb_deskripsi_donasi_singkat" name="tb_deskripsi_donasi_singkat" rows="2" placeholder="Gambaran umum tentang program" Required></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="tb_deskripsi_donasi_lengkap" class="label-txt">Deskripsi Lengkap</label>
-                                    <textarea class="form-control" id="tb_deskripsi_donasi_lengkap" name="tb_deskripsi_donasi_lengkap" rows="6" placeholder="Gambaran lengkap tentang program"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="image_uploads" class="label-txt">Foto Program<span class="red-star">*</span></label>
-                                    <div class="file-form">
-                                        <input type="file" id="image_uploads" name="image_uploads" class="form-control" Required>
-                                    </div>
+                                <input type="datetime-local" id="tb_tgl_selesai" name="tb_tgl_selesai" class="form-control" placeholder="Tanggal akhir pengumpulan dana" Required>
+                            </div>
+                            <div class="form-group">
+                                <label for="tb_deskripsi_donasi_singkat" class="label-txt">Deskripsi Singkat<span class="red-star">*</span></label>
+                                <textarea class="form-control" id="tb_deskripsi_donasi_singkat" name="tb_deskripsi_donasi_singkat" rows="2" placeholder="Gambaran umum tentang program" Required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="tb_deskripsi_donasi_lengkap" class="label-txt">Deskripsi Lengkap</label>
+                                <textarea class="form-control" id="tb_deskripsi_donasi_lengkap" name="tb_deskripsi_donasi_lengkap" rows="6" placeholder="Gambaran lengkap tentang program"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="image_uploads" class="label-txt">Foto Program<span class="red-star">*</span></label>
+                                <div class="file-form">
+                                    <input type="file" id="image_uploads" name="image_uploads" class="form-control" Required>
                                 </div>
                             </div>
-                            <button type="submit" name="submit" value="Simpan" class="btn btn-lg btn-primary w-100 yst-login-btn border-0 mt-4 mb-4"> 
-                                <span class="yst-login-btn-fs">Buat Program</span>
-                            </button>
-                        </form>
-                    </div>
+                        </div>
+                        <button type="submit" name="submit" value="Simpan" class="btn btn-lg btn-primary w-100 yst-login-btn border-0 mt-4 mb-4">
+                            <span class="yst-login-btn-fs">Buat Program</span>
+                        </button>
+                    </form>
+                </div>
             </main>
         </div>
         <!-- /.container-fluid -->
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-    
+
     <footer class="main-footer">
         <center><strong> &copy; YST 2021.</strong> Yayasan Sekar Telkom </center>
     </footer>

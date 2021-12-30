@@ -21,7 +21,10 @@ function queryBerita($query)
 }
 
 $berita = queryBerita("SELECT *
-                    FROM t_berita
+                    FROM t_berita 
+                    WHERE status_berita = 2
+                    ORDER BY id_berita 
+                    DESC
                     ");
 
 //Donasi
@@ -214,7 +217,7 @@ $programRelawan = queryRelawan("SELECT *, SUM(t_relawan.relawan_jadi) AS jumlah_
             <div class="tkjb-card2">
                 <h2> Berita Terbaru </h2>
                 <div class="row card-deck">
-                    <?php foreach ($berita as $row) : ?>
+                    <?php foreach (array_slice($berita, 0, 3) as $row) : ?>
                         <div class="col-md-4">
                             <div class="card card-pilihan mb-4 shadow-sm">
                                 <a href="">

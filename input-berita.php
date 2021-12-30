@@ -66,14 +66,14 @@ if (isset($_POST["submit"])) {
 
     $tgl_penulisan              = date('Y-m-d', time());
 
+    $kategori_berita            = $_POST["tb_kategori_berita"];
 
-    $query = "INSERT INTO t_berita (judul_berita, tgl_kejadian, isi_berita,gambar_berita,tgl_penulisan)
-                VALUES ('$judul_berita', '$tgl_kejadian', '$isi_berita','$gambar','$tgl_penulisan')";
+    $status_berita              = 1;
 
-    // $query = "INSERT INTO t_berita
-    //                 VALUES 
-    //               ('','$judul_berita','$tgl_kejadian','$isi_berita','$gambar','$tgl_penulisan')  
-    //                 ";
+
+    $query = "INSERT INTO t_berita (judul_berita, tgl_kejadian, isi_berita,gambar_berita,tgl_penulisan,kategori_berita,status_berita)
+                VALUES ('$judul_berita', '$tgl_kejadian', '$isi_berita','$gambar','$tgl_penulisan','$kategori_berita','$status_berita')";
+
 
     mysqli_query($conn, $query);
     // var_dump($query);
@@ -265,6 +265,13 @@ if (isset($_POST["submit"])) {
                             <div class="form-group mt-4 mb-3">
                                 <label for="tb_judul_berita" class="label-txt">Judul Berita<span class="red-star">*</span></label>
                                 <input type="text" id="tb_judul_berita" name="tb_judul_berita" class="form-control" placeholder="Judul Berita" Required>
+                            </div>
+                            <div class="form-group mt-4 mb-3">
+                                <label for="tb_kategori_berita">Kategori</label>
+                                <select class="form-control" id="tb_kategori_berita" name="tb_kategori_berita">
+                                    <option value="0">Kegiatan</option>
+                                    <option value="1">Berita</option>
+                                </select>
                             </div>
                             <div class="form-group mt-4 mb-3">
                                 <label for="tb_tgl_kejadian" class="label-txt">Tanggal Kejadian<span class="red-star">*</span></label>

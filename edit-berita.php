@@ -77,7 +77,10 @@ $berita = query("SELECT * FROM t_berita WHERE id_berita = $id_berita")[0];
 //UPDATE
 if (isset($_POST["submit"])) {
 
+    $id_berita         = $_POST["id_berita"];
+
     $judul_berita               = $_POST["tb_judul_berita"];
+
     $judul_berita               = htmlspecialchars($judul_berita);
 
     $tgl_kejadian               = $_POST["tb_tgl_kejadian"];
@@ -85,9 +88,11 @@ if (isset($_POST["submit"])) {
     $isi_berita                 = $_POST["tb_isi_berita"];
     $isi_berita                 = htmlspecialchars($isi_berita);
 
-    $gambar                     = upload();
+    $kategori_berita            = $_POST["tb_kategori_berita"];
 
+    $status_berita              = $_POST["status_berita"];
 
+    $gambarLama                 = $_POST["gambarLama"];
 
 
     if ($_FILES['image_uploads']['error'] === 4) {
@@ -99,7 +104,7 @@ if (isset($_POST["submit"])) {
 
     // if (isset($_FILES['image_uploads2'], $_POST['tb_tgl_penyaluran'])) {//do the fields exist
     //     if($_FILES['image_uploads2'] && $_POST['tb_tgl_penyaluran']){ //do the fields contain data
-    //         $status_program_donasi      = 'Selesai';
+    //         $status_berita      = 'Selesai';
     //     }
     // }
 
@@ -108,19 +113,24 @@ if (isset($_POST["submit"])) {
                     judul_berita                = '$judul_berita',
                     tgl_kejadian                = '$tgl_kejadian',
                     isi_berita                  = '$isi_berita',
-                    gambar                      = '$gambar',        
+                    gambar_berita               = '$gambar', 
+                    kategori_berita             = $kategori_berita,
+                    status_berita               = $status_berita'
+                           
                     WHERE id_berita             = $id_berita
                 ";
-
+    // var_dump($query);
+    // die();
 
     mysqli_query($conn, $query);
+
 
     //cek keberhasilan
     if (mysqli_affected_rows($conn) > 0) {
         echo "
             <script>
                 alert('Data berhasil diubah!');
-                window.location.href = 'dashboard-admin.php'; 
+                window.location.href = 'kelola-berita.php'; 
             </script>
         ";
     } else {
@@ -300,12 +310,19 @@ if (isset($_POST["submit"])) {
                         <h3>Edit Berita</h3>
                     </div>
                     <form action="" enctype="multipart/form-data" method="POST">
-                        <input type="hidden" name="id_program_donasi" value="<?= $berita["id_berita"]; ?>">
+                        <input type="hidden" name="id_berita" value="<?= $berita["id_berita"]; ?>">
                         <input type="hidden" name="gambarLama" value="<?= $berita["gambar_berita"]; ?>">
                         <div class="form-group label-txt">
                             <div class="form-group mt-4 mb-3">
                                 <label for="tb_judul_berita" class="label-txt">Judul Berita<span class="red-star">*</span></label>
                                 <input type="text" id="tb_judul_berita" name="tb_judul_berita" class="form-control" placeholder="Judul Berita" value="<?= $berita["judul_berita"]; ?>">
+                            </div>
+                            <div class="form-group mt-4 mb-3">
+                                <label for="tb_kategori_berita">Kategori</label>
+                                <select class="form-control" id="tb_kategori_berita" name="tb_kategori_berita">
+                                    <option value="0" <?php if ($berita['kategori_berita'] == '0') echo 'selected' ?>>Kegiatan</option>
+                                    <option value="1" <?php if ($berita['kategori_berita'] == '1') echo 'selected' ?>>Berita</option>
+                                </select>
                             </div>
                             <div class="form-group mt-4 mb-3">
                                 <label for="tb_tgl_kejadian" class="label-txt">Tanggal Kejadian<span class="red-star">*</span></label>
@@ -319,9 +336,29 @@ if (isset($_POST["submit"])) {
                                 <label for="image_uploads" class="label-txt">Foto Berita<span class="red-star">*</span></label><br>
                                 <img src="img/<?= $berita["gambar_berita"]; ?>" class="edit-img popup " alt="">
                                 <div class="file-form">
-                                    <input type="file" id="image_uploads" name="image_uploads" class="form-control" Required>
+                                    <input type="file" id="image_uploads" name="image_uploads" class="form-control">
                                 </div>
                             </div>
+                            <!-- Hanya muncul jika level user = 3 / super admin -->
+                            <?php if ($_SESSION['level_user'] == 1 || $_SESSION['level_user'] == 2) { ?>
+                                <div class="form-group mb-5">
+                                    <label for="status_berita" class="font-weight-bold"><span class="label-form-span">Status Berita</span></label><br>
+                                    <div class="radio-wrapper mt-1 bg-white">
+                                        <div class="form-check form-check-inline">
+                                            <input type="radio" id="status_berita" name="status_berita" class="form-check-input" value="1" <?php if ($berita['status_berita'] == 1) echo 'checked' ?>>
+                                            <label class="form-check-label" for="status_berita">Pending</label>
+                                        </div>
+                                    </div>
+                                    <div class="radio-wrapper2 mt-1 bg-white">
+                                        <div class="form-check form-check-inline">
+                                            <input type="radio" id="status_berita" name="status_berita" class="form-check-input" value="2" <?php if ($berita['status_berita'] == 2) echo 'checked' ?>>
+                                            <label class="form-check-label" for="status_berita">Publikasi</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-2"><br><br></div>
+                                </div>
+                            <?php } ?>
                         </div>
                         <button type="submit" name="submit" value="Simpan" class="btn btn-lg btn-primary w-100 yst-login-btn border-0 mt-4 mb-4">
                             <span class="yst-login-btn-fs">Perbarui Berita</span>
