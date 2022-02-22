@@ -155,14 +155,14 @@ $programRelawan = queryRelawan("SELECT *, SUM(t_relawan.relawan_jadi) AS jumlah_
                                             <h5 class="max-length2"><?= $row2["nama_program_relawan"]; ?></h5>
                                             </p>
                                         </div>
-                                        <div class="d-flex justify-content-between dana-donatur-row-top mt-2">
+                                        <!-- <div class="d-flex justify-content-between dana-donatur-row-top mt-2">
                                             <div class="float-left">Jumlah Relawan</div>
                                             <div>Target Relawan</div>
                                         </div>
                                         <div class="d-flex justify-content-between dana-donatur-row-bottom mb-3">
-                                            <div class="float-left"><?= $row2['jumlah_relawan'] == 0 ? '0' : $row2['jumlah_relawan']; ?></div>
-                                            <div><?= $row2["target_relawan"]; ?></div>
-                                        </div>
+                                            <div class="float-left">?= $row2['jumlah_relawan'] == 0 ? '0' : $row2['jumlah_relawan']; ?></div>
+                                            <div>?= $row2["target_relawan"]; ?></div>
+                                        </div> -->
                                         <a class="btn btn-primary btn-lg btn-block mb-4 btn-kata-media" href="view-relawan.php?id=<?php echo $row2['id_program_relawan']; ?>">Lihat Program</a>
                                     </div>
                                 </div>

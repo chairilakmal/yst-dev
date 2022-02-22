@@ -1,31 +1,33 @@
 <?php
 
-    session_start();
-    include 'config/connection.php';
+session_start();
+include 'config/connection.php';
 
 
-    if(!isset($_SESSION["username"])) {
-        header('Location: login.php?status=restrictedaccess');
-        exit;
+if (!isset($_SESSION["username"])) {
+    header('Location: login.php?status=restrictedaccess');
+    exit;
+}
+
+function rupiah($angka)
+{
+    $hasil_rupiah = "Rp. " . number_format($angka, 0, '.', '.');
+    return $hasil_rupiah;
+}
+
+//Program Donasi
+function queryDonasi($query)
+{
+    global $conn;
+    $result = mysqli_query($conn, $query);
+    $rows = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $rows[] = $row;
     }
+    return $rows;
+}
 
-    function rupiah($angka){
-            $hasil_rupiah = "Rp. ".number_format($angka,0,'.','.');
-            return $hasil_rupiah;
-    }
-
-    //Program Donasi
-    function queryDonasi($query){
-        global $conn;
-        $result = mysqli_query($conn, $query); 
-        $rows = [];
-        while($row = mysqli_fetch_assoc($result)){
-            $rows[] = $row;
-        }
-        return $rows;
-    }
-
-    $programDonasi = queryDonasi("SELECT *, SUM(t_donasi.nominal_donasi) AS dana_terkumpul_total, 
+$programDonasi = queryDonasi("SELECT *, SUM(t_donasi.nominal_donasi) AS dana_terkumpul_total, 
                     COUNT(id_user) 
                     AS jumlah_donatur 
                     FROM t_donasi 
@@ -35,9 +37,9 @@
                     GROUP BY t_program_donasi.id_program_donasi ORDER BY t_program_donasi.id_program_donasi DESC
                     ");
 
-    //Hanya tampilkan total
-    
-    // var_dump($programDonasi);die;
+//Hanya tampilkan total
+
+// var_dump($programDonasi);die;
 
 ?>
 
@@ -61,7 +63,7 @@
     <link rel="stylesheet" type="text/css" href="css/dashboard-yst.css">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&family=Roboto:wght@500&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&family=Roboto:wght@500&display=swap" rel="stylesheet">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -75,16 +77,15 @@
                 </li>
             </ul>
             <!-- Right navbar links -->
-            <ul class="navbar-nav ml-auto user-wrapper"> 
+            <ul class="navbar-nav ml-auto user-wrapper">
                 <img src="img/user-default.jpg" width="30px" height="30px" alt="">
-                <li class="nav-item dropdown user-dropdown">  
-                    <a class="nav-link dropdown-toggle pr-4" href="#" id="navbarDropdownMenuLink" 
-                    role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <?php echo("{$_SESSION['username']}");?>
+                <li class="nav-item dropdown user-dropdown">
+                    <a class="nav-link dropdown-toggle pr-4" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <?php echo ("{$_SESSION['username']}"); ?>
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">      
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item" href="logout.php">Logout</a>
-                    </div>                   
+                    </div>
                 </li>
             </ul>
         </nav>
@@ -95,13 +96,13 @@
             <!-- Brand Logo -->
 
             <a href="dashboard-user.php" class="brand-link">
-                <img src="img/logo-only.svg"  class="brand-image mt-1">
+                <img src="img/logo-only.svg" class="brand-image mt-1">
                 <span class="brand-text font-weight-bold mt-2"><i>Dashboard User</i></span>
             </a>
 
             <!-- Sidebar -->
             <div class="sidebar">
-           <!-- Sidebar Menu -->
+                <!-- Sidebar Menu -->
                 <nav class="mt-4">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
@@ -131,53 +132,56 @@
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-        <main>
-            <div class="page-title-link ml-4 mb-4">     
-                        <div class="page-title-link ml-4 mb-4">     
-                            <a href="dashboard-user.php">
-                                <i class="nav-icon fas fa-home mr-1"></i>Dashboard user</a> > 
-                            <a href="dashboard-user.php">
-                                <i class="nav-icon fas fa-user-cog mr-1"></i>Donasi saya</a> >
-                            <a href="pilih-donasi.php">
-                                <i class="nav-icon fas fa-hand-holding-heart mr-1"></i>Buat Donasi</a>
-                        </div>
-                </div>               
+            <main>
+                <div class="page-title-link ml-4 mb-4">
+                    <div class="page-title-link ml-4 mb-4">
+                        <a href="dashboard-user.php">
+                            <i class="nav-icon fas fa-home mr-1"></i>Dashboard user</a> >
+                        <a href="dashboard-user.php">
+                            <i class="nav-icon fas fa-user-cog mr-1"></i>Donasi saya</a> >
+                        <a href="pilih-donasi.php">
+                            <i class="nav-icon fas fa-hand-holding-heart mr-1"></i>Buat Donasi</a>
+                    </div>
+                </div>
                 <div class="form-profil halaman-view">
-                    <div class="mt-2 regis-title"><h3>Pilih Donasi</h3></div>    
-                        <div class="row card-deck">
-                                    <?php foreach($programDonasi as $row):?>
-                                    <div class="col-md-6">
-                                        <div class="card card-pilihan mb-4 shadow-sm">
-                                        <a href="">
-                                            <img class="card-img-top berita-img" width="100%" src="img/<?= $row['foto_p_donasi']; ?>">
-                                        </a>
-                                            <div class="card-body">
-                                                <div class="nama-program">
-                                                    <p ><h5 class="max-length2"><b><?= $row["nama_program_donasi"]; ?></b></h5></p>
-                                                </div>
-                                                <div class="d-flex justify-content-between dana-donatur-row-top mt-2">
+                    <div class="mt-2 regis-title">
+                        <h3>Pilih Donasi</h3>
+                    </div>
+                    <div class="row card-deck">
+                        <?php foreach ($programDonasi as $row) : ?>
+                            <div class="col-md-6">
+                                <div class="card card-pilihan mb-4 shadow-sm">
+                                    <a href="">
+                                        <img class="card-img-top berita-img" width="100%" src="img/<?= $row['foto_p_donasi']; ?>">
+                                    </a>
+                                    <div class="card-body">
+                                        <div class="nama-program">
+                                            <p>
+                                            <h5 class="max-length2"><b><?= $row["nama_program_donasi"]; ?></b></h5>
+                                            </p>
+                                        </div>
+                                        <!-- <div class="d-flex justify-content-between dana-donatur-row-top mt-2">
                                                     <div class="float-left">Terkumpul</div>
                                                     <div>Donatur</div>
-                                                </div>
-                                                <div class="d-flex justify-content-between dana-donatur-row-bottom mb-3">
-                                                    <div class="float-left"><b><?= rupiah($row['dana_terkumpul_total']) == 0 ? '0' : rupiah($row['dana_terkumpul_total']); ?></b></div>
-                                                    <div><b><?= $row["jumlah_donatur"]; ?></b></div>
-                                                </div>
-                                                <a class="btn btn-primary btn-lg btn-block mb-4 btn-kata-media" 
-                                                href="view-donasi-dashboard.php?id=<?php echo $row['id_program_donasi'];?>">Lihat Program</a>
-                                            </div>
-                                        </div>
-                                    </div> 
-                                    <?php endforeach;?>   
+                                                </div> -->
+                                        <!-- <div class="d-flex justify-content-between dana-donatur-row-bottom mb-3">
+                                                    <div class="float-left"><b>?= rupiah($row['dana_terkumpul_total']) == 0 ? '0' : rupiah($row['dana_terkumpul_total']); ?></b></div>
+                                                    <div><b>?= $row["jumlah_donatur"]; ?></b></div>
+                                                </div> -->
+                                        <a class="btn btn-primary btn-lg btn-block mb-4 btn-kata-media" href="view-donasi-dashboard.php?id=<?php echo $row['id_program_donasi']; ?>">Lihat Program</a>
+                                    </div>
+                                </div>
                             </div>
-                    </div>  
-        </main>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </main>
         </div>
         <!-- /.container-fluid -->
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-    
+
     <footer class="main-footer">
         <center><strong> &copy; YST 2021.</strong> Yayasan Sekar Telkom </center>
     </footer>

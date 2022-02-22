@@ -133,19 +133,19 @@ $result     = mysqli_fetch_array($query);
                                 <p>
                                     <?php echo $result['deskripsi_singkat_relawan'] ?>
                                 </p>
-                                <div class="d-flex view-kumpulan  mb-3">
+                                <!-- <div class="d-flex view-kumpulan  mb-3">
                                     <div class="float-left">
                                         <span class="value-penting">
-                                            <?php echo $result['jumlah_relawan'] == 0 ? '0' : $result['jumlah_relawan'] ?>
+                                            ?php echo $result['jumlah_relawan'] == 0 ? '0' : $result['jumlah_relawan'] ?>
                                         </span>
                                         Relawan telah mendaftar dari total kebutuhan
                                         <span class="value-penting">
-                                            <?php echo $result['target_relawan'] ?>
+                                            ?php echo $result['target_relawan'] ?>
 
                                         </span>
                                         Relawan
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="d-flex view-kumpulan  mb-3">
                                     <div class="float-left">
                                         Kegiatan akan dilaksanakan di <b><?php echo $result['lokasi_program'] ?></b>

@@ -126,18 +126,18 @@ $result     = mysqli_fetch_array($query);
                     <p>
                         <?php echo $result['deskripsi_singkat_donasi'] ?>
                     </p>
-                    <div class="d-flex view-kumpulan  mb-3">
+                    <!-- <div class="d-flex view-kumpulan  mb-3">
                         <div class="float-left">
                             <span class="value-penting">
-                                <?php echo rupiah($result['dana_terkumpul_total']) == 0 ? '0' : rupiah($result['dana_terkumpul_total']) ?>
+                                ?php echo rupiah($result['dana_terkumpul_total']) == 0 ? '0' : rupiah($result['dana_terkumpul_total']) ?>
                             </span>
                             terkumpul dari
                             <span class="value-penting">
-                                <?php echo rupiah($result['target_dana']) ?>
+                                ?php echo rupiah($result['target_dana']) ?>
                             </span>
                         </div>
 
-                    </div>
+                    </div> -->
                     <div class="d-flex view-kumpulan  mb-3">
                         <div class="float-left">Akan disalurkan kepada <b><?php echo $result['penerima_donasi'] ?></b> pada tanggal <?php echo date("d-m-Y", strtotime($result['tgl_selesai'])); ?></div>
 

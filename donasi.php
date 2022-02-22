@@ -157,14 +157,14 @@ $programDonasi = queryDonasi("SELECT *, SUM(t_donasi.nominal_donasi) AS dana_ter
                                             <h5 class="max-length2"><?= $row["nama_program_donasi"]; ?></h5>
                                             </p>
                                         </div>
-                                        <div class="d-flex justify-content-between dana-donatur-row-top mt-2">
+                                        <!-- <div class="d-flex justify-content-between dana-donatur-row-top mt-2">
                                             <div class="float-left">Terkumpul</div>
                                             <div>Donatur</div>
                                         </div>
                                         <div class="d-flex justify-content-between dana-donatur-row-bottom mb-3">
-                                            <div class="float-left"><?= rupiah($row['dana_terkumpul_total']) == 0 ? '0' : rupiah($row['dana_terkumpul_total']); ?> </div>
-                                            <div><?= $row["jumlah_donatur"]; ?></div>
-                                        </div>
+                                            <div class="float-left">?= rupiah($row['dana_terkumpul_total']) == 0 ? '0' : rupiah($row['dana_terkumpul_total']); ?> </div>
+                                            <div>?= $row["jumlah_donatur"]; ?></div>
+                                        </div> -->
                                         <a class="btn btn-primary btn-lg btn-block mb-4 btn-kata-media" href="view-donasi.php?id=<?php echo $row['id_program_donasi']; ?>">Lihat Program</a>
                                     </div>
                                 </div>
