@@ -10,13 +10,6 @@ if (!isset($_SESSION["username"])) {
     exit;
 }
 
-
-
-function rupiah($angka)
-{
-    $hasil_rupiah = "Rp. " . number_format($angka, 0, '.', '.');
-    return $hasil_rupiah;
-}
 function query($query)
 {
     global $conn;
@@ -28,16 +21,9 @@ function query($query)
     return $rows;
 }
 
-// WHERE status_donasi = 'Diterima'
-
-// var_dump($programDonasi);die;
-$programDonasi = query("SELECT *, SUM(t_donasi.nominal_donasi) AS dana_terkumpul_total, 
-                    COUNT(id_user) 
-                    AS jumlah_donatur 
-                    FROM t_donasi 
-                    RIGHT JOIN t_program_donasi 
-                    ON t_program_donasi.id_program_donasi = t_donasi.id_program_donasi                 
-                    GROUP BY t_program_donasi.id_program_donasi ORDER BY t_program_donasi.id_program_donasi DESC
+$kategoriDonasi = query("SELECT * FROM t_kat_donasi
+                    ORDER BY id_kat_donasi
+                    DESC
                     ");
 
 //    function query($query){
@@ -64,7 +50,7 @@ $programDonasi = query("SELECT *, SUM(t_donasi.nominal_donasi) AS dana_terkumpul
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Icon Title -->
     <link rel="icon" href="img/logo-only.svg">
-    <title>YST - Kelola Program Donasi</title>
+    <title>YST - Kelola Kategori Donasi</title>
     <!-- Font Awesome
     <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css"> -->
     <!-- Font Awesome -->
@@ -120,8 +106,8 @@ $programDonasi = query("SELECT *, SUM(t_donasi.nominal_donasi) AS dana_terkumpul
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
                         with font-awesome or any other icon font library -->
-                        <li class="nav-item nav-item-sidebar menu-open">
-                            <a href="dashboard-admin.php" class="nav-link side-icon active ">
+                        <li class="nav-item nav-item-sidebar ">
+                            <a href="dashboard-admin.php" class="nav-link side-icon ">
                                 <i class="nav-icon fas fa-cog"></i>
                                 <p>
                                     Program Donasi
@@ -194,13 +180,13 @@ $programDonasi = query("SELECT *, SUM(t_donasi.nominal_donasi) AS dana_terkumpul
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item dropdown nav-item-sidebar ">
-                            <a class="nav-link dropdown-toggle side-icon" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <li class="nav-item dropdown nav-item-sidebar menu-open ">
+                            <a class="nav-link active dropdown-toggle side-icon" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="nav-icon fa fa-star"></i>
                                 Menu Master
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="kelola-kat-donasi.php">Kategori Donasi</a>
+                                <a class="dropdown-item active" href="kelola-kat-donasi.php">Kategori Donasi</a>
                                 <a class="dropdown-item" href="kelola-kat-relawan.php">Kategori Relawan</a>
                                 <a class="dropdown-item" href="kelola-user.php">Kelola User</a>
                             </div>
@@ -221,25 +207,18 @@ $programDonasi = query("SELECT *, SUM(t_donasi.nominal_donasi) AS dana_terkumpul
                         <div class="page-title-link ml-4 mb-4">
                             <a href="dashboard-admin.php">
                                 <i class="nav-icon fas fa-home mr-1"></i>Dashboard admin</a> >
-                            <a href="dashboard-admin.php">
-                                <i class="nav-icon fas fa-cog mr-1"></i>Program donasi</a>
+                            <a href="kelola-kat-donasi.php">
+                                <i class="nav-icon fas fa-cog mr-1"></i>Kategori Donasi</a>
                         </div>
 
                         <div class="card card-request-data">
                             <div class="card-header-req">
                                 <div class="row ml-1 ">
                                     <div class="col ">
-                                        <div class="dropdown show ">
-                                            <a class="btn btn-info  filter-btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Filter
-                                            </a>
-                                            <div class="dropdown-menu green-drop" aria-labelledby="dropdownMenuLink">
-                                                <a class="dropdown-item" href="status-berjalan.php">Berjalan</a>
-                                            </div>
-                                        </div>
+
                                     </div>
                                 </div>
-                                <button class="mr-5" onclick="location.href='input-program-donasi.php'">Input Program Donasi <span class="fas fa-plus-square"></span></button>
+                                <button class="mr-5" onclick="location.href='input-kategori-donasi.php'">Input Kategori Donasi <span class="fas fa-plus-square"></span></button>
 
                             </div>
                             <div class="card-body card-body-req">
@@ -247,50 +226,26 @@ $programDonasi = query("SELECT *, SUM(t_donasi.nominal_donasi) AS dana_terkumpul
                                     <table width="100%">
                                         <thead>
                                             <tr>
-                                                <td class="text-center">Kode <br> Program</td>
-                                                <td>Nama Program</td>
-                                                <td>Jangka Waktu</td>
-                                                <td>Dana Terkumpul</td>
-                                                <td>Target Dana</td>
-                                                <td class="text-center">Jumlah <br> Donatur</td>
-
-                                                <td class="text-center">Status<br> Program</td>
+                                                <td class="text-center">Kode <br> Kategori</td>
+                                                <td>Nama Kategori</td>
+                                                <td></td>
+                                                <td></td>
                                                 <td class="justify-content-center">Aksi</td>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php foreach ($programDonasi as $row) : ?>
+                                            <?php foreach ($kategoriDonasi as $row) : ?>
                                                 <tr>
-                                                    <td class="text-center"><?= $row["id_program_donasi"]; ?></td>
-                                                    <td class="table-snipet1"><?= $row["nama_program_donasi"]; ?></td>
-                                                    <td>
-                                                        <?php
-                                                        if ($row['jangka_waktu'] == 0) {
-                                                            echo 'Tidak Tetap';
-                                                        } else {
-                                                            echo 'Tetap';
-                                                        } ?></td>
-                                                    </td>
-                                                    <td><?= rupiah($row['dana_terkumpul_total']) == 0 ? '0' : rupiah($row['dana_terkumpul_total']); ?></td>
-                                                    <td><?= rupiah($row["target_dana"]); ?></td>
-                                                    <td class="text-center"><?= $row["jumlah_donatur"]; ?></td>
-
-                                                    <td class="text-center">
-                                                        <?= $row["status_program_donasi"]; ?>
-                                                    </td>
-                                                    <td class="justify-content-between">
+                                                    <td class="text-center"><?= $row["id_kat_donasi"]; ?></td>
+                                                    <td class="table-snipet1"><?= $row["kategori_donasi"]; ?></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td class="justify-content-center">
                                                         <button type="button" class="btn btn-edit">
-                                                            <a href="edit-program-donasi.php?id_program_donasi=<?= $row["id_program_donasi"]; ?>" class="fas fa-edit"></a>
+                                                            <a href="edit-kategori-donasi.php?id_kat_donasi=<?= $row["id_kat_donasi"]; ?>" class="fas fa-edit"></a>
                                                         </button>
-
-                                                        <!-- <php if($row['status_program_donasi'] == 'Siap disalurkan' || $row['status_program_donasi'] == 'Selesai'){?>
-                                                    <button type="button" class="btn btn-edit">
-                                                        <a href="edit-program-donasi.php?id_program_donasi=<= $row["id_program_donasi"]; ?>" class="fa fa-upload"></a>
-                                                    </button>
-                                                    <php } ?> -->
-
                                                         <button type="button" class="btn btn-delete ml-1">
-                                                            <a href="hapus.php?type=pdonasi&id_program_donasi=<?= $row["id_program_donasi"]; ?>" class="far fa-trash-alt" onclick="return confirm('Anda yakin ingin menghapus program ini ?');"></a>
+                                                            <a href="hapus.php?type=katdonasi&id_kat_donasi=<?= $row["id_kat_donasi"]; ?>" class="far fa-trash-alt" onclick="return confirm('Anda yakin ingin menghapus kategori ini ?');"></a>
                                                         </button>
                                                     </td>
                                                 </tr>
