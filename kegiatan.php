@@ -17,7 +17,7 @@ function queryBerita($query)
 
 $berita = queryBerita("SELECT *
                     FROM t_berita
-                    WHERE kategori_berita=1 AND status_berita=2 
+                    WHERE kategori_berita=0 AND status_berita=2 
                     ORDER BY id_berita DESC;
                     ");
 // var_dump($berita);
@@ -34,7 +34,7 @@ $berita = queryBerita("SELECT *
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Icon Title -->
     <link rel="icon" href="img/YST-title.png">
-    <title>YST - Berita</title>
+    <title>YST - Kegiatan</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Custom CSS -->
@@ -136,7 +136,7 @@ $berita = queryBerita("SELECT *
 
             <div class="tkjb-card">
                 <div class="donasi-relawan-konten">
-                    <h2>Berita </h2>
+                    <h2>Kegiatan </h2>
                     <div class="row card-deck">
                         <?php foreach ($berita as $row) : ?>
                             <div class="col-md-4">
@@ -154,7 +154,7 @@ $berita = queryBerita("SELECT *
                                             <div class="float-left waktu-tulis">Ditulis pada <?= date("d-m-Y", strtotime($row["tgl_penulisan"])); ?> </div>
 
                                         </div>
-                                        <a class="btn btn-primary btn-lg btn-block mb-4 btn-kata-media" href="view-berita.php?id=<?php echo $row['id_berita']; ?>">Lihat Program</a>
+                                        <a class="btn btn-primary btn-lg btn-block mb-4 btn-kata-media" href="view-kegiatan.php?id=<?php echo $row['id_berita']; ?>">Lihat Program</a>
                                     </div>
                                 </div>
                             </div>

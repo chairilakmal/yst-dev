@@ -435,7 +435,7 @@ if (isset($_POST["submit"])) {
                                 <?php } ?>
                                 <!-- END Untuk upload bukti penyaluran -->
 
-                                <!-- Hanya muncul jika level user = 3 / super admin -->
+                                <!-- Hanya muncul jika level user = 1/2 / super admin -->
                                 <?php if ($_SESSION['level_user'] == 1 || $_SESSION['level_user'] == 2) { ?>
                                     <div class="form-group mb-5">
                                         <label for="status_program_donasi" class="font-weight-bold"><span class="label-form-span">Status Program</span></label><br>

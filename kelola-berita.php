@@ -30,7 +30,7 @@ function queryBerita($query)
 }
 
 $berita = queryBerita("SELECT *
-                    FROM t_berita
+                    FROM t_berita ORDER BY id_berita DESC
                     ");
 
 //    function query($query){
@@ -233,7 +233,7 @@ $berita = queryBerita("SELECT *
                                                 <td>Judul Berita</td>
                                                 <td>Tanggal Kejadian</td>
                                                 <td>Tanggal Penulisan</td>
-
+                                                <td>Status Berita</td>
                                                 <td class="justify-content-center">Aksi</td>
                                             </tr>
                                         </thead>
@@ -244,6 +244,13 @@ $berita = queryBerita("SELECT *
                                                     <td class="table-snipet1"><?= $row["judul_berita"]; ?></td>
                                                     <td><?= date("d-m-Y", strtotime($row["tgl_kejadian"])); ?></td>
                                                     <td><?= date("d-m-Y", strtotime($row["tgl_penulisan"])); ?></td>
+
+                                                    <td><?php
+                                                        if ($row['status_berita'] == 1) {
+                                                            echo 'Pending';
+                                                        } else {
+                                                            echo 'Publikasi';
+                                                        } ?></td>
 
                                                     <td class="justify-content-between">
                                                         <button type="button" class="btn btn-edit">

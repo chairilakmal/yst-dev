@@ -114,8 +114,8 @@ if (isset($_POST["submit"])) {
                     tgl_kejadian                = '$tgl_kejadian',
                     isi_berita                  = '$isi_berita',
                     gambar_berita               = '$gambar', 
-                    kategori_berita             = $kategori_berita,
-                    status_berita               = $status_berita'
+                    kategori_berita             = '$kategori_berita',
+                    status_berita               = '$status_berita'
                            
                     WHERE id_berita             = $id_berita
                 ";

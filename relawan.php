@@ -80,16 +80,22 @@ $programRelawan = queryRelawan("SELECT *, SUM(t_relawan.relawan_jadi) AS jumlah_
                         <!-- Navbar Menu -->
                         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                             <li class="nav-item ">
-                                <a class="nav-link current" href="index.php">Beranda</a>
+                                <a class="nav-link " href="index.php">Beranda</a>
                             </li>
-                            <li class="nav-item ">
-                                <a class="nav-link " href="berita.php">Berita</a>
+                            <li class="nav-item dropdown ">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Artikel
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item" href="kegiatan.php">Kegiatan</a>
+                                    <a class="dropdown-item" href="berita.php">Berita</a>
+                                </div>
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link " href="kontribusi.php">Informasi</a>
                             </li>
-                            <li class="nav-item dropdown active  teks-biru">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <li class="nav-item dropdown active  teks-biru ">
+                                <a class="nav-link current dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Program YST
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -97,7 +103,7 @@ $programRelawan = queryRelawan("SELECT *, SUM(t_relawan.relawan_jadi) AS jumlah_
                                     <a class="dropdown-item" href="relawan.php">Program Relawan</a>
                                 </div>
                             </li>
-                            <li class="nav-item dropdown ">
+                            <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Tentang YST
                                 </a>

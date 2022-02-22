@@ -84,13 +84,19 @@ $programDonasi = queryDonasi("SELECT *, SUM(t_donasi.nominal_donasi) AS dana_ter
                             <li class="nav-item ">
                                 <a class="nav-link " href="index.php">Beranda</a>
                             </li>
-                            <li class="nav-item ">
-                                <a class="nav-link " href="berita.php">Berita</a>
+                            <li class="nav-item dropdown ">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Artikel
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item" href="kegiatan.php">Kegiatan</a>
+                                    <a class="dropdown-item" href="berita.php">Berita</a>
+                                </div>
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link " href="kontribusi.php">Informasi</a>
                             </li>
-                            <li class="nav-item dropdown active  teks-biru">
+                            <li class="nav-item dropdown active  teks-biru ">
                                 <a class="nav-link current dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Program YST
                                 </a>

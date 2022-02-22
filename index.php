@@ -1,5 +1,8 @@
 <?php
 
+// ini_set("display_errors", "1");
+// error_reporting(E_ALL);
+
 include "config/connection.php";
 
 function rupiah($angka)
@@ -7,6 +10,24 @@ function rupiah($angka)
     $hasil_rupiah = "Rp. " . number_format($angka, 0, '.', '.');
     return $hasil_rupiah;
 }
+
+//Kegiatan
+function queryKegiatan($query)
+{
+    global $conn;
+    $result = mysqli_query($conn, $query);
+    $rows = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $rows[] = $row;
+    }
+    return $rows;
+}
+$kegiatan = queryKegiatan("SELECT *
+                    FROM t_berita 
+                    WHERE kategori_berita = 0 AND status_berita = 2
+                    ORDER BY id_berita 
+                    DESC
+                    ");
 
 //Berita
 function queryBerita($query)
@@ -19,10 +40,9 @@ function queryBerita($query)
     }
     return $rows;
 }
-
 $berita = queryBerita("SELECT *
                     FROM t_berita 
-                    WHERE status_berita = 2
+                    WHERE kategori_berita = 1 AND status_berita = 2
                     ORDER BY id_berita 
                     DESC
                     ");
@@ -124,8 +144,14 @@ $programRelawan = queryRelawan("SELECT *, SUM(t_relawan.relawan_jadi) AS jumlah_
                             <li class="nav-item active  teks-biru">
                                 <a class="nav-link current" href="index.php">Beranda</a>
                             </li>
-                            <li class="nav-item ">
-                                <a class="nav-link " href="berita.php">Berita</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Artikel
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item" href="kegiatan.php">Kegiatan</a>
+                                    <a class="dropdown-item" href="berita.php">Berita</a>
+                                </div>
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link " href="kontribusi.php">Informasi</a>
@@ -214,7 +240,42 @@ $programRelawan = queryRelawan("SELECT *, SUM(t_relawan.relawan_jadi) AS jumlah_
                 <!-- END 1st PARAGRAPH -->
             </div>
 
+            <!-- KEGIATAN TERBARU -->
             <div class="tkjb-card2">
+                <h2> Kegiatan Terbaru </h2>
+                <div class="row card-deck">
+                    <?php foreach (array_slice($kegiatan, 0, 3) as $row) : ?>
+                        <div class="col-md-4">
+                            <div class="card card-pilihan mb-4 shadow-sm">
+                                <a href="">
+                                    <img class="card-img-top berita-img" width="100%" src="img/<?= $row['gambar_berita']; ?>">
+                                </a>
+                                <div class="card-body">
+                                    <div class="nama-program">
+                                        <p>
+                                        <h5 class="max-length2"><?= $row["judul_berita"]; ?></h5>
+                                        </p>
+                                    </div>
+                                    <div class="d-flex justify-content-between dana-donatur-row-bottom mb-3">
+                                        <div class="float-left waktu-tulis">Ditulis pada <?= date("d-m-Y", strtotime($row["tgl_penulisan"])); ?> </div>
+
+                                    </div>
+                                    <a class="btn btn-primary btn-lg btn-block mb-4 btn-kata-media" href="view-kegiatan.php?id=<?php echo $row['id_berita']; ?>">Lihat Kegiatan</a>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                <div class="mid-button">
+                    <a href="kegiatan.php" class="btn radius-50 py-1.5 px-5  btn-relawan" role="button" aria-pressed="true">
+                        Selengkapnya >
+                    </a>
+                </div>
+            </div>
+            <!-- END KEGIATAN TERBARU -->
+
+            <!-- BERITA TERBARU -->
+            <div class="tkjb-card">
                 <h2> Berita Terbaru </h2>
                 <div class="row card-deck">
                     <?php foreach (array_slice($berita, 0, 3) as $row) : ?>
@@ -239,18 +300,16 @@ $programRelawan = queryRelawan("SELECT *, SUM(t_relawan.relawan_jadi) AS jumlah_
                         </div>
                     <?php endforeach; ?>
                 </div>
-
                 <div class="mid-button">
                     <a href="berita.php" class="btn radius-50 py-1.5 px-5  btn-relawan" role="button" aria-pressed="true">
                         Selengkapnya >
                     </a>
                 </div>
-
-
-
             </div>
+            <!-- END BERITA TERBARU -->
 
-            <div class="tkjb-card">
+            <!-- PROGRAM DONASI -->
+            <div class="tkjb-card2">
                 <h2> Program Donasi </h2>
                 <div class="row card-deck">
                     <?php foreach (array_slice($programDonasi, 0, 3) as $row) : ?>
@@ -279,15 +338,16 @@ $programRelawan = queryRelawan("SELECT *, SUM(t_relawan.relawan_jadi) AS jumlah_
                         </div>
                     <?php endforeach; ?>
                 </div>
-
                 <div class="mid-button">
                     <a href="donasi.php" class="btn radius-50 py-1.5 px-5  btn-relawan" role="button" aria-pressed="true">
                         Selengkapnya >
                     </a>
                 </div>
             </div>
+            <!-- END PROGRAM DONASI -->
 
-            <div class="tkjb-card2">
+            <!-- PROGRAM RELAWAN -->
+            <div class="tkjb-card">
                 <h2> Program Relawan </h2>
                 <div class="row card-deck">
                     <?php foreach (array_slice($programRelawan, 0, 3) as $row2) : ?>
@@ -315,22 +375,16 @@ $programRelawan = queryRelawan("SELECT *, SUM(t_relawan.relawan_jadi) AS jumlah_
                             </div>
                         </div>
                     <?php endforeach; ?>
-
                 </div>
-
                 <div class="mid-button">
                     <a href="relawan.php" class="btn radius-50 py-1.5 px-5  btn-relawan" role="button" aria-pressed="true">
                         Selengkapnya >
                     </a>
                 </div>
-
-
-
             </div>
-            <!-- END OF BODY CONTAINER -->
-
-
+            <!-- END PROGRAM RELAWAN -->
         </div>
+        <!-- END OF BODY CONTAINER -->
     </div>
 
     <!-- Footer -->
