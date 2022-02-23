@@ -1,6 +1,4 @@
 <?php
-include "config/connection.php";
-
 session_start();
 include 'config/connection.php';
 
@@ -10,6 +8,11 @@ if (!isset($_SESSION["username"])) {
     exit;
 }
 
+
+//ambil id program di URL
+$id_kat_relawan = $_GET["id_kat_relawan"];
+
+//fungsi GET Array
 function query($query)
 {
     global $conn;
@@ -21,23 +24,41 @@ function query($query)
     return $rows;
 }
 
-$kategoriDonasi = query("SELECT * FROM t_kat_donasi
-                    ORDER BY id_kat_donasi
-                    
-                    ");
+$kategoriRelawan = query("SELECT * FROM t_kat_relawan WHERE id_kat_relawan = $id_kat_relawan")[0];
 
-//    function query($query){
-//        global $conn;
-//         $result = mysqli_query($conn, "SELECT * FROM t_program_donasi"); 
-//         $rows = [];
-//         while($row = mysqli_fetch_assoc($result)){
-//             $rows[] = $row;
-//         }
-//         return $rows;
-//    }
+//UPDATE
+if (isset($_POST["submit"])) {
+
+    $kategori_relawan      = $_POST["tb_kategori_relawan"];
+    $ket_kategori_relawan      = $_POST["tb_ket_kategori_relawan"];
+
+    // GLOBAL UPDATE
+    $query = "UPDATE t_kat_relawan SET
+                    kategori_relawan         = '$kategori_relawan',
+                    ket_kategori_relawan     = '$ket_kategori_relawan'
+                  WHERE id_kat_relawan       = $id_kat_relawan
+                ";
 
 
-//    $programDonasi = query("SELECT * FROM t_program_donasi");
+    mysqli_query($conn, $query);
+
+
+    //cek keberhasilan
+    if (mysqli_affected_rows($conn) > 0) {
+        echo "
+            <script>
+                alert('Data berhasil diubah!');
+                window.location.href = 'kelola-kat-relawan.php'; 
+            </script>
+        ";
+    } else {
+        echo "
+                <script>
+                    alert('Tidak ada perubahan data');
+                </script>
+            ";
+    }
+}
 
 ?>
 
@@ -50,7 +71,7 @@ $kategoriDonasi = query("SELECT * FROM t_kat_donasi
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Icon Title -->
     <link rel="icon" href="img/logo-only.svg">
-    <title>YST - Kelola Kategori Donasi</title>
+    <title>YST - Edit Kategori relawan</title>
     <!-- Font Awesome
     <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css"> -->
     <!-- Font Awesome -->
@@ -62,6 +83,7 @@ $kategoriDonasi = query("SELECT * FROM t_kat_donasi
     <link rel="stylesheet" type="text/css" href="css/dashboard-yst.css">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&family=Roboto:wght@500&display=swap" rel="stylesheet">
 </head>
 
@@ -202,61 +224,31 @@ $kategoriDonasi = query("SELECT * FROM t_kat_donasi
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <main>
-                <div class="request-data">
-                    <div class="projects">
-                        <div class="page-title-link ml-4 mb-4">
-                            <a href="dashboard-admin.php">
-                                <i class="nav-icon fas fa-home mr-1"></i>Dashboard admin</a> >
-                            <a href="kelola-kat-donasi.php">
-                                <i class="nav-icon fas fa-cog mr-1"></i>Kategori Donasi</a>
-                        </div>
-
-                        <div class="card card-request-data">
-                            <div class="card-header-req">
-                                <div class="row ml-1 ">
-                                    <div class="col ">
-
-                                    </div>
-                                </div>
-                                <button class="mr-5" onclick="location.href='input-kategori-donasi.php'">Input Kategori Donasi <span class="fas fa-plus-square"></span></button>
-
-                            </div>
-                            <div class="card-body card-body-req">
-                                <div class="table-responsive">
-                                    <table width="100%">
-                                        <thead>
-                                            <tr>
-                                                <td class="text-center">Kode <br> Kategori</td>
-                                                <td>Nama Kategori</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td class="justify-content-center">Aksi</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php foreach ($kategoriDonasi as $row) : ?>
-                                                <tr>
-                                                    <td class="text-center"><?= $row["id_kat_donasi"]; ?></td>
-                                                    <td class="table-snipet1"><?= $row["kategori_donasi"]; ?></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td class="justify-content-center">
-                                                        <button type="button" class="btn btn-edit">
-                                                            <a href="edit-kategori-donasi.php?id_kat_donasi=<?= $row["id_kat_donasi"]; ?>" class="fas fa-edit"></a>
-                                                        </button>
-                                                        <button type="button" class="btn btn-delete ml-1">
-                                                            <a href="hapus.php?type=katdonasi&id_kat_donasi=<?= $row["id_kat_donasi"]; ?>" class="far fa-trash-alt" onclick="return confirm('Anda yakin ingin menghapus kategori ini ?');"></a>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            <?php endforeach; ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+                <div class="page-title-link ml-4 mb-4">
+                    <a href="kelola-kat-relawan.php">
+                        <i class="nav-icon fas fa-home mr-1"></i>Kategori relawan</a> >
+                    <a href="input-kategori-relawan.php">
+                        <i class="nav-icon fas fa-cog mr-1"></i>Edit Kategori relawan</a>
+                </div>
+                <div class="form-profil">
+                    <div class="mt-2 regis-title">
+                        <h3>Edit Kategori relawan</h3>
                     </div>
-
+                    <form action="" enctype="multipart/form-data" method="POST">
+                        <div class="form-group label-txt">
+                            <div class="form-group mt-4 mb-3">
+                                <label for="tb_kategori_relawan" class="label-txt">Nama Kategori Program relawan<span class="red-star">*</span></label>
+                                <input type="text" id="tb_kategori_relawan" name="tb_kategori_relawan" class="form-control" placeholder="Nama kategori relawan" value="<?= $kategoriRelawan["kategori_relawan"]; ?>" Required>
+                            </div>
+                            <div class="form-group">
+                                <label for="tb_ket_kategori_relawan" class="label-txt">Keterangan Kategori</label>
+                                <textarea class="form-control" id="tb_ket_kategori_relawan" name="tb_ket_kategori_relawan" rows="6" placeholder="Keterangan Kategori relawan"><?= $kategoriRelawan["ket_kategori_relawan"]; ?></textarea>
+                            </div>
+                        </div>
+                        <button type="submit" name="submit" value="Simpan" class="btn btn-lg btn-primary w-100 yst-login-btn border-0 mt-4 mb-4">
+                            <span class="yst-login-btn-fs">Buat Kategori</span>
+                        </button>
+                    </form>
                 </div>
             </main>
         </div>

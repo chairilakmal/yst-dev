@@ -59,4 +59,11 @@ if ($type == 'pdonasi') {
 
     header('Location: kelola-kat-donasi.php?status=deletesuccess');
     exit();
+} elseif ($type == 'katrelawan') {
+    $id_kat_relawan = $_GET["id_kat_relawan"];
+    mysqli_query($conn, "DELETE FROM t_kat_relawan
+                            WHERE  	id_kat_relawan = $id_kat_relawan");
+
+    header('Location: kelola-kat-relawan.php?status=deletesuccess');
+    exit();
 }

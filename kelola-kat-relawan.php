@@ -21,23 +21,11 @@ function query($query)
     return $rows;
 }
 
-$kategoriDonasi = query("SELECT * FROM t_kat_donasi
-                    ORDER BY id_kat_donasi
+$kategoriRelawan = query("SELECT * FROM t_kat_relawan
+                    ORDER BY id_kat_relawan
                     
                     ");
 
-//    function query($query){
-//        global $conn;
-//         $result = mysqli_query($conn, "SELECT * FROM t_program_donasi"); 
-//         $rows = [];
-//         while($row = mysqli_fetch_assoc($result)){
-//             $rows[] = $row;
-//         }
-//         return $rows;
-//    }
-
-
-//    $programDonasi = query("SELECT * FROM t_program_donasi");
 
 ?>
 
@@ -50,7 +38,7 @@ $kategoriDonasi = query("SELECT * FROM t_kat_donasi
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Icon Title -->
     <link rel="icon" href="img/logo-only.svg">
-    <title>YST - Kelola Kategori Donasi</title>
+    <title>YST - Kelola Kategori Relawan</title>
     <!-- Font Awesome
     <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css"> -->
     <!-- Font Awesome -->
@@ -186,8 +174,8 @@ $kategoriDonasi = query("SELECT * FROM t_kat_donasi
                                 Menu Master
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item active" href="kelola-kat-donasi.php">Kategori Donasi</a>
-                                <a class="dropdown-item" href="kelola-kat-relawan.php">Kategori Relawan</a>
+                                <a class="dropdown-item " href="kelola-kat-donasi.php">Kategori Donasi</a>
+                                <a class="dropdown-item active" href="kelola-kat-relawan.php">Kategori Relawan</a>
                                 <a class="dropdown-item" href="kelola-user.php">Kelola User</a>
                             </div>
                         </li>
@@ -207,8 +195,8 @@ $kategoriDonasi = query("SELECT * FROM t_kat_donasi
                         <div class="page-title-link ml-4 mb-4">
                             <a href="dashboard-admin.php">
                                 <i class="nav-icon fas fa-home mr-1"></i>Dashboard admin</a> >
-                            <a href="kelola-kat-donasi.php">
-                                <i class="nav-icon fas fa-cog mr-1"></i>Kategori Donasi</a>
+                            <a href="kelola-kat-relawan.php">
+                                <i class="nav-icon fas fa-cog mr-1"></i>Kategori Relawan</a>
                         </div>
 
                         <div class="card card-request-data">
@@ -218,7 +206,7 @@ $kategoriDonasi = query("SELECT * FROM t_kat_donasi
 
                                     </div>
                                 </div>
-                                <button class="mr-5" onclick="location.href='input-kategori-donasi.php'">Input Kategori Donasi <span class="fas fa-plus-square"></span></button>
+                                <button class="mr-5" onclick="location.href='input-kategori-relawan.php'">Input Kategori Relawan <span class="fas fa-plus-square"></span></button>
 
                             </div>
                             <div class="card-body card-body-req">
@@ -234,18 +222,18 @@ $kategoriDonasi = query("SELECT * FROM t_kat_donasi
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php foreach ($kategoriDonasi as $row) : ?>
+                                            <?php foreach ($kategoriRelawan as $row) : ?>
                                                 <tr>
-                                                    <td class="text-center"><?= $row["id_kat_donasi"]; ?></td>
-                                                    <td class="table-snipet1"><?= $row["kategori_donasi"]; ?></td>
+                                                    <td class="text-center"><?= $row["id_kat_relawan"]; ?></td>
+                                                    <td class="table-snipet1"><?= $row["kategori_relawan"]; ?></td>
                                                     <td></td>
                                                     <td></td>
                                                     <td class="justify-content-center">
                                                         <button type="button" class="btn btn-edit">
-                                                            <a href="edit-kategori-donasi.php?id_kat_donasi=<?= $row["id_kat_donasi"]; ?>" class="fas fa-edit"></a>
+                                                            <a href="edit-kategori-relawan.php?id_kat_relawan=<?= $row["id_kat_relawan"]; ?>" class="fas fa-edit"></a>
                                                         </button>
                                                         <button type="button" class="btn btn-delete ml-1">
-                                                            <a href="hapus.php?type=katdonasi&id_kat_donasi=<?= $row["id_kat_donasi"]; ?>" class="far fa-trash-alt" onclick="return confirm('Anda yakin ingin menghapus kategori ini ?');"></a>
+                                                            <a href="hapus.php?type=katrelawan&id_kat_relawan=<?= $row["id_kat_relawan"]; ?>" class="far fa-trash-alt" onclick="return confirm('Anda yakin ingin menghapus kategori ini ?');"></a>
                                                         </button>
                                                     </td>
                                                 </tr>
