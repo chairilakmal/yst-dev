@@ -202,17 +202,22 @@ if (isset($_POST["submit"])) {
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item dropdown nav-item-sidebar menu-open ">
-                            <a class="nav-link active dropdown-toggle side-icon" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="nav-icon fa fa-star"></i>
-                                Menu Master
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item active" href="kelola-kat-donasi.php">Kategori Donasi</a>
-                                <a class="dropdown-item" href="kelola-kat-relawan.php">Kategori Relawan</a>
-                                <a class="dropdown-item" href="kelola-user.php">Kelola User</a>
-                            </div>
-                        </li>
+                        <!-- Hanya muncul jika level user = 3 / super admin -->
+                        <?php if ($_SESSION['level_user'] == 1 || $_SESSION['level_user'] == 2) { ?>
+                            <li class="nav-item dropdown nav-item-sidebar menu-open ">
+                                <a class="nav-link active  dropdown-toggle side-icon" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="nav-icon fa fa-star"></i>
+                                    Menu Master
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item " href="kelola-kat-donasi.php">Kategori Donasi</a>
+                                    <a class="dropdown-item active" href="kelola-kat-relawan.php">Kategori Relawan</a>
+                                    <?php if ($_SESSION['level_user'] == 1) { ?>
+                                        <a class="dropdown-item " href="kelola-user.php">Kelola User</a>
+                                    <?php } ?>
+                                </div>
+                            </li>
+                        <?php } ?>
 
                     </ul>
                 </nav>
@@ -246,7 +251,7 @@ if (isset($_POST["submit"])) {
                             </div>
                         </div>
                         <button type="submit" name="submit" value="Simpan" class="btn btn-lg btn-primary w-100 yst-login-btn border-0 mt-4 mb-4">
-                            <span class="yst-login-btn-fs">Buat Kategori</span>
+                            <span class="yst-login-btn-fs">Edit Kategori</span>
                         </button>
                     </form>
                 </div>

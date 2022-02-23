@@ -9,14 +9,15 @@ if (isset($_POST["register"])) {
     $username = $_POST['tb_username'];
     $username = strtolower($username);
     $password = $_POST['pwd'];
+    $level_user = 3;
 
 
     //enkripsi password
     $password = password_hash($password, PASSWORD_DEFAULT);
 
     //insert ke db
-    $sql = "INSERT INTO t_user (nama_lengkap,no_hp,email,jenis_kelamin,username,password)
-        VALUES ('$nama_lengkap','$no_hp','$email','$jenis_kelamin','$username','$password')";
+    $sql = "INSERT INTO t_user (nama_lengkap,no_hp,email,jenis_kelamin,username,password,level_user)
+        VALUES ('$nama_lengkap','$no_hp','$email','$jenis_kelamin','$username','$password','$level_user')";
 
 
 

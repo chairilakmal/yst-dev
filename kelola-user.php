@@ -178,7 +178,9 @@ $userQuery = query("SELECT * FROM t_user
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     <a class="dropdown-item " href="kelola-kat-donasi.php">Kategori Donasi</a>
                                     <a class="dropdown-item " href="kelola-kat-relawan.php">Kategori Relawan</a>
-                                    <a class="dropdown-item active" href="kelola-user.php">Kelola User</a>
+                                    <?php if ($_SESSION['level_user'] == 1) { ?>
+                                        <a class="dropdown-item active" href="kelola-user.php">Kelola User</a>
+                                    <?php } ?>
                                 </div>
                             </li>
                         <?php } ?>
