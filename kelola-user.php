@@ -21,8 +21,8 @@ function query($query)
     return $rows;
 }
 
-$kategoriRelawan = query("SELECT * FROM t_kat_relawan
-                    ORDER BY id_kat_relawan
+$userQuery = query("SELECT * FROM t_user
+                    ORDER BY id_user
                     
                     ");
 
@@ -38,7 +38,7 @@ $kategoriRelawan = query("SELECT * FROM t_kat_relawan
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Icon Title -->
     <link rel="icon" href="img/logo-only.svg">
-    <title>YST - Kelola Kategori Relawan</title>
+    <title>YST - Kelola User</title>
     <!-- Font Awesome
     <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css"> -->
     <!-- Font Awesome -->
@@ -177,8 +177,8 @@ $kategoriRelawan = query("SELECT * FROM t_kat_relawan
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     <a class="dropdown-item " href="kelola-kat-donasi.php">Kategori Donasi</a>
-                                    <a class="dropdown-item active" href="kelola-kat-relawan.php">Kategori Relawan</a>
-                                    <a class="dropdown-item" href="kelola-user.php">Kelola User</a>
+                                    <a class="dropdown-item " href="kelola-kat-relawan.php">Kategori Relawan</a>
+                                    <a class="dropdown-item active" href="kelola-user.php">Kelola User</a>
                                 </div>
                             </li>
                         <?php } ?>
@@ -198,8 +198,8 @@ $kategoriRelawan = query("SELECT * FROM t_kat_relawan
                         <div class="page-title-link ml-4 mb-4">
                             <a href="dashboard-admin.php">
                                 <i class="nav-icon fas fa-home mr-1"></i>Dashboard admin</a> >
-                            <a href="kelola-kat-relawan.php">
-                                <i class="nav-icon fas fa-cog mr-1"></i>Kategori Relawan</a>
+                            <a href="kelola-user.php">
+                                <i class="nav-icon fas fa-cog mr-1"></i>Kelola User</a>
                         </div>
 
                         <div class="card card-request-data">
@@ -209,34 +209,32 @@ $kategoriRelawan = query("SELECT * FROM t_kat_relawan
 
                                     </div>
                                 </div>
-                                <button class="mr-5" onclick="location.href='input-kategori-relawan.php'">Input Kategori Relawan <span class="fas fa-plus-square"></span></button>
-
                             </div>
                             <div class="card-body card-body-req">
                                 <div class="table-responsive">
                                     <table width="100%">
                                         <thead>
                                             <tr>
-                                                <td class="text-center">Kode <br> Kategori</td>
-                                                <td>Nama Kategori</td>
-                                                <td></td>
-                                                <td></td>
+                                                <td class="text-center">ID <br> User</td>
+                                                <td>Nama Lengkap</td>
+                                                <td>Username</td>
+                                                <td>Level</td>
                                                 <td class="justify-content-center">Aksi</td>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php foreach ($kategoriRelawan as $row) : ?>
+                                            <?php foreach ($userQuery as $row) : ?>
                                                 <tr>
-                                                    <td class="text-center"><?= $row["id_kat_relawan"]; ?></td>
-                                                    <td class="table-snipet1"><?= $row["kategori_relawan"]; ?></td>
-                                                    <td></td>
-                                                    <td></td>
+                                                    <td class="text-center"><?= $row["id_user"]; ?></td>
+                                                    <td class="table-snipet1"><?= $row["nama_lengkap"]; ?></td>
+                                                    <td><?= $row["username"]; ?></td>
+                                                    <td><?= $row["level_user"]; ?></td>
                                                     <td class="justify-content-center">
                                                         <button type="button" class="btn btn-edit">
-                                                            <a href="edit-kategori-relawan.php?id_kat_relawan=<?= $row["id_kat_relawan"]; ?>" class="fas fa-edit"></a>
+                                                            <a href="edit-user.php?id_user=<?= $row["id_user"]; ?>" class="fas fa-edit"></a>
                                                         </button>
                                                         <button type="button" class="btn btn-delete ml-1">
-                                                            <a href="hapus.php?type=katrelawan&id_kat_relawan=<?= $row["id_kat_relawan"]; ?>" class="far fa-trash-alt" onclick="return confirm('Anda yakin ingin menghapus kategori ini ?');"></a>
+                                                            <a href="hapus.php?type=manageuser&id_user=<?= $row["id_user"]; ?>" class="far fa-trash-alt" onclick="return confirm('Anda yakin ingin menghapus user ini ?');"></a>
                                                         </button>
                                                     </td>
                                                 </tr>

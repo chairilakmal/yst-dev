@@ -1,6 +1,4 @@
 <?php
-include "config/connection.php";
-
 session_start();
 include 'config/connection.php';
 
@@ -10,6 +8,12 @@ if (!isset($_SESSION["username"])) {
     exit;
 }
 
+
+//ambil id program di URL
+$id_user = $_GET["id_user"];
+
+
+//fungsi GET Array
 function query($query)
 {
     global $conn;
@@ -21,11 +25,40 @@ function query($query)
     return $rows;
 }
 
-$kategoriRelawan = query("SELECT * FROM t_kat_relawan
-                    ORDER BY id_kat_relawan
-                    
-                    ");
+$userQuery = query("SELECT * FROM t_user WHERE id_user = $id_user")[0];
 
+//UPDATE
+if (isset($_POST["submit"])) {
+
+    $level_user             = $_POST["tb_level_user"];
+
+
+    // GLOBAL UPDATE
+    $query = "UPDATE t_user SET
+                    level_user        = '$level_user'
+                  WHERE id_user       = $id_user
+                ";
+
+
+    mysqli_query($conn, $query);
+
+
+    //cek keberhasilan
+    if (mysqli_affected_rows($conn) > 0) {
+        echo "
+            <script>
+                alert('Data berhasil diubah!');
+                window.location.href = 'kelola-user.php'; 
+            </script>
+        ";
+    } else {
+        echo "
+                <script>
+                    alert('Tidak ada perubahan data');
+                </script>
+            ";
+    }
+}
 
 ?>
 
@@ -38,7 +71,7 @@ $kategoriRelawan = query("SELECT * FROM t_kat_relawan
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Icon Title -->
     <link rel="icon" href="img/logo-only.svg">
-    <title>YST - Kelola Kategori Relawan</title>
+    <title>YST - Edit Kategori relawan</title>
     <!-- Font Awesome
     <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css"> -->
     <!-- Font Awesome -->
@@ -50,6 +83,7 @@ $kategoriRelawan = query("SELECT * FROM t_kat_relawan
     <link rel="stylesheet" type="text/css" href="css/dashboard-yst.css">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&family=Roboto:wght@500&display=swap" rel="stylesheet">
 </head>
 
@@ -168,20 +202,17 @@ $kategoriRelawan = query("SELECT * FROM t_kat_relawan
                                 </p>
                             </a>
                         </li>
-                        <!-- Hanya muncul jika level user = 3 / super admin -->
-                        <?php if ($_SESSION['level_user'] == 1 || $_SESSION['level_user'] == 2) { ?>
-                            <li class="nav-item dropdown nav-item-sidebar menu-open ">
-                                <a class="nav-link active dropdown-toggle side-icon" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="nav-icon fa fa-star"></i>
-                                    Menu Master
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item " href="kelola-kat-donasi.php">Kategori Donasi</a>
-                                    <a class="dropdown-item active" href="kelola-kat-relawan.php">Kategori Relawan</a>
-                                    <a class="dropdown-item" href="kelola-user.php">Kelola User</a>
-                                </div>
-                            </li>
-                        <?php } ?>
+                        <li class="nav-item dropdown nav-item-sidebar menu-open ">
+                            <a class="nav-link active dropdown-toggle side-icon" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="nav-icon fa fa-star"></i>
+                                Menu Master
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item " href="kelola-kat-donasi.php">Kategori Donasi</a>
+                                <a class="dropdown-item" href="kelola-kat-relawan.php">Kategori Relawan</a>
+                                <a class="dropdown-item active" href="kelola-user.php">Kelola User</a>
+                            </div>
+                        </li>
 
                     </ul>
                 </nav>
@@ -193,61 +224,73 @@ $kategoriRelawan = query("SELECT * FROM t_kat_relawan
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <main>
-                <div class="request-data">
-                    <div class="projects">
-                        <div class="page-title-link ml-4 mb-4">
-                            <a href="dashboard-admin.php">
-                                <i class="nav-icon fas fa-home mr-1"></i>Dashboard admin</a> >
-                            <a href="kelola-kat-relawan.php">
-                                <i class="nav-icon fas fa-cog mr-1"></i>Kategori Relawan</a>
-                        </div>
+                <div class="page-title-link ml-4 mb-4">
+                    <a href="kelola-user.php">
+                        <i class="nav-icon fas fa-home mr-1"></i>Kelola User</a> >
+                    <a href="edit-user.php">
+                        <i class="nav-icon fas fa-cog mr-1"></i>Edit User</a>
+                </div>
+                <div class="form-profil">
+                    <div class="mt-2 regis-title">
+                        <h3>Edit User</h3>
+                    </div>
+                    <form action="" enctype="multipart/form-data" method="POST">
+                        <div class="form-group label-txt">
+                            <div class="form-group mt-4 mb-3">
+                                <label for="tb_nama_lengkap" class="label-txt">Nama User<span class="red-star">*</span></label>
+                                <input type="text" id="tb_nama_lengkap" name="tb_nama_lengkap" class="form-control" placeholder="Nama kategori relawan" value="<?= $userQuery["nama_lengkap"]; ?>" readonly>
+                            </div>
+                            <div class="form-group mt-4 mb-3">
+                                <label for="tb_no_hp" class="label-txt">No HP<span class="red-star">*</span></label>
+                                <input type="text" id="tb_no_hp" name="tb_no_hp" class="form-control" placeholder="Nama kategori relawan" value="<?= $userQuery["no_hp"]; ?>" readonly>
+                            </div>
+                            <div class="form-group mt-4 mb-3">
+                                <label for="tb_email" class="label-txt">Email<span class="red-star">*</span></label>
+                                <input type="text" id="tb_email" name="tb_email" class="form-control" placeholder="Nama kategori relawan" value="<?= $userQuery["email"]; ?>" readonly>
+                            </div>
+                            <div class="form-group mt-4 mb-3">
+                                <label for="tb_username" class="label-txt">username<span class="red-star">*</span></label>
+                                <input type="text" id="tb_username" name="tb_username" class="form-control" placeholder="Nama kategori relawan" value="<?= $userQuery["username"]; ?>" readonly>
+                            </div>
 
-                        <div class="card card-request-data">
-                            <div class="card-header-req">
-                                <div class="row ml-1 ">
-                                    <div class="col ">
-
+                            <div class="form-group mb-5">
+                                <label for="tb_level_user" class="font-weight-bold"><span class="label-form-span">Level User</span></label><br>
+                                <div class="radio-wrapper mt-1 bg-white">
+                                    <div class="form-check form-check-inline">
+                                        <input type="radio" id="tb_level_user" name="tb_level_user" class="form-check-input" value="1" <?php if ($userQuery['level_user'] == 1) echo 'checked' ?>>
+                                        <label class="form-check-label" for="tb_level_user">Level 1</label>
                                     </div>
                                 </div>
-                                <button class="mr-5" onclick="location.href='input-kategori-relawan.php'">Input Kategori Relawan <span class="fas fa-plus-square"></span></button>
-
-                            </div>
-                            <div class="card-body card-body-req">
-                                <div class="table-responsive">
-                                    <table width="100%">
-                                        <thead>
-                                            <tr>
-                                                <td class="text-center">Kode <br> Kategori</td>
-                                                <td>Nama Kategori</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td class="justify-content-center">Aksi</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php foreach ($kategoriRelawan as $row) : ?>
-                                                <tr>
-                                                    <td class="text-center"><?= $row["id_kat_relawan"]; ?></td>
-                                                    <td class="table-snipet1"><?= $row["kategori_relawan"]; ?></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td class="justify-content-center">
-                                                        <button type="button" class="btn btn-edit">
-                                                            <a href="edit-kategori-relawan.php?id_kat_relawan=<?= $row["id_kat_relawan"]; ?>" class="fas fa-edit"></a>
-                                                        </button>
-                                                        <button type="button" class="btn btn-delete ml-1">
-                                                            <a href="hapus.php?type=katrelawan&id_kat_relawan=<?= $row["id_kat_relawan"]; ?>" class="far fa-trash-alt" onclick="return confirm('Anda yakin ingin menghapus kategori ini ?');"></a>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            <?php endforeach; ?>
-                                        </tbody>
-                                    </table>
+                                <div class="radio-wrapper mt-1 bg-white">
+                                    <div class="form-check form-check-inline">
+                                        <input type="radio" id="tb_level_user" name="tb_level_user" class="form-check-input" value="2" <?php if ($userQuery['level_user'] == 2) echo 'checked' ?>>
+                                        <label class="form-check-label" for="tb_level_user">Level 2</label>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
+                                <div class="radio-wrapper mt-1 bg-white">
+                                    <div class="form-check form-check-inline">
+                                        <input type="radio" id="tb_level_user" name="tb_level_user" class="form-check-input" value="3" <?php if ($userQuery['level_user'] == 3) echo 'checked' ?>>
+                                        <label class="form-check-label" for="tb_level_user">Level 3</label>
+                                    </div>
+                                </div>
+                                <div class="radio-wrapper mt-1 bg-white">
+                                    <div class="form-check form-check-inline">
+                                        <input type="radio" id="tb_level_user" name="tb_level_user" class="form-check-input" value="4" <?php if ($userQuery['level_user'] == 4) echo 'checked' ?>>
+                                        <label class="form-check-label" for="tb_level_user">Level 4</label>
+                                    </div>
+                                </div>
 
+
+                                <div class="form-group mb-2"><br><br></div>
+                            </div>
+
+
+
+                        </div>
+                        <button type="submit" name="submit" value="Simpan" class="btn btn-lg btn-primary w-100 yst-login-btn border-0 mt-4 mb-4">
+                            <span class="yst-login-btn-fs">Buat Kategori</span>
+                        </button>
+                    </form>
                 </div>
             </main>
         </div>

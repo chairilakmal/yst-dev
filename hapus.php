@@ -66,4 +66,11 @@ if ($type == 'pdonasi') {
 
     header('Location: kelola-kat-relawan.php?status=deletesuccess');
     exit();
+} elseif ($type == 'manageuser') {
+    $id_user = $_GET["id_user"];
+    mysqli_query($conn, "DELETE FROM t_user
+                            WHERE  	id_user = $id_user");
+
+    header('Location: kelola-user.php?status=deletesuccess');
+    exit();
 }
