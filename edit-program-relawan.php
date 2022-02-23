@@ -386,6 +386,10 @@ if (isset($_POST["submit"])) {
                                 <input type="text" id="tb_nama_program_relawan" name="tb_nama_program_relawan" class="form-control" value="<?= $programRelawan["nama_program_relawan"]; ?>">
                             </div>
                             <div class="form-group mt-4 mb-3">
+                                <label for="tb_nama_program_relawan" class="label-txt">Kategori Program Relawan</label>
+                                <input type="text" id="tb_kategori" name="tb_kategori" class="form-control" value="<?= $programRelawan["kategori_relawan"]; ?>" readonly>
+                            </div>
+                            <div class="form-group mt-4 mb-3">
                                 <label for="tb_penanggung_jawab" class="label-txt">Penanggung Jawab</label>
                                 <input type="text" id="tb_penanggung_jawab" name="tb_penanggung_jawab" class="form-control" value="<?= $programRelawan["penanggung_jawab"]; ?>">
                             </div>

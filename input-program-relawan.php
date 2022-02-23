@@ -8,6 +8,22 @@ if (!isset($_SESSION["username"])) {
     exit;
 }
 
+
+// Kategori
+function queryKategori($query)
+{
+    global $conn;
+    $result = mysqli_query($conn, $query);
+    $rows = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $rows[] = $row;
+    }
+    return $rows;
+}
+$kategoriRelawan = queryKategori("SELECT * FROM t_kat_relawan
+                    ORDER BY id_kat_relawan
+                    ");
+
 function upload()
 {
     //upload gambar
@@ -87,9 +103,11 @@ if (isset($_POST["submit"])) {
 
     $tenggat_waktu               = $_POST["tb_tenggat_waktu"];
 
+    $kategori_relawan            = $_POST["tb_kategori"];
 
-    $query = "INSERT INTO t_program_relawan (nama_program_relawan,deskripsi_singkat_relawan,target_relawan,tgl_pelaksanaan,lokasi_program,deskripsi_lengkap_relawan,foto_p_relawan,status_program_relawan,tgl_prelawan,lokasi_awal,penanggung_jawab,tenggat_waktu)
-VALUES ('$nama_program_relawan','$deskripsi_singkat_relawan','$target_relawan','$tgl_pelaksanaan','$lokasi_program',' $deskripsi_lengkap_relawan','$gambar','$status_program_relawan','$tgl_prelawan','$lokasi_awal','$penanggung_jawab','$tenggat_waktu')  
+
+    $query = "INSERT INTO t_program_relawan (nama_program_relawan,deskripsi_singkat_relawan,target_relawan,tgl_pelaksanaan,lokasi_program,deskripsi_lengkap_relawan,foto_p_relawan,status_program_relawan,tgl_prelawan,lokasi_awal,penanggung_jawab,tenggat_waktu,kategori_relawan)
+VALUES ('$nama_program_relawan','$deskripsi_singkat_relawan','$target_relawan','$tgl_pelaksanaan','$lokasi_program',' $deskripsi_lengkap_relawan','$gambar','$status_program_relawan','$tgl_prelawan','$lokasi_awal','$penanggung_jawab','$tenggat_waktu','$kategori_relawan')  
      ";
 
     mysqli_query($conn, $query);
@@ -298,6 +316,18 @@ VALUES ('$nama_program_relawan','$deskripsi_singkat_relawan','$target_relawan','
                                 <label for="tb_nama_program_relawan" class="label-txt">Nama Program<span class="red-star">*</span></label>
                                 <input type="text" id="tb_nama_program_relawan" name="tb_nama_program_relawan" class="form-control" placeholder="Nama program relawan" Required>
                             </div>
+
+
+                            <div class="form-group mt-4 mb-3">
+                                <label for="tb_kategori">Kategori Program Relawan<span class="red-star">*</span></label></label>
+                                <select class="form-control" id="tb_kategori" name="tb_kategori" required>
+                                    <?php foreach ($kategoriRelawan as $row) : ?>
+                                        <option value="<?= $row["kategori_relawan"]; ?>"><?= $row["kategori_relawan"]; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
+
                             <div class="form-group mt-4 mb-3">
                                 <label for="tb_penanggung_jawab" class="label-txt">Penanggung Jawab<span class="red-star">*</span></label>
                                 <input type="text" id="tb_penanggung_jawab" name="tb_penanggung_jawab" class="form-control" placeholder="Nama penanggung jawab" Required>
