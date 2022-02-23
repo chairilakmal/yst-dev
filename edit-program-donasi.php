@@ -117,13 +117,17 @@ if (isset($_POST["submit"])) {
 
     $gambarLama2                 = $_POST["gambarLama2"];
 
-    $tgl_selesai                = $_POST["tb_tgl_selesai"];
-
     $penerima_donasi            = $_POST["tb_penerima_donasi"];
 
     $tgl_penyaluran             = $_POST["tb_tgl_penyaluran"];
 
     $status_program_donasi      = $_POST["status_program_donasi"];
+
+    $jangka_waktu               = $_POST["tb_jangka_waktu"];
+
+    if ($jangka_waktu != 1) {
+        $tgl_selesai                = $_POST["tb_tgl_selesai"];
+    }
 
 
     if ($_FILES['image_uploads']['error'] === 4) {
@@ -394,6 +398,10 @@ if (isset($_POST["submit"])) {
                                 <input type="text" id="tb_nama_program_donasi" name="tb_nama_program_donasi" class="form-control" placeholder="Nama program donasi" value="<?= $programDonasi["nama_program_donasi"]; ?>">
                             </div>
                             <div class="form-group mt-4 mb-3">
+                                <label for="tb_kategori" class="label-txt">Kategori Program</label>
+                                <input type="text" id="tb_kategori" name="tb_kategori" class="form-control" placeholder="Kategori program donasi" value="<?= $programDonasi["kategori_donasi"]; ?>" readonly>
+                            </div>
+                            <div class="form-group mt-4 mb-3">
                                 <label for="tb_penanggung_jawab" class="label-txt">Penanggung Jawab</label>
                                 <input type="text" id="tb_penanggung_jawab" name="tb_penanggung_jawab" class="form-control" placeholder="Nama penanggung jawab" value="<?= $programDonasi["penanggung_jawab"]; ?>">
                             </div>
@@ -405,11 +413,30 @@ if (isset($_POST["submit"])) {
                                 <label for="tb_penerima_donasi" class="label-txt">Penerima Donasi</label>
                                 <input type="text" id="tb_penerima_donasi" name="tb_penerima_donasi" class="form-control" placeholder="Penerima donasi" value="<?php echo $programDonasi["penerima_donasi"]; ?>">
                             </div>
+
                             <div class="form-group mt-4 mb-3">
-                                <label for="tb_tgl_selesai" class="label-txt">Batas Waktu Pengumpulan</label>
-                                <input type="datetime-local" id="tb_tgl_selesai" name="tb_tgl_selesai" class="form-control" value="<?php $programDonasi['tgl_selesai'] = preg_replace("/\s/", 'T', $programDonasi['tgl_selesai']);
-                                                                                                                                    echo $programDonasi['tgl_selesai'] ?>" REQUIRED readonly>
+                                <label for="tb_jangka_waktu" class="label-txt">Jangka Waktu</label>
+                                <input type="text" id="tb_jangka_waktu" name="tb_jangka_waktu" class="form-control" placeholder="Nama program donasi" value="<?php
+                                                                                                                                                                if ($programDonasi["jangka_waktu"] == 0) {
+                                                                                                                                                                    echo "Tidak Tetap";
+                                                                                                                                                                } else
+                                                                                                                                                                    echo "Tetap";
+                                                                                                                                                                ?>" readonly>
+
                             </div>
+
+                            <?php if ($programDonasi['jangka_waktu'] != 1) { ?>
+                                <div class="form-group mt-4 mb-3">
+                                    <label for="tb_tgl_selesai" class="label-txt">Batas Waktu Pengumpulan</label>
+                                    <input type="date" id="tb_tgl_selesai" name="tb_tgl_selesai" class="form-control" value="<?php $programDonasi['tgl_selesai'] = preg_replace("/\s/", 'T', $programDonasi['tgl_selesai']);
+                                                                                                                                echo $programDonasi['tgl_selesai'] ?>" REQUIRED readonly>
+                                </div>
+
+                            <?php } ?>
+
+
+
+
                             <div class="form-group">
                                 <label for="tb_deskripsi_donasi_singkat" class="label-txt">Deskripsi Singkat</label>
                                 <textarea class="form-control" id="tb_deskripsi_donasi_singkat" name="tb_deskripsi_donasi_singkat" rows="2"><?= $programDonasi["deskripsi_singkat_donasi"]; ?></textarea>
@@ -554,7 +581,18 @@ if (isset($_POST["submit"])) {
             $('#popup-img').attr('src', src);
         });
     </script>
+    <script>
+        $("#tb_jangka_waktu").change(function() {
+            var selected_option = $('#tb_jangka_waktu').val();
 
+            if (selected_option === '1') {
+                $('#tgl_selesai_form').hide();
+            }
+            if (selected_option != '1') {
+                $("#tgl_selesai_form").show();
+            }
+        })
+    </script>
 
 
 </body>

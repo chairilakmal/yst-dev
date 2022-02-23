@@ -8,6 +8,21 @@ if (!isset($_SESSION["username"])) {
     exit;
 }
 
+// Kategori
+function queryKategori($query)
+{
+    global $conn;
+    $result = mysqli_query($conn, $query);
+    $rows = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $rows[] = $row;
+    }
+    return $rows;
+}
+$kategoriDonasi = queryKategori("SELECT * FROM t_kat_donasi
+                    ORDER BY id_kat_donasi
+                    ");
+
 function upload()
 {
     //upload gambar
@@ -76,15 +91,23 @@ if (isset($_POST["submit"])) {
     $penerima_donasi            = $_POST["tb_penerima_donasi"];
     $penanggung_jawab           = $_POST["tb_penanggung_jawab"];
 
+    $jangka_waktu               = $_POST["tb_jangka_waktu"];
 
-    $query = "INSERT INTO t_program_donasi (nama_program_donasi, deskripsi_singkat_donasi, target_dana,deskripsi_lengkap_donasi,foto_p_donasi,tgl_pdonasi,tgl_selesai,status_program_donasi,penerima_donasi,penanggung_jawab)
-                VALUES ('$nama_program_donasi','$deskripsi_singkat_donasi','$target_dana',' $deskripsi_lengkap_donasi','$gambar','$tgl_pdonasi','$tgl_selesai','$status_program_donasi','$penerima_donasi','$penanggung_jawab')  
+    $kategori_donasi            = $_POST["tb_kategori"];
+
+    if ($jangka_waktu == 1) {
+        $tgl_selesai = "2040-12-12";
+    }
+
+
+    $query = "INSERT INTO t_program_donasi (nama_program_donasi, deskripsi_singkat_donasi, target_dana,deskripsi_lengkap_donasi,foto_p_donasi,tgl_pdonasi,tgl_selesai,status_program_donasi,penerima_donasi,penanggung_jawab,jangka_waktu,kategori_donasi)
+                VALUES ('$nama_program_donasi','$deskripsi_singkat_donasi','$target_dana',' $deskripsi_lengkap_donasi','$gambar','$tgl_pdonasi','$tgl_selesai','$status_program_donasi','$penerima_donasi','$penanggung_jawab','$jangka_waktu','$kategori_donasi')  
                      ";
 
 
 
     mysqli_query($conn, $query);
-    // var_dump($query);die;
+
 
     //cek keberhasilan
     if (mysqli_affected_rows($conn) > 0) {
@@ -205,14 +228,6 @@ if (isset($_POST["submit"])) {
                             </a>
                         </li>
                         <li class="nav-item nav-item-sidebar">
-                            <a href="kelola-berita.php" class="nav-link side-icon">
-                                <i class="nav-icon fas fa-newspaper"></i>
-                                <p>
-                                    Kelola Berita
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item nav-item-sidebar">
                             <a href="laporan-program-donasi.php" class="nav-link side-icon">
                                 <i class="nav-icon fas fa-calendar-check"></i>
                                 <p>
@@ -289,6 +304,18 @@ if (isset($_POST["submit"])) {
                                 <label for="tb_nama_program_donasi" class="label-txt">Nama Program<span class="red-star">*</span></label>
                                 <input type="text" id="tb_nama_program_donasi" name="tb_nama_program_donasi" class="form-control" placeholder="Nama program donasi" Required>
                             </div>
+
+
+                            <div class="form-group mt-4 mb-3">
+                                <label for="tb_kategori">Kategori Donasi<span class="red-star">*</span></label></label>
+                                <select class="form-control" id="tb_kategori" name="tb_kategori" required>
+                                    <?php foreach ($kategoriDonasi as $row) : ?>
+                                        <option value="<?= $row["kategori_donasi"]; ?>"><?= $row["kategori_donasi"]; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
+
                             <div class="form-group mt-4 mb-3">
                                 <label for="tb_penanggung_jawab" class="label-txt">Penanggung Jawab<span class="red-star">*</span></label>
                                 <input type="text" id="tb_penanggung_jawab" name="tb_penanggung_jawab" class="form-control" placeholder="Nama penanggung jawab" Required>
@@ -302,8 +329,15 @@ if (isset($_POST["submit"])) {
                                 <input type="number" id="tb_target_dana" name="tb_target_dana" class="form-control" placeholder="Target dana dikumpulkan" Required>
                             </div>
                             <div class="form-group mt-4 mb-3">
+                                <label for="tb_jangka_waktu">Jangka Waktu<span class="red-star">*</span></label></label>
+                                <select class="form-control" id="tb_jangka_waktu" name="tb_jangka_waktu" required>
+                                    <option value="0">Tidak Tetap</option>
+                                    <option value="1">Tetap</option>
+                                </select>
+                            </div>
+                            <div class="form-group mt-4 mb-3" id="tgl_selesai_form">
                                 <label for="tb_tgl_selesai" class="label-txt">Tenggat Waktu Pengumpulan Donasi<span class="red-star">*</span></label>
-                                <input type="datetime-local" id="tb_tgl_selesai" name="tb_tgl_selesai" class="form-control" placeholder="Tanggal akhir pengumpulan dana" Required>
+                                <input type="date" id="tb_tgl_selesai" name="tb_tgl_selesai" class="form-control" placeholder="Tanggal akhir pengumpulan dana">
                             </div>
                             <div class="form-group">
                                 <label for="tb_deskripsi_donasi_singkat" class="label-txt">Deskripsi Singkat<span class="red-star">*</span></label>
@@ -353,6 +387,18 @@ if (isset($_POST["submit"])) {
     <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
     <!-- AdminLTE App -->
     <script src="dist/js/adminlte.js"></script>
+    <script>
+        $("#tb_jangka_waktu").change(function() {
+            var selected_option = $('#tb_jangka_waktu').val();
+
+            if (selected_option === '1') {
+                $('#tgl_selesai_form').hide();
+            }
+            if (selected_option != '1') {
+                $("#tgl_selesai_form").show();
+            }
+        })
+    </script>
 
 
 </body>

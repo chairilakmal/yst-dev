@@ -172,63 +172,66 @@ $result     = mysqli_fetch_array($query);
                                     </div>
                                     <div class="ml-2 d-none"><b><?php echo $result['tgl_selesai'] ?></b></div>
                                 </div>
-                                <div class="d-flex view-kumpulan  mb-3">
-                                    <div class="float-left" id="teks">
-                                        Sisa Waktu
-                                        <script>
-                                            //Countdown
-                                            // var id_program_donasi = "?php echo $id_program_donasi; ?>";
-                                            // var status_program_donasi = "?php echo $status_program_donasi; ?>";
+                                <?php if ($result['jangka_waktu'] == 0) { ?>
+                                    <div class="d-flex view-kumpulan  mb-3">
 
-                                            var dateStringFromDP = '<?php echo $result['tgl_selesai'] ?>';
-                                            const tanggalTujuan = new Date(dateStringFromDP).getTime();
-                                            const hitungMundur = setInterval(function() {
-                                                const sekarang = new Date().getTime();
-                                                const selisih = tanggalTujuan - sekarang;
-                                                const hari = Math.floor(selisih / (1000 * 60 * 60 * 24));
-                                                const jam = Math.floor(selisih % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
-                                                const menit = Math.floor(selisih % (1000 * 60 * 60) / (1000 * 60));
-                                                const detik = Math.floor(selisih % (1000 * 60) / 1000);
-                                                const teks = document.getElementById('teks');
-                                                teks.innerHTML = 'Sisa Waktu : ' + hari + ' hari ' + jam + ' jam ' + menit + ' menit ' + detik + ' detik lagi ! ';
+                                        <div class="float-left" id="teks">
+                                            Sisa Waktu
+                                            <script>
+                                                //Countdown
+                                                // var id_program_donasi = "?php echo $id_program_donasi; ?>";
+                                                // var status_program_donasi = "?php echo $status_program_donasi; ?>";
 
-                                                if (selisih < 0) {
-                                                    clearInterval(hitungMundur);
-                                                    teks.innerHTML = 'Waktu program telah habis !';
+                                                var dateStringFromDP = '<?php echo $result['tgl_selesai'] ?>';
+                                                const tanggalTujuan = new Date(dateStringFromDP).getTime();
+                                                const hitungMundur = setInterval(function() {
+                                                    const sekarang = new Date().getTime();
+                                                    const selisih = tanggalTujuan - sekarang;
+                                                    const hari = Math.floor(selisih / (1000 * 60 * 60 * 24));
+                                                    const jam = Math.floor(selisih % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
+                                                    const menit = Math.floor(selisih % (1000 * 60 * 60) / (1000 * 60));
+                                                    const detik = Math.floor(selisih % (1000 * 60) / 1000);
+                                                    const teks = document.getElementById('teks');
+                                                    teks.innerHTML = 'Sisa Waktu : ' + hari + ' hari ' + jam + ' jam ' + menit + ' menit ' + detik + ' detik lagi ! ';
 
-                                                    //Get Variable
-                                                    var id_program_donasi = $('#id_program_donasi').val();
-                                                    var status_program_donasi = $('#status_program_donasi').val();
+                                                    if (selisih < 0) {
+                                                        clearInterval(hitungMundur);
+                                                        teks.innerHTML = 'Waktu program telah habis !';
 
-                                                    console.log(id_program_donasi);
+                                                        //Get Variable
+                                                        var id_program_donasi = $('#id_program_donasi').val();
+                                                        var status_program_donasi = $('#status_program_donasi').val();
+
+                                                        console.log(id_program_donasi);
 
 
-                                                    //Update value
-                                                    $.ajax({
-                                                        url: 'update-ajax.php',
-                                                        type: 'POST',
+                                                        //Update value
+                                                        $.ajax({
+                                                            url: 'update-ajax.php',
+                                                            type: 'POST',
 
-                                                        data: {
-                                                            status_program_donasi: status_program_donasi,
-                                                            id_program_donasi: id_program_donasi
-                                                        },
-                                                        success: function(response) {
-                                                            // alert('success, server says '+output);
-                                                            console.log(response);
-                                                        },
-                                                        error: function() {
-                                                            alert('something went wrong, rating failed');
-                                                        }
-                                                    });
-                                                    // console.log(statusProgram);
+                                                            data: {
+                                                                status_program_donasi: status_program_donasi,
+                                                                id_program_donasi: id_program_donasi
+                                                            },
+                                                            success: function(response) {
+                                                                // alert('success, server says '+output);
+                                                                console.log(response);
+                                                            },
+                                                            error: function() {
+                                                                alert('something went wrong, rating failed');
+                                                            }
+                                                        });
+                                                        // console.log(statusProgram);
 
-                                                }
+                                                    }
 
-                                            }, 1000);
-                                        </script>
+                                                }, 1000);
+                                            </script>
+                                        </div>
+
                                     </div>
-
-                                </div>
+                                <?php } ?>
                             </div>
                             <div class="view-desc-lengkap mt-4">
                                 <h4 class="mt-4"> Informasi Program</h4>
