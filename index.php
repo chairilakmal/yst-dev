@@ -245,11 +245,11 @@ $programRelawan = queryRelawan("SELECT *, SUM(t_relawan.relawan_jadi) AS jumlah_
                 <!-- END 1st PARAGRAPH -->
             </div>
 
-            <!-- KEGIATAN TERBARU -->
+            <!-- Berita TERBARU -->
             <div class="tkjb-card2">
-                <h2> Kegiatan Terbaru </h2>
+                <h2> Berita Terbaru </h2>
                 <div class="row card-deck">
-                    <?php foreach (array_slice($kegiatan, 0, 3) as $row) : ?>
+                    <?php foreach (array_slice($berita, 0, 3) as $row) : ?>
                         <div class="col-md-4">
                             <div class="card card-pilihan mb-4 shadow-sm">
                                 <a href="">
@@ -272,18 +272,18 @@ $programRelawan = queryRelawan("SELECT *, SUM(t_relawan.relawan_jadi) AS jumlah_
                     <?php endforeach; ?>
                 </div>
                 <div class="mid-button">
-                    <a href="kegiatan.php" class="btn radius-50 py-1.5 px-5  btn-relawan" role="button" aria-pressed="true">
+                    <a href="berita.php" class="btn radius-50 py-1.5 px-5  btn-relawan" role="button" aria-pressed="true">
                         Selengkapnya >
                     </a>
                 </div>
             </div>
             <!-- END KEGIATAN TERBARU -->
 
-            <!-- BERITA TERBARU -->
+            <!-- Kegiatan TERBARU -->
             <div class="tkjb-card">
-                <h2> Berita Terbaru </h2>
+                <h2> Kegiatan Terbaru </h2>
                 <div class="row card-deck">
-                    <?php foreach (array_slice($berita, 0, 3) as $row) : ?>
+                    <?php foreach (array_slice($kegiatan, 0, 3) as $row) : ?>
                         <div class="col-md-4">
                             <div class="card card-pilihan mb-4 shadow-sm">
                                 <a href="">
@@ -306,7 +306,7 @@ $programRelawan = queryRelawan("SELECT *, SUM(t_relawan.relawan_jadi) AS jumlah_
                     <?php endforeach; ?>
                 </div>
                 <div class="mid-button">
-                    <a href="berita.php" class="btn radius-50 py-1.5 px-5  btn-relawan" role="button" aria-pressed="true">
+                    <a href="kegiatan.php" class="btn radius-50 py-1.5 px-5  btn-relawan" role="button" aria-pressed="true">
                         Selengkapnya >
                     </a>
                 </div>
