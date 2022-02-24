@@ -1,6 +1,6 @@
 <?php
 
-include "config/connection.php";
+include "../config/connection.php";
 
 function rupiah($angka)
 {
@@ -25,7 +25,7 @@ $programDonasi = queryDonasi("SELECT *, SUM(t_donasi.nominal_donasi) AS dana_ter
                     FROM t_donasi 
                     RIGHT JOIN t_program_donasi 
                     ON t_program_donasi.id_program_donasi = t_donasi.id_program_donasi    
-                    WHERE status_program_donasi = 'Berjalan'             
+                    WHERE status_program_donasi = 'Berjalan' AND kategori_donasi = 'Beasiswa dan Pendidikan'             
                     GROUP BY t_program_donasi.id_program_donasi ORDER BY t_program_donasi.id_program_donasi DESC
                     ");
 // var_dump($programDonasi);die;
@@ -40,12 +40,12 @@ $programDonasi = queryDonasi("SELECT *, SUM(t_donasi.nominal_donasi) AS dana_ter
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Icon Title -->
-    <link rel="icon" href="img/YST-title.png">
+    <link rel="icon" href="../img/YST-title.png">
     <title>YST - Donasi</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/konten-yst.css">
+    <link rel="stylesheet" href="../css/konten-yst.css">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Roboto:wght@500&display=swap" rel="stylesheet">
@@ -63,8 +63,8 @@ $programDonasi = queryDonasi("SELECT *, SUM(t_donasi.nominal_donasi) AS dana_ter
                 <nav class="flex-wrap navpadd navbar navbar-expand-lg navbar-light ">
                     <!-- Navbar First Layer -->
                     <!-- Logo Holder -->
-                    <a class="navbar-brand" href="index.php">
-                        <img id="logo-tkjb-navbar" src="img/YST-logo.png">
+                    <a class="navbar-brand" href="../index.php">
+                        <img id="logo-tkjb-navbar" src="../img/YST-logo.png">
                     </a>
                     <!-- Menu Toogler -->
                     <button class="navbar-toggler custom-toggler hamburger-menu" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,7 +73,7 @@ $programDonasi = queryDonasi("SELECT *, SUM(t_donasi.nominal_donasi) AS dana_ter
                     <!-- Button & Link Action -->
                     <ul class="ml-auto d-none d-lg-block navbar-nav">
                         <!-- <button class="btn radius-50 py-1.5 px-4 ml-3 btn-donasi " onclick="window.location.href=#'">Beri Bantuan</button>                        -->
-                        <button class="btn radius-50 py-1.5 px-5 ml-3 btn-relawan " onclick="window.location.href='login.php'">Login</button>
+                        <button class="btn radius-50 py-1.5 px-5 ml-3 btn-relawan " onclick="window.location.href='../login.php'">Login</button>
 
                     </ul>
                     <!-- END Navbar First Layer -->
@@ -82,32 +82,32 @@ $programDonasi = queryDonasi("SELECT *, SUM(t_donasi.nominal_donasi) AS dana_ter
                         <!-- Navbar Menu -->
                         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                             <li class="nav-item ">
-                                <a class="nav-link " href="index.php">Beranda</a>
+                                <a class="nav-link " href="../index.php">Beranda</a>
                             </li>
                             <li class="nav-item dropdown ">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Artikel
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item" href="kegiatan.php">Kegiatan</a>
-                                    <a class="dropdown-item" href="berita.php">Berita</a>
+                                    <a class="dropdown-item" href="../kegiatan.php">Kegiatan</a>
+                                    <a class="dropdown-item" href="../berita.php">Berita</a>
                                 </div>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link " href="kontribusi.php">Informasi</a>
+                                <a class="nav-link " href="../kontribusi.php">Informasi</a>
                             </li>
                             <li class="nav-item dropdown active  teks-biru ">
                                 <a class="nav-link current dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Program YST
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item " href="donasi.php">Program Donasi</a>
-                                    <a class="dropdown-item" href="relawan.php">Program Relawan</a>
-                                    <a class="dropdown-item" href="view-donasi.php?id=7">PKBM Himmatul 'Aliyyah</a>
-                                    <a class="dropdown-item" href="view-donasi.php?id=8">Bakti Bagi Negeri</a>
-                                    <a class="dropdown-item" href="view-donasi.php?id=9">Donor Darah</a>
-                                    <a class="dropdown-item" href="view-donasi.php?id=10">Beasiswa</a>
-                                    <a class="dropdown-item" href="view-donasi.php?id=11">Program DPW</a>
+                                    <a class="dropdown-item " href="../donasi.php">Program Donasi</a>
+                                    <a class="dropdown-item" href="../relawan.php">Program Relawan</a>
+                                    <a class="dropdown-item" href="../view-donasi.php?id=7">PKBM Himmatul 'Aliyyah</a>
+                                    <a class="dropdown-item" href="../view-donasi.php?id=8">Bakti Bagi Negeri</a>
+                                    <a class="dropdown-item" href="../view-donasi.php?id=9">Donor Darah</a>
+                                    <a class="dropdown-item" href="../view-donasi.php?id=10">Beasiswa</a>
+                                    <a class="dropdown-item" href="../view-donasi.php?id=11">Program DPW</a>
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
@@ -115,9 +115,9 @@ $programDonasi = queryDonasi("SELECT *, SUM(t_donasi.nominal_donasi) AS dana_ter
                                     Tentang YST
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item" href="profil.php#profil-yst">Profil</a>
-                                    <a class="dropdown-item" href="profil.php#visimisi">Visi Misi</a>
-                                    <a class="dropdown-item" href="profil.php#kontak-yst">Kontak</a>
+                                    <a class="dropdown-item" href="../profil.php#profil-yst">Profil</a>
+                                    <a class="dropdown-item" href="../profil.php#visimisi">Visi Misi</a>
+                                    <a class="dropdown-item" href="../profil.php#kontak-yst">Kontak</a>
                                 </div>
                             </li>
                         </ul>
@@ -125,7 +125,7 @@ $programDonasi = queryDonasi("SELECT *, SUM(t_donasi.nominal_donasi) AS dana_ter
                         <!-- Navbar Button & Link Action Mobile Version-->
                         <div class="d-flex d-lg-none p-3 mobile-act-button">
                             <div class="row-mid">
-                                <button class="btn radius-50 py-1.5 px-4 ml-3 btn-donasi " onclick="window.location.href='kontribusi.php'">Beri Bantuan</button>
+                                <button class="btn radius-50 py-1.5 px-4 ml-3 btn-donasi " onclick="window.location.href='../kontribusi.php'">Beri Bantuan</button>
                             </div>
                             <div class="row-mid d-none d-md-block">
                                 <p>
@@ -133,7 +133,7 @@ $programDonasi = queryDonasi("SELECT *, SUM(t_donasi.nominal_donasi) AS dana_ter
                                 </p>
                             </div>
                             <div class="row-mid">
-                                <button class="btn radius-50 py-1.5 px-5 ml-3 btn-relawan " onclick="window.location.href='login.php'">Login</button>
+                                <button class="btn radius-50 py-1.5 px-5 ml-3 btn-relawan " onclick="window.location.href='../login.php'">Login</button>
                             </div>
                         </div>
                         <!-- END Navbar Button & Link Action Mobile Version-->
@@ -154,16 +154,16 @@ $programDonasi = queryDonasi("SELECT *, SUM(t_donasi.nominal_donasi) AS dana_ter
                     <div class="col mb-5">
                         <div class="dropdown show ">
                             <a class="btn btn-info  filter-btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Kategori
+                                Beasiswa & Pendidikan
                             </a>
                             <div class="dropdown-menu green-drop" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" href="donasi.php">Semua</a>
-                                <a class="dropdown-item" href="explore-donasi/bencana-alam.php">Bencana Alam</a>
-                                <a class="dropdown-item" href="explore-donasi/kemanusiaan.php">Kemanusiaan</a>
-                                <a class="dropdown-item" href="explore-donasi/medis-kesehatan.php">Medis & Kesehatan</a>
-                                <a class="dropdown-item" href="explore-donasi/balita-anak.php">Balita & Anak Sakit</a>
-                                <a class="dropdown-item" href="explore-donasi/kegiatan-sosial.php">Kegiatan Sosial</a>
-                                <a class="dropdown-item" href="explore-donasi/beasiswa-pendidikan.php">Beasiswa & Pendidikan</a>
+                                <a class="dropdown-item" href="../donasi.php">Semua</a>
+                                <a class="dropdown-item " href="bencana-alam.php">Bencana Alam</a>
+                                <a class="dropdown-item " href="kemanusiaan.php">Kemanusiaan</a>
+                                <a class="dropdown-item " href="medis-kesehatan.php">Medis & Kesehatan</a>
+                                <a class="dropdown-item " href="balita-anak.php">Balita & Anak Sakit</a>
+                                <a class="dropdown-item " href="kegiatan-sosial.php">Kegiatan Sosial</a>
+                                <a class="dropdown-item active" href="beasiswa-pendidikan.php">Beasiswa & Pendidikan</a>
                             </div>
                         </div>
                     </div>
@@ -174,7 +174,7 @@ $programDonasi = queryDonasi("SELECT *, SUM(t_donasi.nominal_donasi) AS dana_ter
                             <div class="col-md-4">
                                 <div class="card card-pilihan mb-4 shadow-sm">
                                     <a href="">
-                                        <img class="card-img-top berita-img" width="100%" src="img/<?= $row['foto_p_donasi']; ?>">
+                                        <img class="card-img-top berita-img" width="100%" src="../img/<?= $row['foto_p_donasi']; ?>">
                                     </a>
                                     <div class="card-body">
                                         <div class="nama-program">
@@ -190,7 +190,7 @@ $programDonasi = queryDonasi("SELECT *, SUM(t_donasi.nominal_donasi) AS dana_ter
                                             <div class="float-left">?= rupiah($row['dana_terkumpul_total']) == 0 ? '0' : rupiah($row['dana_terkumpul_total']); ?> </div>
                                             <div>?= $row["jumlah_donatur"]; ?></div>
                                         </div> -->
-                                        <a class="btn btn-primary btn-lg btn-block mb-4 btn-kata-media" href="view-donasi.php?id=<?php echo $row['id_program_donasi']; ?>">Lihat Program</a>
+                                        <a class="btn btn-primary btn-lg btn-block mb-4 btn-kata-media" href="../view-donasi.php?id=<?php echo $row['id_program_donasi']; ?>">Lihat Program</a>
                                     </div>
                                 </div>
                             </div>
@@ -201,6 +201,13 @@ $programDonasi = queryDonasi("SELECT *, SUM(t_donasi.nominal_donasi) AS dana_ter
                 </div>
             </div>
 
+
+
+
+
+
+
+
         </div>
     </div>
 
@@ -208,7 +215,7 @@ $programDonasi = queryDonasi("SELECT *, SUM(t_donasi.nominal_donasi) AS dana_ter
     <section id="footer">
         <div class="row">
             <div class="blogo col-xs-12 col-sm-12 col-md-12 col-lg-4">
-                <a href="#"><img src="img/YST-logo.png" id="footer-logo"></a>
+                <a href="#"><img src="../img/YST-logo.png" id="footer-logo"></a>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 cr-tkjb">
                 <div class="cpt text-light text-center">
