@@ -67,8 +67,14 @@ $result     = mysqli_fetch_array($query);
                             <li class="nav-item ">
                                 <a class="nav-link current" href="index.php">Beranda</a>
                             </li>
-                            <li class="nav-item ">
-                                <a class="nav-link " href="berita.php">Berita</a>
+                            <li class="nav-item dropdown ">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Artikel
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item" href="kegiatan.php">Kegiatan</a>
+                                    <a class="dropdown-item" href="berita.php">Berita</a>
+                                </div>
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link " href="kontribusi.php">Informasi</a>
@@ -78,8 +84,13 @@ $result     = mysqli_fetch_array($query);
                                     Program YST
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item" href="donasi.php">Program Donasi</a>
+                                    <a class="dropdown-item " href="donasi.php">Program Donasi</a>
                                     <a class="dropdown-item" href="relawan.php">Program Relawan</a>
+                                    <a class="dropdown-item" href="view-donasi.php?id=7">PKBM Himmatul 'Aliyyah</a>
+                                    <a class="dropdown-item" href="view-donasi.php?id=8">Bakti Bagi Negeri</a>
+                                    <a class="dropdown-item" href="view-donasi.php?id=9">Donor Darah</a>
+                                    <a class="dropdown-item" href="view-donasi.php?id=10">Beasiswa</a>
+                                    <a class="dropdown-item" href="view-donasi.php?id=11">Program DPW</a>
                                 </div>
                             </li>
                             <li class="nav-item dropdown ">

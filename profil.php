@@ -67,8 +67,13 @@
                                     Program YST
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item" href="donasi.php">Program Donasi</a>
+                                    <a class="dropdown-item " href="donasi.php">Program Donasi</a>
                                     <a class="dropdown-item" href="relawan.php">Program Relawan</a>
+                                    <a class="dropdown-item" href="view-donasi.php?id=7">PKBM Himmatul 'Aliyyah</a>
+                                    <a class="dropdown-item" href="view-donasi.php?id=8">Bakti Bagi Negeri</a>
+                                    <a class="dropdown-item" href="view-donasi.php?id=9">Donor Darah</a>
+                                    <a class="dropdown-item" href="view-donasi.php?id=10">Beasiswa</a>
+                                    <a class="dropdown-item" href="view-donasi.php?id=11">Program DPW</a>
                                 </div>
                             </li>
                             <li class="nav-item dropdown  active  teks-biru ">
