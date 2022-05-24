@@ -1,6 +1,4 @@
 <?php
-include "config/connection.php";
-
 session_start();
 include 'config/connection.php';
 
@@ -10,24 +8,40 @@ if (!isset($_SESSION["username"])) {
     exit;
 }
 
-function query($query)
-{
-    global $conn;
-    $result = mysqli_query($conn, $query);
-    $rows = [];
-    while ($row = mysqli_fetch_assoc($result)) {
-        $rows[] = $row;
+
+
+if (isset($_POST["submit"])) {
+
+    $kategori_donasi      = $_POST["tb_kategori_donasi"];
+    $kategori_donasi        = htmlspecialchars($kategori_donasi);
+
+    $ket_kategori_donasi      = $_POST["tb_ket_kategori_donasi"];
+
+
+    $query = "INSERT INTO t_kat_donasi (kategori_donasi,ket_kategori_donasi)
+                VALUES ('$kategori_donasi','$ket_kategori_donasi')  
+                     ";
+
+
+
+    mysqli_query($conn, $query);
+    // var_dump($query);die;
+
+    //cek keberhasilan
+    if (mysqli_affected_rows($conn) > 0) {
+        echo "
+            <script>
+                alert('Data berhasil ditambahkan!');
+            </script>
+            ";
+    } else {
+        echo "
+                <script>
+                    alert('Data gagal ditambahkan!');
+                </script>
+            ";
     }
-    return $rows;
 }
-
-$userQuery = query("SELECT * FROM t_user
-                    ORDER BY id_user                   
-                    ");
-$organigram = query("SELECT * FROM t_organigram
-                    ORDER BY user_id
-                    ");
-
 
 ?>
 
@@ -40,7 +54,7 @@ $organigram = query("SELECT * FROM t_organigram
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Icon Title -->
     <link rel="icon" href="img/logo-only.svg">
-    <title>YST - Kelola User</title>
+    <title>YST - Input Data Meninggal</title>
     <!-- Font Awesome
     <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css"> -->
     <!-- Font Awesome -->
@@ -52,6 +66,7 @@ $organigram = query("SELECT * FROM t_organigram
     <link rel="stylesheet" type="text/css" href="css/dashboard-yst.css">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&family=Roboto:wght@500&display=swap" rel="stylesheet">
 </head>
 
@@ -138,8 +153,8 @@ $organigram = query("SELECT * FROM t_organigram
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item nav-item-sidebar">
-                            <a href="kelola-beasiswa.php" class="nav-link side-icon">
+                        <li class="nav-item nav-item-sidebar ">
+                            <a href="kelola-beasiswa.php" class="nav-link side-icon ">
                                 <i class="nav-icon fas fa-graduation-cap"></i>
                                 <p>
                                     Kelola Beasiswa
@@ -181,7 +196,7 @@ $organigram = query("SELECT * FROM t_organigram
                         <!-- Hanya muncul jika level user = 1 / super admin -->
                         <?php if ($_SESSION['level_user'] == 1 || $_SESSION['level_user'] == 2) { ?>
                             <li class="nav-item dropdown nav-item-sidebar menu-open ">
-                                <a class="nav-link active dropdown-toggle side-icon" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle side-icon active" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="nav-icon fa fa-star"></i>
                                     Menu Master
                                 </a>
@@ -189,8 +204,8 @@ $organigram = query("SELECT * FROM t_organigram
                                     <a class="dropdown-item " href="kelola-kat-donasi.php">Kategori Donasi</a>
                                     <a class="dropdown-item " href="kelola-kat-relawan.php">Kategori Relawan</a>
                                     <?php if ($_SESSION['level_user'] == 1) { ?>
-                                        <a class="dropdown-item active" href="kelola-user.php">Kelola User</a>
-                                        <a class="dropdown-item" href="kelola-meninggal.php">Kelola Data Meninggal</a>
+                                        <a class="dropdown-item" href="kelola-user.php">Kelola User</a>
+                                        <a class="dropdown-item active" href="kelola-meninggal.php">Kelola Data Meninggal</a>
                                     <?php } ?>
                                 </div>
                             </li>
@@ -206,61 +221,66 @@ $organigram = query("SELECT * FROM t_organigram
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <main>
-                <div class="request-data">
-                    <div class="projects">
-                        <div class="page-title-link ml-4 mb-4">
+                <div class="page-title-link ml-4 mb-4">
                             <a href="dashboard-admin.php">
                                 <i class="nav-icon fas fa-home mr-1"></i>Dashboard admin</a> >
                             <a href="kelola-user.php">
-                                <i class="nav-icon fas fa-cog mr-1"></i>Kelola User</a>
-                        </div>
-
-                        <div class="card card-request-data">
-                            <div class="card-header-req">
-                                <div class="row ml-1 ">
-                                    <div class="col ">
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body card-body-req">
-                                <div class="table-responsive">
-                                    <table width="100%">
-                                        <thead>
-                                            <tr>
-                                                <td class="text-center">ID <br> User</td>
-                                                <td>Nama Lengkap</td>
-                                                <td>Username</td>
-                                                <td>Level</td>
-                                                
-                                                <td class="justify-content-center">Aksi</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php foreach ($userQuery as $row) : ?>
-                                                <tr>
-                                                    <td class="text-center"><?= $row["id_user"]; ?></td>
-                                                    <td class="table-snipet1"><?= $row["nama"]; ?></td>
-                                                    <td><?= $row["username"]; ?></td>
-                                                    <td><?= $row["level_user"]; ?></td>
-                                                    
-                                                    <td class="justify-content-center">
-                                                        <button type="button" class="btn btn-edit">
-                                                            <a href="edit-user.php?id_user=<?= $row["id_user"]; ?>" class="fas fa-edit"></a>
-                                                        </button>
-                                                        <button type="button" class="btn btn-delete ml-1">
-                                                            <a href="hapus.php?type=manageuser&id_user=<?= $row["id_user"]; ?>" class="far fa-trash-alt" onclick="return confirm('Anda yakin ingin menghapus user ini ?');"></a>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            <?php endforeach; ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+                                <i class="nav-icon fas fa-cog mr-1"></i>Kelola Meninggal</a>
+                </div>
+                <div class="form-profil">
+                    <div class="mt-2 regis-title">
+                        <h3>Input Data Meninggal</h3>
                     </div>
-
+                    <form action="" enctype="multipart/form-data" method="POST">
+                        <div class="form-group label-txt">
+                            <div class="form-group mt-4 mb-3">
+                                <label for="tb_kategori">NIK<span class="red-star">*</span></label></label>
+                                <select class="form-control" id="tb_kategori" name="tb_kategori" required>
+                                        <option value="" selected disabled>Pilih NIK</option>
+                                        <option value="">NIK 111222</option>
+                                        <option value="">NIK 222333</option>
+                                        <option value="">NIK 444555</option>  
+                                </select>
+                            </div>
+                            <div class="form-group mt-4 mb-3" id="tgl_selesai_form">
+                                <label for="tb_tgl_selesai" class="label-txt">Tanggal<span class="red-star">*</span></label>
+                                <input type="date" id="tb_tgl_selesai" name="tb_tgl_selesai" class="form-control" placeholder="Tanggal akhir pengumpulan dana">
+                            </div>
+                            <div class="form-group mt-4 mb-3" id="tgl_selesai_form">
+                                <label for="tb_tgl_selesai" class="label-txt">Waktu<span class="red-star">*</span></label>
+                                <input type="time" id="tb_tgl_selesai" name="tb_tgl_selesai" class="form-control" placeholder="Tanggal akhir pengumpulan dana">
+                            </div>                          
+                            <div class="form-group mt-4 mb-3">
+                                <label for="tb_nama_program_donasi" class="label-txt">Tempat<span class="red-star">*</span></label>
+                                <input type="text" id="tb_nama_program_donasi" name="tb_nama_program_donasi" class="form-control" placeholder="Tempat Meninggal" Required>
+                            </div>
+                            <div class="form-group mt-4 mb-3">
+                                <label for="tb_nama_program_donasi" class="label-txt">Tempat Pemakaman<span class="red-star">*</span></label>
+                                <input type="text" id="tb_nama_program_donasi" name="tb_nama_program_donasi" class="form-control" placeholder="Tempat Pemakaman" Required>
+                            </div>
+                            <div class="form-group">
+                                <label for="tb_ket_kategori_donasi" class="label-txt">Penyebab Kematian</label>
+                                <textarea class="form-control" id="tb_ket_kategori_donasi" name="tb_ket_kategori_donasi" rows="6" placeholder="Penyebab Kematian"></textarea>
+                            </div>
+                            <div class="form-group">              
+                                    <label for="image_uploads2" class="label-txt"> Kartu Keluarga </label><br>
+                                    <!-- <img src="img/" class="edit-img popup " alt=""> -->
+                                    <div class="file-form">
+                                        <input type="file" id="image_uploads2" name="image_uploads2" class="form-control ">
+                                    </div>
+                            </div>  
+                            <div class="form-group">              
+                                    <label for="image_uploads2" class="label-txt"> Surat Keterangan Kematian </label><br>
+                                    <!-- <img src="img/" class="edit-img popup " alt=""> -->
+                                    <div class="file-form">
+                                        <input type="file" id="image_uploads2" name="image_uploads2" class="form-control ">
+                                    </div>
+                            </div> 
+                        </div>
+                        <button type="submit" name="submit" value="Simpan" class="btn btn-lg btn-primary w-100 yst-login-btn border-0 mt-4 mb-4">
+                            <span class="yst-login-btn-fs">Simpan</span>
+                        </button>
+                    </form>
                 </div>
             </main>
         </div>

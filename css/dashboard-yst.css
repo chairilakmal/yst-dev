@@ -304,6 +304,11 @@ tr td:last-child {
   margin-bottom: 20px;
 }
 
+.form-title {
+  
+  margin-bottom: 20px;
+}
+
 .garis-atas {
   border-top: 0.5px solid #d8d8d8;
   margin-top: 5vh;
@@ -314,6 +319,13 @@ tr td:last-child {
 }
 
 .regis-title h3 {
+  margin-bottom: 4vh;
+  text-align: center;
+  color: #4f4f4e;
+  font-family: Nunito, sans-serif;
+}
+
+.form-title h3 {
   margin-bottom: 4vh;
   text-align: center;
   color: #4f4f4e;
@@ -480,6 +492,16 @@ tr td:last-child {
   text-align: center;
   color: #4f4f4e;
   font-family: Nunito, sans-serif;
+}
+
+.form-segment{
+  border-bottom: 0.5px solid #d8d8d8;
+  margin-bottom: 20px;
+}
+
+.form-segment h6{
+  font-family: Quicksand, sans-serif;
+  color: #4f4f4e;
 }
 
 /* Status */

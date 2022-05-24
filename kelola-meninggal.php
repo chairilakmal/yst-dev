@@ -10,23 +10,23 @@ if (!isset($_SESSION["username"])) {
     exit;
 }
 
-function query($query)
-{
-    global $conn;
-    $result = mysqli_query($conn, $query);
-    $rows = [];
-    while ($row = mysqli_fetch_assoc($result)) {
-        $rows[] = $row;
-    }
-    return $rows;
-}
+// function query($query)
+// {
+//     global $conn;
+//     $result = mysqli_query($conn, $query);
+//     $rows = [];
+//     while ($row = mysqli_fetch_assoc($result)) {
+//         $rows[] = $row;
+//     }
+//     return $rows;
+// }
 
-$userQuery = query("SELECT * FROM t_user
-                    ORDER BY id_user                   
-                    ");
-$organigram = query("SELECT * FROM t_organigram
-                    ORDER BY user_id
-                    ");
+// $userQuery = query("SELECT * FROM t_user
+//                     ORDER BY id_user                   
+//                     ");
+// $organigram = query("SELECT * FROM t_organigram
+//                     ORDER BY user_id
+//                     ");
 
 
 ?>
@@ -40,7 +40,7 @@ $organigram = query("SELECT * FROM t_organigram
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Icon Title -->
     <link rel="icon" href="img/logo-only.svg">
-    <title>YST - Kelola User</title>
+    <title>YST - Kelola Meninggal</title>
     <!-- Font Awesome
     <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css"> -->
     <!-- Font Awesome -->
@@ -138,8 +138,8 @@ $organigram = query("SELECT * FROM t_organigram
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item nav-item-sidebar">
-                            <a href="kelola-beasiswa.php" class="nav-link side-icon">
+                        <li class="nav-item nav-item-sidebar ">
+                            <a href="kelola-beasiswa.php" class="nav-link side-icon ">
                                 <i class="nav-icon fas fa-graduation-cap"></i>
                                 <p>
                                     Kelola Beasiswa
@@ -181,7 +181,7 @@ $organigram = query("SELECT * FROM t_organigram
                         <!-- Hanya muncul jika level user = 1 / super admin -->
                         <?php if ($_SESSION['level_user'] == 1 || $_SESSION['level_user'] == 2) { ?>
                             <li class="nav-item dropdown nav-item-sidebar menu-open ">
-                                <a class="nav-link active dropdown-toggle side-icon" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle side-icon active" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="nav-icon fa fa-star"></i>
                                     Menu Master
                                 </a>
@@ -189,8 +189,8 @@ $organigram = query("SELECT * FROM t_organigram
                                     <a class="dropdown-item " href="kelola-kat-donasi.php">Kategori Donasi</a>
                                     <a class="dropdown-item " href="kelola-kat-relawan.php">Kategori Relawan</a>
                                     <?php if ($_SESSION['level_user'] == 1) { ?>
-                                        <a class="dropdown-item active" href="kelola-user.php">Kelola User</a>
-                                        <a class="dropdown-item" href="kelola-meninggal.php">Kelola Data Meninggal</a>
+                                        <a class="dropdown-item" href="kelola-user.php">Kelola User</a>
+                                        <a class="dropdown-item active" href="kelola-meninggal.php">Kelola Data Meninggal</a>
                                     <?php } ?>
                                 </div>
                             </li>
@@ -212,16 +212,15 @@ $organigram = query("SELECT * FROM t_organigram
                             <a href="dashboard-admin.php">
                                 <i class="nav-icon fas fa-home mr-1"></i>Dashboard admin</a> >
                             <a href="kelola-user.php">
-                                <i class="nav-icon fas fa-cog mr-1"></i>Kelola User</a>
+                                <i class="nav-icon fas fa-cog mr-1"></i>Kelola Meninggal</a>
                         </div>
 
                         <div class="card card-request-data">
                             <div class="card-header-req">
                                 <div class="row ml-1 ">
-                                    <div class="col ">
-
-                                    </div>
+                                    
                                 </div>
+                                <button class="mr-5" onclick="location.href='input-meninggal.php'">Tambah Data  <span class="fas fa-plus-square"></span></button>
                             </div>
                             <div class="card-body card-body-req">
                                 <div class="table-responsive">
@@ -229,31 +228,33 @@ $organigram = query("SELECT * FROM t_organigram
                                         <thead>
                                             <tr>
                                                 <td class="text-center">ID <br> User</td>
-                                                <td>Nama Lengkap</td>
-                                                <td>Username</td>
-                                                <td>Level</td>
+                                                <td>NIK</td>
+                                                <td>Tanggal</td>
+                                                <td>Tempat</td>
+                                                <td>Penyebab</td>
                                                 
                                                 <td class="justify-content-center">Aksi</td>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php foreach ($userQuery as $row) : ?>
+                                           
                                                 <tr>
-                                                    <td class="text-center"><?= $row["id_user"]; ?></td>
-                                                    <td class="table-snipet1"><?= $row["nama"]; ?></td>
-                                                    <td><?= $row["username"]; ?></td>
-                                                    <td><?= $row["level_user"]; ?></td>
+                                                    <td class="text-center">1</td>
+                                                    <td class="table-snipet1">TEST</td>
+                                                    <td>01-05-2022</td>
+                                                    <td>Bandung</td>
+                                                    <td>Sakit Jantung</td>
                                                     
                                                     <td class="justify-content-center">
                                                         <button type="button" class="btn btn-edit">
-                                                            <a href="edit-user.php?id_user=<?= $row["id_user"]; ?>" class="fas fa-edit"></a>
+                                                            <a href="edit-meninggal.php" class="fas fa-edit"></a>
                                                         </button>
                                                         <button type="button" class="btn btn-delete ml-1">
-                                                            <a href="hapus.php?type=manageuser&id_user=<?= $row["id_user"]; ?>" class="far fa-trash-alt" onclick="return confirm('Anda yakin ingin menghapus user ini ?');"></a>
+                                                            <a href="#" class="far fa-trash-alt" onclick="return confirm('Anda yakin ingin menghapus user ini ?');"></a>
                                                         </button>
                                                     </td>
                                                 </tr>
-                                            <?php endforeach; ?>
+                                            
                                         </tbody>
                                     </table>
                                 </div>

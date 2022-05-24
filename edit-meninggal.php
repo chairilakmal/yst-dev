@@ -9,52 +9,35 @@ if (!isset($_SESSION["username"])) {
 }
 
 
-//ambil id program di URL
-$id_user = $_GET["id_user"];
 
-
-//fungsi GET Array
-function query($query)
-{
-    global $conn;
-    $result = mysqli_query($conn, $query);
-    $rows = [];
-    while ($row = mysqli_fetch_assoc($result)) {
-        $rows[] = $row;
-    }
-    return $rows;
-}
-
-$userQuery = query("SELECT * FROM t_user WHERE id_user = $id_user")[0];
-
-//UPDATE
 if (isset($_POST["submit"])) {
 
-    $level_user             = $_POST["tb_level_user"];
+    $kategori_donasi      = $_POST["tb_kategori_donasi"];
+    $kategori_donasi        = htmlspecialchars($kategori_donasi);
+
+    $ket_kategori_donasi      = $_POST["tb_ket_kategori_donasi"];
 
 
-    // GLOBAL UPDATE
-    $query = "UPDATE t_user SET
-                    level_user        = '$level_user'
-                  WHERE id_user       = $id_user
-                ";
+    $query = "INSERT INTO t_kat_donasi (kategori_donasi,ket_kategori_donasi)
+                VALUES ('$kategori_donasi','$ket_kategori_donasi')  
+                     ";
+
 
 
     mysqli_query($conn, $query);
-
+    // var_dump($query);die;
 
     //cek keberhasilan
     if (mysqli_affected_rows($conn) > 0) {
         echo "
             <script>
-                alert('Data berhasil diubah!');
-                window.location.href = 'kelola-user.php'; 
+                alert('Data berhasil ditambahkan!');
             </script>
-        ";
+            ";
     } else {
         echo "
                 <script>
-                    alert('Tidak ada perubahan data');
+                    alert('Data gagal ditambahkan!');
                 </script>
             ";
     }
@@ -71,7 +54,7 @@ if (isset($_POST["submit"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Icon Title -->
     <link rel="icon" href="img/logo-only.svg">
-    <title>YST - Edit User</title>
+    <title>YST - Edit Data Meninggal</title>
     <!-- Font Awesome
     <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css"> -->
     <!-- Font Awesome -->
@@ -221,8 +204,8 @@ if (isset($_POST["submit"])) {
                                     <a class="dropdown-item " href="kelola-kat-donasi.php">Kategori Donasi</a>
                                     <a class="dropdown-item " href="kelola-kat-relawan.php">Kategori Relawan</a>
                                     <?php if ($_SESSION['level_user'] == 1) { ?>
-                                        <a class="dropdown-item active" href="kelola-user.php">Kelola User</a>
-                                        <a class="dropdown-item " href="kelola-meninggal.php">Kelola Data Meninggal</a>
+                                        <a class="dropdown-item" href="kelola-user.php">Kelola User</a>
+                                        <a class="dropdown-item active" href="kelola-meninggal.php">Kelola Data Meninggal</a>
                                     <?php } ?>
                                 </div>
                             </li>
@@ -239,164 +222,92 @@ if (isset($_POST["submit"])) {
         <div class="content-wrapper">
             <main>
                 <div class="page-title-link ml-4 mb-4">
+                    <a href="dashboard-admin.php">
+                        <i class="nav-icon fas fa-home mr-1"></i>Dashboard admin</a> >
                     <a href="kelola-user.php">
-                        <i class="nav-icon fas fa-home mr-1"></i>Kelola User</a> >
-                    <a href="edit-user.php">
-                        <i class="nav-icon fas fa-cog mr-1"></i>Edit User</a>
+                        <i class="nav-icon fas fa-cog mr-1"></i>Kelola Meninggal</a>
                 </div>
                 <div class="form-profil">
-                    <div class="mt-2 form-title">
-                        <h3>Edit User</h3>
+                    <div class="mt-2 regis-title">
+                        <h3>Edit Data Meninggal</h3>
                     </div>
                     <form action="" enctype="multipart/form-data" method="POST">
-                        <div class="form-segment">
-                            <h5>Data Diri</h5>
-                        </div>
-                        <!-- FORM DATA DIRI -->
                         <div class="form-group label-txt">
                             <div class="form-group mt-4 mb-3">
-                                <label for="tb_nama_lengkap" class="label-txt">Nama<span class="red-star">*</span></label>
-                                <input type="text" id="tb_nama_lengkap" name="tb_nama_lengkap" class="form-control" value="<?= $userQuery["nama"]; ?>" readonly>
+                                <label for="tb_nama_program_donasi" class="label-txt">NIK<span class="red-star">*</span></label>
+                                <input type="text" id="tb_nama_program_donasi" name="tb_nama_program_donasi" class="form-control" placeholder="Masukan NIK" Required>
                             </div>
-                            <div class="form-group mt-4 mb-3">
-                                <label for="tb_nik" class="label-txt">NIK<span class="red-star">*</span></label>
-                                <input type="text" id="tb_nik" name="tb_nik" class="form-control" value="<?= $userQuery["nik"]; ?>" readonly>
+                            <div class="form-group mt-4 mb-3" id="tgl_selesai_form">
+                                <label for="tb_tgl_selesai" class="label-txt">Tanggal<span class="red-star">*</span></label>
+                                <input type="date" id="tb_tgl_selesai" name="tb_tgl_selesai" class="form-control" placeholder="Tanggal akhir pengumpulan dana">
                             </div>
-                            <div class="form-group mt-4 mb-3">
-                                <label for="tb_wilayah" class="label-txt">Wilayah Regional<span class="red-star">*</span></label>
-                                <input type="text" id="tb_wilayah" name="tb_wilayah" class="form-control" value="<?= $userQuery["wilayah_id"]; ?>" readonly>
-                            </div>
-                            <div class="form-group mt-4 mb-3">
-                                <label for="tb_no_hp" class="label-txt">No HP<span class="red-star">*</span></label>
-                                <input type="text" id="tb_no_hp" name="tb_no_hp" class="form-control" value="<?= $userQuery["no_hp"]; ?>" readonly>
-                            </div>
-                            <div class="form-group mt-4 mb-3">
-                                <label for="tb_email" class="label-txt">Email<span class="red-star">*</span></label>
-                                <input type="text" id="tb_email" name="tb_email" class="form-control" value="<?= $userQuery["email"]; ?>" readonly>
-                            </div>
-                            <div class="form-group mt-4 mb-3">
-                                <label for="tb_username" class="label-txt">username<span class="red-star">*</span></label>
-                                <input type="text" id="tb_username" name="tb_username" class="form-control" value="<?= $userQuery["username"]; ?>" readonly>
+                            <div class="form-group mt-4 mb-3" id="tgl_selesai_form">
+                                <label for="tb_tgl_selesai" class="label-txt">Waktu<span class="red-star">*</span></label>
+                                <input type="time" id="tb_tgl_selesai" name="tb_tgl_selesai" class="form-control" placeholder="Tanggal akhir pengumpulan dana">
                             </div>
 
+                            <div class="form-group mt-4 mb-3">
+                                <label for="tb_nama_program_donasi" class="label-txt">Tempat<span class="red-star">*</span></label>
+                                <input type="text" id="tb_nama_program_donasi" name="tb_nama_program_donasi" class="form-control" placeholder="Tempat Meninggal" Required>
+                            </div>
+                            <div class="form-group mt-4 mb-3">
+                                <label for="tb_nama_program_donasi" class="label-txt">Tempat Pemakaman<span class="red-star">*</span></label>
+                                <input type="text" id="tb_nama_program_donasi" name="tb_nama_program_donasi" class="form-control" placeholder="Tempat Pemakaman" Required>
+                            </div>
+                            <div class="form-group">
+                                <label for="tb_ket_kategori_donasi" class="label-txt">Penyebab Kematian</label>
+                                <textarea class="form-control" id="tb_ket_kategori_donasi" name="tb_ket_kategori_donasi" rows="6" placeholder="Penyebab Kematian"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="image_uploads2" class="label-txt"> Kartu Keluarga </label><br>
+                                <!-- <img src="img/" class="edit-img popup " alt=""> -->
+                                <div class="file-form">
+                                    <input type="file" id="image_uploads2" name="image_uploads2" class="form-control ">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="image_uploads2" class="label-txt"> Surat Keterangan Kematian </label><br>
+                                <!-- <img src="img/" class="edit-img popup " alt=""> -->
+                                <div class="file-form">
+                                    <input type="file" id="image_uploads2" name="image_uploads2" class="form-control ">
+                                </div>
+                            </div>
+                            <!-- <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <button type="submit" name="submit" value="Simpan" class="btn btn-lg btn-primary w-100 yst-login-btn border-0 mt-4 mb-4">
+                                            <span class="yst-login-btn-fs">Approve Data</span>
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div> -->
                             <div class="form-group mb-5">
-                                <label for="tb_level_user" class="font-weight-bold"><span class="label-form-span">Level User</span></label><br>
+                                <label for="status_program_donasi" class="font-weight-bold"><span class="label-form-span">Status Meninggal </span></label><br>
                                 <div class="radio-wrapper mt-1 bg-white">
                                     <div class="form-check form-check-inline">
-                                        <input type="radio" id="tb_level_user" name="tb_level_user" class="form-check-input" value="1" <?php if ($userQuery['level_user'] == 1) echo 'checked' ?>>
-                                        <label class="form-check-label" for="tb_level_user">Level 1</label>
+                                        <input type="radio" id="status_program_donasi" name="status_program_donasi" class="form-check-input" value="Pending">
+                                        <label class="form-check-label" for="status_program_donasi">Sudah Meninggal</label>
                                     </div>
                                 </div>
-                                <div class="radio-wrapper mt-1 bg-white">
+                                <div class="radio-wrapper2 mt-1 bg-white">
                                     <div class="form-check form-check-inline">
-                                        <input type="radio" id="tb_level_user" name="tb_level_user" class="form-check-input" value="2" <?php if ($userQuery['level_user'] == 2) echo 'checked' ?>>
-                                        <label class="form-check-label" for="tb_level_user">Level 2</label>
+                                        <input type="radio" id="status_program_donasi" name="status_program_donasi" class="form-check-input" value="Berjalan" checked>
+                                        <label class="form-check-label" for="status_program_donasi">Belum Meninggal</label>
                                     </div>
-                                </div>
-                                <div class="radio-wrapper mt-1 bg-white">
-                                    <div class="form-check form-check-inline">
-                                        <input type="radio" id="tb_level_user" name="tb_level_user" class="form-check-input" value="3" <?php if ($userQuery['level_user'] == 3) echo 'checked' ?>>
-                                        <label class="form-check-label" for="tb_level_user">Level 3</label>
-                                    </div>
-                                </div>
-                                <div class="radio-wrapper mt-1 bg-white">
-                                    <div class="form-check form-check-inline">
-                                        <input type="radio" id="tb_level_user" name="tb_level_user" class="form-check-input" value="4" <?php if ($userQuery['level_user'] == 4) echo 'checked' ?>>
-                                        <label class="form-check-label" for="tb_level_user">Level 4</label>
-                                    </div>
-                                </div>
-                                <div class="form-group mb-2"><br><br></div>
-                            </div>
-                        </div>
-
-                        <!-- FORM DATA KELUARGA -->
-                        <div class="form-segment">
-                            <div class="row justify-content-between">
-                                <div class="col-lg-4 ">
-                                    <h5 class="mt-2">Data Keluarga 1</h5>
-                                </div>
-                                <div class="col-lg-3">
-                                    <button type="submit" name="submit" value="Simpan" class="btn btn-lg btn-primary yst-login-btn border-0 mb-4">
-                                        <span class="yst-login-btn-fs">Tambah Data Keluarga (+)</span>
-                                    </button>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group label-txt">
-                            <div class="form-group mt-4 mb-3">
-                                <label for="tb_nama" class="label-txt">Nama<span class="red-star">*</span></label>
-                                <input type="text" id="tb_nama" name="tb_nama" class="form-control">
-                            </div>
-                            <div class="form-group mt-4 mb-3">
-                                <label for="tb_nik" class="label-txt">NIK<span class="red-star">*</span></label>
-                                <input type="text" id="tb_nik" name="tb_nik" class="form-control">
-                            </div>
-                            <div class="form-group mt-4 mb-3">
-                                <label for="tb_jk" class="label-txt">Jenis Kelamin<span class="red-star">*</span></label>
-                                <input type="text" id="tb_jk" name="tb_jk" class="form-control">
-                            </div>
-                            <div class="form-group mt-4 mb-3">
-                                <label for="tb_tempat_lahir" class="label-txt">Tempat Lahir<span class="red-star">*</span></label>
-                                <input type="text" id="tb_tempat_lahir" name="tb_tempat_lahir" class="form-control">
-                            </div>
-                            <div class="form-group mt-4 mb-3">
-                                <label for="tb_tgl_lahir" class="label-txt">Tanggal Lahir<span class="red-star">*</span></label>
-                                <input type="date" id="tb_tgl_lahir" name="tb_tgl_lahir" class="form-control">
-                            </div>
-                            <div class="form-group mt-4 mb-3">
-                                <label for="tb_agama" class="label-txt">Agama<span class="red-star">*</span></label>
-                                <input type="text" id="tb_agama" name="tb_agama" class="form-control">
-                            </div>
-                            <div class="form-group mt-4 mb-3">
-                                <label for="tb_pendidikan" class="label-txt">Pendidikan<span class="red-star">*</span></label>
-                                <input type="text" id="tb_pendidikan" name="tb_pendidikan" class="form-control">
-                            </div>
-                            <div class="form-group mt-4 mb-3">
-                                <label for="tb_pekerjaan" class="label-txt">Pekerjaan<span class="red-star">*</span></label>
-                                <input type="text" id="tb_pekerjaan" name="tb_pekerjaan" class="form-control">
-                            </div>
-                            <div class="form-group mt-4 mb-3">
-                                <label for="tb_status_kawin">Status Kawin<span class="red-star">*</span></label></label>
-                                <select class="form-control" id="tb_status_kawin" name="tb_status_kawin" required>
-                                    <option value="" selected disabled>Pilih Status Kawin</option>
-                                    <option value="">Belum Kawin</option>
-                                    <option value="">Kawin Tercatat</option>
-                                    <option value="">Kawin Belum Tercatat</option>
-                                    <option value="">Cerai Hidup</option>
-                                    <option value="">Cerai Mati</option>
-                                </select>
-                            </div>
-                            <div class="form-group mt-4 mb-3">
-                                <label for="tb_status_keluarga">Status Hubungan Keluarga<span class="red-star">*</span></label></label>
-                                <select class="form-control" id="tb_status_keluarga" name="tb_status_keluarga" required>
-                                    <option value="" selected disabled>Pilih Status Keluarga</option>
-                                    <option value="">Kepala Keluarga</option>
-                                    <option value="">Suami</option>
-                                    <option value="">Istri</option>
-                                    <option value="">Anak</option>
-                                    <option value="">Menantu</option>
-                                    <option value="">Cucu</option>
-                                    <option value="">Orang Tua</option>
-                                    <option value="">Mertua</option>
-                                    <option value="">Famili Lain</option>
-                                    <option value="">Pembantu</option>
-                                </select>
-                            </div>
-
-
-
-                        </div>
-
-
-                        <button type="submit" name="submit" value="Simpan" class="btn btn-lg btn-primary w-100 yst-login-btn border-0 mt-4 mb-4">
-                            <span class="yst-login-btn-fs">Kirim</span>
-                        </button>
-                    </form>
                 </div>
-            </main>
+                <button type="submit" name="submit" value="Simpan" class="btn btn-lg btn-primary w-100 yst-login-btn border-0 mt-4 mb-4">
+                    <span class="yst-login-btn-fs">Simpan</span>
+                </button>
+                </form>
         </div>
-        <!-- /.container-fluid -->
-        <!-- /.content -->
+        </main>
+    </div>
+    <!-- /.container-fluid -->
+    <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
 
