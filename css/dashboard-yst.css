@@ -363,6 +363,10 @@ tr td:last-child {
   font-size: 17px;
   letter-spacing: 0.5px;
 }
+.yst-login-btn-sm {
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
 .label-form-span {
   color: #60686e;
   font-family: Nunito, sans-serif;
@@ -495,8 +499,12 @@ tr td:last-child {
 }
 
 .form-segment{
-  border-bottom: 0.5px solid #d8d8d8;
-  margin-bottom: 20px;
+  /* border-bottom: 0.5px solid #d8d8d8; */
+  margin-bottom: 10px;
+}
+
+.data-keluarga-border {
+   border-top: 0.5px solid #d8d8d8;
 }
 
 .form-segment h6{

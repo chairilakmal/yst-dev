@@ -310,80 +310,17 @@ if (isset($_POST["submit"])) {
                         </div>
 
                         <!-- FORM DATA KELUARGA -->
-                        <div class="form-segment">
-                            <div class="row justify-content-between">
-                                <div class="col-lg-4 ">
-                                    <h5 class="mt-2">Data Keluarga 1</h5>
+                        <div id="dynamic_field">
+                            <div class="form-segment">
+                                <div class="row d-flex justify-content-center">
+                                    <div class="col-lg-3">
+                                        <button type="button" name="add" id="add" value="Simpan" class="btn btn-lg btn-primary yst-login-btn border-0 ">
+                                            <span class="yst-login-btn-sm">Tambah Data Keluarga (+)</span>
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="col-lg-3">
-                                    <button type="submit" name="submit" value="Simpan" class="btn btn-lg btn-primary yst-login-btn border-0 mb-4">
-                                        <span class="yst-login-btn-fs">Tambah Data Keluarga (+)</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group label-txt">
-                            <div class="form-group mt-4 mb-3">
-                                <label for="tb_nama" class="label-txt">Nama<span class="red-star">*</span></label>
-                                <input type="text" id="tb_nama" name="tb_nama" class="form-control">
-                            </div>
-                            <div class="form-group mt-4 mb-3">
-                                <label for="tb_nik" class="label-txt">NIK<span class="red-star">*</span></label>
-                                <input type="text" id="tb_nik" name="tb_nik" class="form-control">
-                            </div>
-                            <div class="form-group mt-4 mb-3">
-                                <label for="tb_jk" class="label-txt">Jenis Kelamin<span class="red-star">*</span></label>
-                                <input type="text" id="tb_jk" name="tb_jk" class="form-control">
-                            </div>
-                            <div class="form-group mt-4 mb-3">
-                                <label for="tb_tempat_lahir" class="label-txt">Tempat Lahir<span class="red-star">*</span></label>
-                                <input type="text" id="tb_tempat_lahir" name="tb_tempat_lahir" class="form-control">
-                            </div>
-                            <div class="form-group mt-4 mb-3">
-                                <label for="tb_tgl_lahir" class="label-txt">Tanggal Lahir<span class="red-star">*</span></label>
-                                <input type="date" id="tb_tgl_lahir" name="tb_tgl_lahir" class="form-control">
-                            </div>
-                            <div class="form-group mt-4 mb-3">
-                                <label for="tb_agama" class="label-txt">Agama<span class="red-star">*</span></label>
-                                <input type="text" id="tb_agama" name="tb_agama" class="form-control">
-                            </div>
-                            <div class="form-group mt-4 mb-3">
-                                <label for="tb_pendidikan" class="label-txt">Pendidikan<span class="red-star">*</span></label>
-                                <input type="text" id="tb_pendidikan" name="tb_pendidikan" class="form-control">
-                            </div>
-                            <div class="form-group mt-4 mb-3">
-                                <label for="tb_pekerjaan" class="label-txt">Pekerjaan<span class="red-star">*</span></label>
-                                <input type="text" id="tb_pekerjaan" name="tb_pekerjaan" class="form-control">
-                            </div>
-                            <div class="form-group mt-4 mb-3">
-                                <label for="tb_status_kawin">Status Kawin<span class="red-star">*</span></label></label>
-                                <select class="form-control" id="tb_status_kawin" name="tb_status_kawin" required>
-                                    <option value="" selected disabled>Pilih Status Kawin</option>
-                                    <option value="">Belum Kawin</option>
-                                    <option value="">Kawin Tercatat</option>
-                                    <option value="">Kawin Belum Tercatat</option>
-                                    <option value="">Cerai Hidup</option>
-                                    <option value="">Cerai Mati</option>
-                                </select>
-                            </div>
-                            <div class="form-group mt-4 mb-3">
-                                <label for="tb_status_keluarga">Status Hubungan Keluarga<span class="red-star">*</span></label></label>
-                                <select class="form-control" id="tb_status_keluarga" name="tb_status_keluarga" required>
-                                    <option value="" selected disabled>Pilih Status Keluarga</option>
-                                    <option value="">Kepala Keluarga</option>
-                                    <option value="">Suami</option>
-                                    <option value="">Istri</option>
-                                    <option value="">Anak</option>
-                                    <option value="">Menantu</option>
-                                    <option value="">Cucu</option>
-                                    <option value="">Orang Tua</option>
-                                    <option value="">Mertua</option>
-                                    <option value="">Famili Lain</option>
-                                    <option value="">Pembantu</option>
-                                </select>
-                            </div>
 
-
+                            </div>
 
                         </div>
 
@@ -412,6 +349,7 @@ if (isset($_POST["submit"])) {
     </div>
     <!-- ./wrapper -->
 
+
     <!-- jQuery -->
     <script src="plugins/jquery/jquery.min.js"></script>
 
@@ -421,8 +359,33 @@ if (isset($_POST["submit"])) {
     <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
     <!-- AdminLTE App -->
     <script src="dist/js/adminlte.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 
-
+    <script>
+        $(document).ready(function() {
+            var i = 0;
+            $('#add').click(function() {
+                i++;
+                $('#dynamic_field').append('<div id="form-keluarga' + i + '"><div class="row justify-content-start"><div class="col-auto "><h5 class="mt-3">Data Keluarga ' + i + '</h5></div><div class="col-lg-3 mt-2"><button type="button" name="remove" id="' + i + '" class="btn btn-danger btn_remove">X</button></div></div><div class="form-group label-txt mt-4 py-3 data-keluarga-border"><div class="form-group mt-3 mb-3"><label for="tb_nama" class="label-txt">Nama<span class="red-star">*</span></label><input type="text" id="tb_nama" name="tb_nama" class="form-control"></div><div class="form-group mt-4 mb-3"><label for="tb_nik" class="label-txt">NIK<span class="red-star">*</span></label><input type="text" id="tb_nik" name="tb_nik" class="form-control"></div><div class="form-group mt-4 mb-3"><label for="tb_jk" class="label-txt">Jenis Kelamin<span class="red-star">*</span></label><input type="text" id="tb_jk" name="tb_jk" class="form-control"></div><div class="form-group mt-4 mb-3"><label for="tb_tempat_lahir" class="label-txt">Tempat Lahir<span class="red-star">*</span></label><input type="text" id="tb_tempat_lahir" name="tb_tempat_lahir" class="form-control"></div><div class="form-group mt-4 mb-3"><label for="tb_tgl_lahir" class="label-txt">Tanggal Lahir<span class="red-star">*</span></label><input type="date" id="tb_tgl_lahir" name="tb_tgl_lahir" class="form-control"></div><div class="form-group mt-4 mb-3"><label for="tb_agama" class="label-txt">Agama<span class="red-star">*</span></label><input type="text" id="tb_agama" name="tb_agama" class="form-control"></div><div class="form-group mt-4 mb-3"><label for="tb_pendidikan" class="label-txt">Pendidikan<span class="red-star">*</span></label><input type="text" id="tb_pendidikan" name="tb_pendidikan" class="form-control"></div><div class="form-group mt-4 mb-3"><label for="tb_pekerjaan" class="label-txt">Pekerjaan<span class="red-star">*</span></label><input type="text" id="tb_pekerjaan" name="tb_pekerjaan" class="form-control"></div><div class="form-group mt-4 mb-3"><label for="tb_status_kawin">Status Kawin<span class="red-star">*</span></label></label><select class="form-control" id="tb_status_kawin" name="tb_status_kawin"><option value="" selected disabled>Pilih Status Kawin</option><option value="">Belum Kawin</option><option value="">Kawin Tercatat</option><option value="">Kawin Belum Tercatat</option><option value="">Cerai Hidup</option><option value="">Cerai Mati</option></select></div><div class="form-group mt-4 mb-3"><label for="tb_status_keluarga">Status Hubungan Keluarga<span class="red-star">*</span></label></label><select class="form-control" id="tb_status_keluarga" name="tb_status_keluarga"><option value="" selected disabled>Pilih Status Keluarga</option><option value="">Kepala Keluarga</option><option value="">Suami</option><option value="">Istri</option><option value="">Anak</option><option value="">Menantu</option><option value="">Cucu</option><option value="">Orang Tua</option><option value="">Mertua</option><option value="">Famili Lain</option><option value="">Pembantu</option></select></div></div></div>');
+            });
+            $(document).on('click', '.btn_remove', function() {
+                var button_id = $(this).attr("id");
+                $('#form-keluarga' + button_id + '').remove();
+                i--;
+            });
+            $('#submit').click(function() {
+                $.ajax({
+                    url: "name.php",
+                    method: "POST",
+                    data: $('#add_name').serialize(),
+                    success: function(data) {
+                        alert(data);
+                        $('#add_name')[0].reset();
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>
