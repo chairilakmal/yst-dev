@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-include 'config/connection.php';
+include '../../config/connection.php';
 
 if (!isset($_SESSION["username"])) {
     header('Location: login.php?status=restrictedaccess');
@@ -37,8 +37,8 @@ $programDonasi = query("SELECT *, SUM(t_donasi.nominal_donasi) AS dana_terkumpul
                     ");
 
 ?>
-<?php include 'component/header.php'; ?>
-<?php include 'component/sidebar.php'; ?>
+<?php include '../../component/admin/header.php'; ?>
+<?php include '../../component/admin/sidebar.php'; ?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <main>
@@ -65,7 +65,7 @@ $programDonasi = query("SELECT *, SUM(t_donasi.nominal_donasi) AS dana_terkumpul
                                 </div>
                             </div>
                         </div>
-                        <button class="mr-5" onclick="location.href='input-program-donasi.php'">Input Program Donasi <span class="fas fa-plus-square"></span></button>
+                        <button class="mr-5" onclick="location.href='input.php'">Input Program Donasi <span class="fas fa-plus-square"></span></button>
 
                     </div>
                     <div class="card-body card-body-req">
@@ -106,7 +106,7 @@ $programDonasi = query("SELECT *, SUM(t_donasi.nominal_donasi) AS dana_terkumpul
                                             </td>
                                             <td class="justify-content-between">
                                                 <button type="button" class="btn btn-edit">
-                                                    <a href="edit-program-donasi.php?id_program_donasi=<?= $row["id_program_donasi"]; ?>" class="fas fa-edit"></a>
+                                                    <a href="edit.php?id_program_donasi=<?= $row["id_program_donasi"]; ?>" class="fas fa-edit"></a>
                                                 </button>
 
                                                 <!-- <php if($row['status_program_donasi'] == 'Siap disalurkan' || $row['status_program_donasi'] == 'Selesai'){?>
@@ -116,7 +116,7 @@ $programDonasi = query("SELECT *, SUM(t_donasi.nominal_donasi) AS dana_terkumpul
                                                     <php } ?> -->
 
                                                 <button type="button" class="btn btn-delete ml-1">
-                                                    <a href="hapus.php?type=pdonasi&id_program_donasi=<?= $row["id_program_donasi"]; ?>" class="far fa-trash-alt" onclick="return confirm('Anda yakin ingin menghapus program ini ?');"></a>
+                                                    <a href="../../hapus.php?type=pdonasi&id_program_donasi=<?= $row["id_program_donasi"]; ?>" class="far fa-trash-alt" onclick="return confirm('Anda yakin ingin menghapus program ini ?');"></a>
                                                 </button>
                                             </td>
                                         </tr>
@@ -135,4 +135,4 @@ $programDonasi = query("SELECT *, SUM(t_donasi.nominal_donasi) AS dana_terkumpul
 <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
-<?php include 'component/footer.php'; ?>
+<?php include '../../component/admin/footer.php'; ?>

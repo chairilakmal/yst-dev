@@ -25,7 +25,7 @@ if (isset($_POST["login"])) {
       if ($_SESSION["level_user"] == "4") {
         header("Location: pilih-donasi.php");
       } else {
-        header("Location: dashboard-admin.php");
+        header("Location: admin/berita/");
       }
     }
   }
