@@ -25,17 +25,59 @@ function query($query)
     return $rows;
 }
 
+function upload()
+{
+    //upload gambar
+    $namaFile = $_FILES['file_uploads']['name'];
+    $ukuranFile = $_FILES['file_uploads']['size'];
+    $error = $_FILES['file_uploads']['error'];
+    $tmpName = $_FILES['file_uploads']['tmp_name'];
+
+    //cek ekstensi gambar
+    $ekstensiFileValid = ['xlsx', 'csv', 'pdf', 'doc', 'docx'];
+    $ekstensiFile = explode('.', $namaFile);
+    $ekstensiFile = strtolower(end($ekstensiFile));
+
+    // if (!in_array($ekstensiFile, $ekstensiFileValid)) {
+    //     echo "
+    //                 <script>
+    //                     alert('kesalahan pada format gambar !');
+    //                 </script>
+    //             ";
+    //     return false;
+    // }
+
+    //generate nama baru
+    $namaFileBaru = uniqid();
+    $namaFileBaru .= '.';
+    $namaFileBaru .= $ekstensiFile;
+
+
+    //lolos pengecekan
+    move_uploaded_file($tmpName, '../../doc/' . $namaFileBaru);
+    return $namaFileBaru;
+}
+
 $userQuery = query("SELECT * FROM t_user WHERE id_user = $id_user")[0];
 
 //UPDATE
 if (isset($_POST["submit"])) {
 
     $level_user             = $_POST["tb_level_user"];
+    $data_keluarga          = upload();
+    $file_lama              = $_POST["file_lama"];
+
+    if ($_FILES['file_uploads']['error'] === 4) {
+        $file_keluarga = $file_lama;
+    } else {
+        $file_keluarga = upload();
+    }
 
 
     // GLOBAL UPDATE
     $query = "UPDATE t_user SET
-                    level_user        = '$level_user'
+                    level_user        = '$level_user',
+                    file_keluarga     = '$file_keluarga'
                   WHERE id_user       = $id_user
                 ";
 
@@ -46,9 +88,9 @@ if (isset($_POST["submit"])) {
     //cek keberhasilan
     if (mysqli_affected_rows($conn) > 0) {
         echo "
-            <script>
+            <script language = 'javascript'>
                 alert('Data berhasil diubah!');
-                window.location.href = 'kelola-user.php'; 
+                window.location.href=window.location.href;
             </script>
         ";
     } else {
@@ -82,6 +124,7 @@ if (isset($_POST["submit"])) {
                     <h5>Data Diri</h5>
                 </div>
                 <!-- FORM DATA DIRI -->
+                <input type="hidden" name="file_lama" value="<?= $userQuery["file_keluarga"]; ?>">
                 <div class="form-group label-txt">
                     <div class="form-group mt-4 mb-3">
                         <label for="tb_nama_lengkap" class="label-txt">Nama<span class="red-star">*</span></label>
@@ -108,7 +151,7 @@ if (isset($_POST["submit"])) {
                         <input type="text" id="tb_username" name="tb_username" class="form-control" value="<?= $userQuery["username"]; ?>" readonly>
                     </div>
 
-                    <div class="form-group mb-5">
+                    <div class="form-group mb-3">
                         <label for="tb_level_user" class="font-weight-bold"><span class="label-form-span">Level User</span></label><br>
                         <div class="radio-wrapper mt-1 bg-white">
                             <div class="form-check form-check-inline">
@@ -134,12 +177,20 @@ if (isset($_POST["submit"])) {
                                 <label class="form-check-label" for="tb_level_user">Level 4</label>
                             </div>
                         </div>
+
                         <div class="form-group mb-2"><br><br></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="file_uploads" class="label-txt">Data Keluarga</label><br>
+                        <a href="../../doc/<?= $userQuery["file_keluarga"]; ?>">Lihat file</a>
+                        <div class="file-form mt-2">
+                            <input type="file" id="file_uploads" name="file_uploads" class="form-control">
+                        </div>
                     </div>
                 </div>
 
                 <!-- FORM DATA KELUARGA -->
-                <div id="dynamic_field">
+                <!-- <div id="dynamic_field">
                     <div class="form-segment">
                         <div class="row d-flex justify-content-center">
                             <div class="col-lg-3">
@@ -150,8 +201,7 @@ if (isset($_POST["submit"])) {
                         </div>
 
                     </div>
-
-                </div>
+                </div> -->
 
 
                 <button type="submit" name="submit" value="Simpan" class="btn btn-lg btn-primary w-100 yst-login-btn border-0 mt-4 mb-4">
@@ -190,7 +240,8 @@ if (isset($_POST["submit"])) {
 <script src="dist/js/adminlte.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 
-<script>
+<!-- Form Data Keluarga -->
+<!-- <script>
     $(document).ready(function() {
         var i = 0;
         $('#add').click(function() {
@@ -214,7 +265,7 @@ if (isset($_POST["submit"])) {
             });
         });
     });
-</script>
+</script> -->
 </body>
 
 </html>
