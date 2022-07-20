@@ -1,32 +1,46 @@
 <?php include 'config/connection.php';
 
+// Query Wilayah
+function queryWilayah($query)
+{
+    global $conn;
+    $result = mysqli_query($conn, $query);
+    $rows = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $rows[] = $row;
+    }
+    return $rows;
+}
+$dataWilayah = queryWilayah("SELECT * FROM t_wilayah
+                    ORDER BY id_wilayah
+                    ");
+
 if (isset($_POST["register"])) {
 
     $nama_lengkap = $_POST['tb_nama_user'];
+    $nik = $_POST['tb_nik'];
     $no_hp = $_POST['num_nomer_hp'];
     $email = $_POST['tb_email'];
-    $jenis_kelamin = $_POST['rb_jenis_kelamin'];
+    $jenis_kelamin = $_POST['gender'];
     $username = $_POST['tb_username'];
+    $wilayah_id = $_POST['tb_wilayah'];
     $username = strtolower($username);
     $password = $_POST['pwd'];
-    $level_user = 3;
+    $level_user = $_POST['tb_jabatan'];
 
 
     //enkripsi password
     $password = password_hash($password, PASSWORD_DEFAULT);
 
     //insert ke db
-    $sql = "INSERT INTO t_user (nama_lengkap,no_hp,email,jenis_kelamin,username,password,level_user)
-        VALUES ('$nama_lengkap','$no_hp','$email','$jenis_kelamin','$username','$password','$level_user')";
-
-
+    $sql = "INSERT INTO t_user (nama,nik,no_hp,email,jk,username,password,level_user,wilayah_id)
+        VALUES ('$nama_lengkap','$nik','$no_hp','$email','$jenis_kelamin','$username','$password','$level_user','$wilayah_id')";
 
     mysqli_query($conn, $sql);
 
-
     if ($_POST > 0) {
         echo "<script>
-                    alert('Registrasi Berhasil !');
+                    alert('Registrasi berhasil !');
                 </script>";
     } else {
         echo mysqli_error($conn);
@@ -45,7 +59,7 @@ if (isset($_POST["register"])) {
     <meta name="viewport" content="width=device-width , initial-scale=1">
     <!-- Icon Title -->
     <link rel="icon" href="img/logo-only.svg">
-    <title>YST - Daftar Akun Pengurus Kegiatan</title>
+    <title>YST - Daftar Pengurus</title>
     <!-- Local CSS -->
     <link rel="stylesheet" href="css/login.css">
     <!-- Bootstrap CSS -->
@@ -64,40 +78,58 @@ if (isset($_POST["register"])) {
                         < Kembali </a>
                 </div>
                 <div class="mt-4 regis-title">
-                    <h3>Daftar Pengurus Kegiatan</h3>
+                    <h3>Daftar Pengurus</h3>
                 </div>
                 <form action="" enctype="multipart/form-data" method="POST">
                     <div class="form-group">
                         <div class="form-group mt-4 mb-2">
-                            <input type="text" id="tb_nama_user" name="tb_nama_user" class="form-control" placeholder="Nama lengkap">
+                            <input type="text" id="tb_nik" name="tb_nik" class="form-control" placeholder="NIK" Required>
+                        </div>
+                        <div class="form-group mt-4 mb-2">
+                            <input type="text" id="tb_nama_user" name="tb_nama_user" class="form-control" placeholder="Nama lengkap" Required>
+                        </div>
+                        <div class="form-group mt-4 mb-3">
+                            <select class="form-control select-color" id="tb_wilayah" name="tb_wilayah" required>
+                                <option selected disabled>Wilayah Regional</option>
+                                <?php foreach ($dataWilayah as $row) : ?>
+                                    <option value="<?= $row["id_wilayah"]; ?>"><?= $row["nama_wilayah"]; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="form-group mt-4 mb-3">
+                            <select class="form-control select-color" id="tb_jabatan" name="tb_jabatan" required>
+                                <option selected disabled>Jabatan</option>
+                                <option value="2">DPP Sekar/Pengurus YST</option>
+                                <option value="3">DPW Sekar</option>
+                            </select>
                         </div>
                         <div class="form-group mb-2">
-                            <input type="number" id="num_nomer_hp" name="num_nomer_hp" class="form-control" placeholder="Nomor telepon">
+                            <input type="number" id="num_nomer_hp" name="num_nomer_hp" class="form-control" placeholder="Nomor telepon" Required>
                         </div>
                         <div class="form-group mb-2">
-                            <input type="text" id="tb_email" name="tb_email" class="form-control" placeholder="Email">
+                            <input type="text" id="tb_email" name="tb_email" class="form-control" placeholder="Email" Required>
                         </div>
                         <div class="form-group mb-2">
-                            <input type="text" id="tb_username" name="tb_username" class="form-control" placeholder="Username login">
+                            <input type="text" id="tb_username" name="tb_username" class="form-control" placeholder="Username login" Required>
                         </div>
                         <div class="form-group mb-2">
-                            <input type="password" id="pwd" name="pwd" class="form-control" placeholder="Kata sandi baru">
+                            <input type="password" id="pwd" name="pwd" class="form-control" placeholder="Kata sandi baru" Required>
                         </div>
                         <!-- <div class="form-group mb-2">
                             <input type="password" id="pwd2" name="pwd2" class="form-control" placeholder="Konfirmasi kata sandi">
                         </div> -->
                         <div class="form-group mb-5 ">
-                            <label for="rb_jenis_kelamin" class="font-weight-bold"><span class="label-form-span">Jenis Kelamin</span></label><br>
+                            <label for="gender" class="font-weight-bold"><span class="label-form-span">Jenis Kelamin</span></label><br>
                             <div class="radio-wrapper mt-1">
                                 <div class="form-check form-check-inline">
-                                    <input type="radio" id="rb_jenis_kelamin_pria" name="rb_jenis_kelamin" value="pria" class="form-check-input" checked>
-                                    <label class="form-check-label" for="rb_jenis_kelamin_pria">Pria</label>
+                                    <input type="radio" id="gender" name="gender" value="l" class="form-check-input" checked>
+                                    <label class="form-check-label" for="gender">Pria</label>
                                 </div>
                             </div>
                             <div class="radio-wrapper2 mt-1">
                                 <div class="form-check form-check-inline">
-                                    <input type="radio" id="rb_jenis_kelamin_wanita" name="rb_jenis_kelamin" value="wanita" class="form-check-input">
-                                    <label class="form-check-label" for="rb_jenis_kelamin_wanita">Wanita</label>
+                                    <input type="radio" id="gender" name="gender" value="p" class="form-check-input">
+                                    <label class="form-check-label" for="gender">Wanita</label>
                                 </div>
                             </div>
                         </div>
