@@ -19,7 +19,12 @@ function rupiah($angka)
 }
 
 if (!isset($_SESSION["username"])) {
-    header('Location: login.php?status=restrictedaccess');
+    header('Location: ../../login.php?status=restrictedaccess');
+    exit;
+}
+
+if ($_SESSION["level_user"] == 4){
+    header('Location: ../../user/dashboard-donasi/dashboard-user.php');
     exit;
 }
 
@@ -148,7 +153,7 @@ if (isset($_POST["submit"])) {
                 echo "
                 <script>
                     alert('Email Terkirim !');
-                    window.location.href = 'kelola-donasi.php'; 
+                    window.location.href = 'index.php'; 
                 </script>
                 ";
             } else {
@@ -177,11 +182,11 @@ if (isset($_POST["submit"])) {
 <div class="content-wrapper">
     <main>
         <div class="page-title-link ml-4 mb-4">
-            <a href="kelola-donasi.php">
+            <a href="../berita/index.php">
                 <i class="nav-icon fas fa-home mr-1"></i>Dashboard admin</a> >
-            <a href="kelola-donasi.php">
+            <a href="index.php">
                 <i class="nav-icon fas fa-cog mr-1"></i>Program donasi</a> >
-            <a href="kelola-donasi.php">
+            <a href="edit.php">
                 <i class="nav-icon fas fa-plus-square mr-1"></i>Edit donasi</a>
         </div>
         <div class="form-profil halaman-view">

@@ -1,11 +1,11 @@
 <?php
 
 session_start();
-include 'config/connection.php';
+include '../../../config/connection.php';
 
 
 if (!isset($_SESSION["username"])) {
-    header('Location: login.php?status=restrictedaccess');
+    header('../../../Location: login.php?status=restrictedaccess');
     exit;
 }
 
@@ -44,17 +44,17 @@ $programRelawan = queryRelawan("SELECT *, SUM(t_relawan.relawan_jadi) AS jumlah_
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Icon Title -->
-    <link rel="icon" href="img/logo-only.svg">
+    <link rel="icon" href="../../../img/logo-only.svg">
     <title>YST - Pilih Program Relawan</title>
     <!-- Font Awesome
     <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css"> -->
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/b41ecad032.js" crossorigin="anonymous"></script>
     <!-- Theme style -->
-    <link rel="stylesheet" href="dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="../../../dist/css/adminlte.min.css">
     <!-- overlayScrollbars -->
-    <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-    <link rel="stylesheet" type="text/css" href="css/dashboard-yst.css">
+    <link rel="stylesheet" href="../../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../css/dashboard-yst.css">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&family=Roboto:wght@500&display=swap" rel="stylesheet">
@@ -72,13 +72,13 @@ $programRelawan = queryRelawan("SELECT *, SUM(t_relawan.relawan_jadi) AS jumlah_
             </ul>
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto user-wrapper">
-                <img src="img/user-default.jpg" width="30px" height="30px" alt="">
+                <img src="../../../img/user-default.jpg" width="30px" height="30px" alt="">
                 <li class="nav-item dropdown user-dropdown">
                     <a class="nav-link dropdown-toggle pr-4" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <?php echo ("{$_SESSION['username']}"); ?>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="logout.php">Logout</a>
+                        <a class="dropdown-item" href="../../../logout.php">Logout</a>
                     </div>
                 </li>
             </ul>
@@ -89,8 +89,8 @@ $programRelawan = queryRelawan("SELECT *, SUM(t_relawan.relawan_jadi) AS jumlah_
         <aside class="main-sidebar sidebar-background elevation-4">
             <!-- Brand Logo -->
 
-            <a href="dashboard-user.php" class="brand-link">
-                <img src="img/logo-only.svg" class="brand-image mt-1">
+            <a href="../../dashboard-donasi/dashboard-user.php" class="brand-link">
+                <img src="../../../img/logo-only.svg" class="brand-image mt-1">
                 <span class="brand-text font-weight-bold mt-2"><i>Dashboard User</i></span>
             </a>
 
@@ -102,7 +102,7 @@ $programRelawan = queryRelawan("SELECT *, SUM(t_relawan.relawan_jadi) AS jumlah_
                         <!-- Add icons to the links using the .nav-icon class
                         with font-awesome or any other icon font library -->
                         <li class="nav-item nav-item-sidebar ">
-                            <a href="dashboard-user.php" class="nav-link side-icon  ">
+                            <a href="../../dashboard-donasi/dashboard-user.php" class="nav-link side-icon  ">
                                 <i class="nav-icon fas fa-hand-holding-heart"></i>
                                 <p>
                                     Donasi Saya
@@ -110,7 +110,7 @@ $programRelawan = queryRelawan("SELECT *, SUM(t_relawan.relawan_jadi) AS jumlah_
                             </a>
                         </li>
                         <li class="nav-item nav-item-sidebar menu-open">
-                            <a href="program-relawan-saya.php" class="nav-link side-icon active">
+                            <a href="../program-relawan-saya.php" class="nav-link side-icon active">
                                 <i class="nav-icon fas fa-user-clock"></i>
                                 <p>
                                     Program Relawan
@@ -129,11 +129,11 @@ $programRelawan = queryRelawan("SELECT *, SUM(t_relawan.relawan_jadi) AS jumlah_
             <main>
                 <div class="page-title-link ml-4 mb-4">
                     <div class="page-title-link ml-4 mb-4">
-                        <a href="dashboard-user.php">
+                        <a href="../../dashboard-donasi/dashboard-user.php">
                             <i class="nav-icon fas fa-home mr-1"></i>Dashboard user</a> >
-                        <a href="program-relawan-saya.php">
+                        <a href="../program-relawan-saya.php">
                             <i class="nav-icon fas fa-user-cog mr-1"></i>Program relawan</a> >
-                        <a href="pilih-program-relawan.php">
+                        <a href="pilih-relawan.php">
                             <i class="nav-icon fas fa-user-cog mr-1"></i>Pilih Program relawan</a>
                     </div>
                 </div>
@@ -146,7 +146,7 @@ $programRelawan = queryRelawan("SELECT *, SUM(t_relawan.relawan_jadi) AS jumlah_
                             <div class="col-md-6">
                                 <div class="card card-pilihan mb-4 shadow-sm">
                                     <a href="">
-                                        <img class="card-img-top berita-img" width="100%" src="img/<?= $row['foto_p_relawan']; ?>">
+                                        <img class="card-img-top berita-img" width="100%" src="../../../img/<?= $row['foto_p_relawan']; ?>">
                                     </a>
                                     <div class="card-body">
                                         <div class="nama-program">
@@ -189,14 +189,14 @@ $programRelawan = queryRelawan("SELECT *, SUM(t_relawan.relawan_jadi) AS jumlah_
     <!-- ./wrapper -->
 
     <!-- jQuery -->
-    <script src="plugins/jquery/jquery.min.js"></script>
+    <script src="../../../plugins/jquery/jquery.min.js"></script>
 
     <!-- Bootstrap 4 -->
-    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- overlayScrollbars -->
-    <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <script src="../../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
     <!-- AdminLTE App -->
-    <script src="dist/js/adminlte.js"></script>
+    <script src="../../../dist/js/adminlte.js"></script>
 
 
 </body>

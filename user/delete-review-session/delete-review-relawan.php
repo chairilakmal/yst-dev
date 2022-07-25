@@ -8,7 +8,7 @@
     unset($_SESSION["no_hp"]);
     unset($_SESSION["email"]);
     unset($_SESSION["domisili"]);
-    header("Location: program-relawan-saya.php");
+    header("Location: ../dashboard-relawan/program-relawan-saya.php");
     exit;
 
 ?>

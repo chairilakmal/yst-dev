@@ -4,10 +4,14 @@ include '../../config/connection.php';
 
 
 if (!isset($_SESSION["username"])) {
-    header('Location: login.php?status=restrictedaccess');
+    header('Location: ../../login.php?status=restrictedaccess');
     exit;
 }
 
+if ($_SESSION["level_user"] == 4){
+    header('Location: ../../user/dashboard-donasi/dashboard-user.php');
+    exit;
+}
 
 //ambil id program di URL
 $id_user = $_GET["id_user"];
@@ -110,9 +114,9 @@ if (isset($_POST["submit"])) {
 <div class="content-wrapper">
     <main>
         <div class="page-title-link ml-4 mb-4">
-            <a href="kelola-user.php">
+            <a href="index.php">
                 <i class="nav-icon fas fa-home mr-1"></i>Kelola User</a> >
-            <a href="edit-user.php">
+            <a href="edit.php">
                 <i class="nav-icon fas fa-cog mr-1"></i>Edit User</a>
         </div>
         <div class="form-profil">

@@ -1,10 +1,10 @@
 <?php
      session_start();
-    include 'config/connection.php';
+    include '../../config/connection.php';
 
 
     if(!isset($_SESSION["username"])) {
-        header('Location: login.php?status=restrictedaccess');
+        header('Location: ../../login.php?status=restrictedaccess');
         exit;
     }
 
@@ -41,10 +41,10 @@
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/b41ecad032.js" crossorigin="anonymous"></script>
     <!-- Theme style -->
-    <link rel="stylesheet" href="dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
     <!-- overlayScrollbars -->
-    <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-    <link rel="stylesheet" type="text/css" href="css/dashboard-yst.css">
+    <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" type="text/css" href="../../css/dashboard-yst.css">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&family=Roboto:wght@500&display=swap" rel="stylesheet"> 
@@ -62,14 +62,14 @@
             </ul>
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto user-wrapper"> 
-                <img src="img/user-default.jpg" width="30px" height="30px" alt="">
+                <img src="../../img/user-default.jpg" width="30px" height="30px" alt="">
                 <li class="nav-item dropdown user-dropdown">  
                     <a class="nav-link dropdown-toggle pr-4" href="#" id="navbarDropdownMenuLink" 
                     role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <?php echo("{$_SESSION['username']}");?>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">      
-                        <a class="dropdown-item" href="logout.php">Logout</a>
+                        <a class="dropdown-item" href="../../logout.php">Logout</a>
                     </div>                   
                 </li>
             </ul>
@@ -80,8 +80,8 @@
           <aside class="main-sidebar sidebar-background elevation-4">
             <!-- Brand Logo -->
 
-            <a href="dashboard-user.php" class="brand-link">
-                <img src="img/logo-only.svg"  class="brand-image mt-1">
+            <a href="../dashboard-donasi/dashboard-user.php" class="brand-link">
+                <img src="../../img/logo-only.svg"  class="brand-image mt-1">
                 <span class="brand-text font-weight-bold mt-2"><i>Dashboard User</i></span>
             </a>
 
@@ -93,7 +93,7 @@
                         <!-- Add icons to the links using the .nav-icon class
                         with font-awesome or any other icon font library -->
                         <li class="nav-item nav-item-sidebar">
-                            <a href="dashboard-user.php" class="nav-link side-icon  ">
+                            <a href="../dashboard-donasi/dashboard-user.php" class="nav-link side-icon  ">
                                 <i class="nav-icon fas fa-hand-holding-heart"></i>
                                 <p>
                                     Donasi Saya
@@ -121,7 +121,7 @@
             <div class="request-data">
                     <div class="projects">
                         <div class="page-title-link ml-4 mb-4">     
-                            <a href="dashboard-user.php">
+                            <a href="../dashboard-donasi/dashboard-user.php">
                                 <i class="nav-icon fas fa-home mr-1"></i>Dashboard user</a> > 
                             <a href="program-relawan-saya.php">
                                 <i class="nav-icon fas fa-hand-holding-heart mr-1"></i>Program relawan</a>
@@ -144,7 +144,7 @@
                                     </div>
                                     </div>
                               </div>
-                              <button class="mr-5" onclick="location.href='pilih-relawan.php'">Daftar Jadi Relawan <span class="fas fa-plus-square"></span></button>
+                              <button class="mr-5" onclick="location.href='buat-relawan/pilih-relawan.php'">Daftar Jadi Relawan <span class="fas fa-plus-square"></span></button>
                         
                             </div>
                             <div class="card-body card-body-req">
@@ -170,7 +170,7 @@
                                                 <td><?= $row["status_relawan"]; ?></td>
                                                 <td class="justify-content-center">
                                                     <button type="button" class="btn btn-edit">
-                                                        <a href="detail-relawan-saya.php?id_relawan=<?= $row["id_relawan"]; ?>" 
+                                                        <a href="detail-saya/detail-relawan-saya.php?id_relawan=<?= $row["id_relawan"]; ?>" 
                                                         class="fas fa-info-circle"></a>
                                                     </button>
                                                   </td>
@@ -204,14 +204,14 @@
     <!-- ./wrapper -->
 
     <!-- jQuery -->
-    <script src="plugins/jquery/jquery.min.js"></script>
+    <script src="../../plugins/jquery/jquery.min.js"></script>
 
     <!-- Bootstrap 4 -->
-    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- overlayScrollbars -->
-    <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <script src="../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
     <!-- AdminLTE App -->
-    <script src="dist/js/adminlte.js"></script>
+    <script src="../../dist/js/adminlte.js"></script>
 
 
 </body>

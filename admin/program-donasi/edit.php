@@ -3,7 +3,12 @@ session_start();
 include '../../config/connection.php';
 
 if (!isset($_SESSION["username"])) {
-    header('Location: login.php?status=restrictedaccess');
+    header('Location: ../../login.php?status=restrictedaccess');
+    exit;
+}
+
+if ($_SESSION["level_user"] == 4){
+    header('Location: ../../user/dashboard-donasi/dashboard-user.php');
     exit;
 }
 
@@ -51,7 +56,7 @@ function upload()
 
 
     //lolos pengecekan
-    move_uploaded_file($tmpName, 'img/' . $namaFileBaru);
+    move_uploaded_file($tmpName, '../../img/' . $namaFileBaru);
     return $namaFileBaru;
 }
 
@@ -75,7 +80,7 @@ function upload2()
 
 
     //lolos pengecekan
-    move_uploaded_file($tmpName2, 'img/' . $namaFileBaru2);
+    move_uploaded_file($tmpName2, '../../img/' . $namaFileBaru2);
     return $namaFileBaru2;
 }
 
@@ -190,7 +195,7 @@ if (isset($_POST["submit"])) {
         echo "
             <script>
                 alert('Data berhasil diubah!');
-                window.location.href = 'dashboard-admin.php'; 
+                window.location.href = '../berita/index.php'; 
             </script>
         ";
     } else {
@@ -213,11 +218,11 @@ if (isset($_POST["submit"])) {
 <div class="content-wrapper">
     <main>
         <div class="page-title-link ml-4 mb-4">
-            <a href="dashboard-admin.php">
+            <a href="../berita/index.php">
                 <i class="nav-icon fas fa-home mr-1"></i>Dashboard admin</a> >
-            <a href="dashboard-admin.php">
+            <a href="index.php">
                 <i class="nav-icon fas fa-cog mr-1"></i>Program donasi</a> >
-            <a href="dashboard-admin.php">
+            <a href="edit.php">
                 <i class="nav-icon fas fa-plus-square mr-1"></i>Edit program donasi</a>
         </div>
         <div class="form-profil">
@@ -285,7 +290,7 @@ if (isset($_POST["submit"])) {
                     </div>
                     <div class="form-group">
                         <label for="image_uploads" class="label-txt">Foto Program</label><br>
-                        <img src="img/<?= $programDonasi["foto_p_donasi"]; ?>" class="edit-img popup " alt="">
+                        <img src="../../img/<?= $programDonasi["foto_p_donasi"]; ?>" class="edit-img popup " alt="">
                         <div class="file-form">
                             <input type="file" id="image_uploads" name="image_uploads" class="form-control ">
                         </div>
@@ -295,7 +300,7 @@ if (isset($_POST["submit"])) {
                         <div class="form-group upload-bukti">
                             <h3 class="mt-4">Bukti Penyaluran Dana</h3>
                             <label for="image_uploads2" class="label-txt">Foto Bukti Penyaluran Dana</label><br>
-                            <img src="img/<?= $programDonasi["bukti_penyaluran"]; ?>" class="edit-img popup " alt="">
+                            <img src="../../img/<?= $programDonasi["bukti_penyaluran"]; ?>" class="edit-img popup " alt="">
                             <div class="file-form">
                                 <input type="file" id="image_uploads2" name="image_uploads2" class="form-control ">
                             </div>
@@ -311,7 +316,7 @@ if (isset($_POST["submit"])) {
                             <div class="form-group upload-bukti">
                                 <h3 class="mt-4">Bukti Penyaluran Dana</h3>
                                 <label for="image_uploads2" class="label-txt">Foto Bukti Penyaluran Dana</label><br>
-                                <img src="img/<?= $programDonasi["bukti_penyaluran"]; ?>" class="edit-img popup " alt="">
+                                <img src="../../img/<?= $programDonasi["bukti_penyaluran"]; ?>" class="edit-img popup " alt="">
                                 <div class="file-form">
                                     <input type="file" id="image_uploads2" name="image_uploads2" class="form-control ">
                                 </div>

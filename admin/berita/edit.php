@@ -4,7 +4,12 @@ include '../../config/connection.php';
 
 
 if (!isset($_SESSION["username"])) {
-    header('Location: login.php?status=restrictedaccess');
+    header('Location: ../../login.php?status=restrictedaccess');
+    exit;
+}
+
+if ($_SESSION["level_user"] == 4){
+    header('Location: ../../user/dashboard-donasi/dashboard-user.php');
     exit;
 }
 
@@ -52,7 +57,7 @@ function upload()
 
 
     //lolos pengecekan
-    move_uploaded_file($tmpName, 'img/' . $namaFileBaru);
+    move_uploaded_file($tmpName, '../../img/' . $namaFileBaru);
     return $namaFileBaru;
 }
 
@@ -130,7 +135,7 @@ if (isset($_POST["submit"])) {
         echo "
             <script>
                 alert('Data berhasil diubah!');
-                window.location.href = 'kelola-berita.php'; 
+                window.location.href = 'index.php'; 
             </script>
         ";
     } else {
@@ -153,11 +158,11 @@ if (isset($_POST["submit"])) {
 <div class="content-wrapper">
     <main>
         <div class="page-title-link ml-4 mb-4">
-            <a href="dashboard-admin.php">
+            <a href="index.php">
                 <i class="nav-icon fas fa-home mr-1"></i>Dashboard admin</a> >
-            <a href="kelola-berita.php">
+            <a href="index.php">
                 <i class="nav-icon fas fa-cog mr-1"></i>Kelola Berita</a> >
-            <a href="edit-berita.php">
+            <a href="edit.php">
                 <i class="nav-icon fas fa-plus-square mr-1"></i>Edit Berita</a>
         </div>
         <div class="form-profil">
@@ -189,7 +194,7 @@ if (isset($_POST["submit"])) {
                     </div>
                     <div class="form-group">
                         <label for="image_uploads" class="label-txt">Foto Berita<span class="red-star">*</span></label><br>
-                        <img src="img/<?= $berita["gambar_berita"]; ?>" class="edit-img popup " alt="">
+                        <img src="../../img/<?= $berita["gambar_berita"]; ?>" class="edit-img popup " alt="">
                         <div class="file-form">
                             <input type="file" id="image_uploads" name="image_uploads" class="form-control">
                         </div>

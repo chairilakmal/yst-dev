@@ -4,7 +4,12 @@ session_start();
 include '../../config/connection.php';
 
 if (!isset($_SESSION["username"])) {
-    header('Location: login.php?status=restrictedaccess');
+    header('Location: ../../login.php?status=restrictedaccess');
+    exit;
+}
+
+if ($_SESSION["level_user"] == 4){
+    header('Location: ../../user/dashboard-donasi/dashboard-user.php');
     exit;
 }
 
@@ -45,9 +50,9 @@ $programDonasi = query("SELECT *, SUM(t_donasi.nominal_donasi) AS dana_terkumpul
         <div class="request-data">
             <div class="projects">
                 <div class="page-title-link ml-4 mb-4">
-                    <a href="dashboard-admin.php">
+                    <a href="../berita/index.php">
                         <i class="nav-icon fas fa-home mr-1"></i>Dashboard admin</a> >
-                    <a href="dashboard-admin.php">
+                    <a href="index.php">
                         <i class="nav-icon fas fa-cog mr-1"></i>Program donasi</a>
                 </div>
 
@@ -60,7 +65,7 @@ $programDonasi = query("SELECT *, SUM(t_donasi.nominal_donasi) AS dana_terkumpul
                                         Filter
                                     </a>
                                     <div class="dropdown-menu green-drop" aria-labelledby="dropdownMenuLink">
-                                        <a class="dropdown-item" href="status-berjalan.php">Berjalan</a>
+                                        <a class="dropdown-item" href="../../status-berjalan.php">Berjalan</a>
                                     </div>
                                 </div>
                             </div>

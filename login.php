@@ -23,7 +23,7 @@ if (isset($_POST["login"])) {
       $_SESSION["level_user"] = $row["level_user"];
 
       if ($_SESSION["level_user"] == "4") {
-        header("Location: pilih-donasi.php");
+        header("Location: user/dashboard-donasi/dashboard-user.php");
       } else {
         header("Location: admin/berita/");
       }

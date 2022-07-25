@@ -5,7 +5,12 @@ include '../../config/connection.php';
 
 
 if (!isset($_SESSION["username"])) {
-    header('Location: login.php?status=restrictedaccess');
+    header('Location: ../../login.php?status=restrictedaccess');
+    exit;
+}
+
+if ($_SESSION["level_user"] == 4){
+    header('Location: ../../user/dashboard-donasi/dashboard-user.php');
     exit;
 }
 
@@ -45,9 +50,9 @@ $result = query("SELECT * FROM t_donasi");
         <div class="request-data">
             <div class="projects">
                 <div class="page-title-link ml-4 mb-4">
-                    <a href="dashboard-admin.php">
+                    <a href="../berita/index.php">
                         <i class="nav-icon fas fa-home mr-1"></i>Dashboard admin</a> >
-                    <a href="kelola-donasi.php">
+                    <a href="laporan-donasi.php">
                         <i class="nav-icon fas fa-donate mr-1"></i>Laporan donasi</a>
                 </div>
 

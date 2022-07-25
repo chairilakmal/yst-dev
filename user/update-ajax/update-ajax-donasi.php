@@ -1,6 +1,6 @@
 <?php
 
-    include 'config/connection.php';
+    include '../../config/connection.php';
 
 
         $status_program_donasi = $_POST['status_program_donasi'];

@@ -3,7 +3,12 @@ session_start();
 include '../../config/connection.php';
 
 if (!isset($_SESSION["username"])) {
-    header('Location: login.php?status=restrictedaccess');
+    header('Location: ../../login.php?status=restrictedaccess');
+    exit;
+}
+
+if ($_SESSION["level_user"] == 4){
+    header('Location: ../../user/dashboard-donasi/dashboard-user.php');
     exit;
 }
 
@@ -51,9 +56,9 @@ if (isset($_POST["submit"])) {
 <div class="content-wrapper">
     <main>
         <div class="page-title-link ml-4 mb-4">
-            <a href="dashboard-admin.php">
+            <a href="../berita/index.php">
                 <i class="nav-icon fas fa-home mr-1"></i>Dashboard admin</a> >
-            <a href="kelola-user.php">
+            <a href="index.php">
                 <i class="nav-icon fas fa-cog mr-1"></i>Kelola Beasiswa</a>
         </div>
         <div class="form-profil">
