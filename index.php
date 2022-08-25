@@ -212,7 +212,7 @@ $programRelawan = queryRelawan("SELECT *, SUM(t_relawan.relawan_jadi) AS jumlah_
                             <img class="d-block w-100" src="img/slide2.jpg" alt="First slide">
                             <div class="carousel-caption  d-md-block">
                                 <center>
-                                    <h3>BERBAGI MAKIN MUDAH</h3><br>
+                                    <h3>BERBAGI JADI MUDAH</h3><br>
                                     <p>
                                         Berbagi bersama YST semakin mudah hanya dengan lewat smartphone
                                     </p><br>
