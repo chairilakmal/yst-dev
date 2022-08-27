@@ -25,7 +25,7 @@
 
     //query user
     $id_user           = $_SESSION['id_user'];
-    
+
     $queryUser      = mysqli_query($conn, "SELECT * FROM t_user WHERE id_user=$id_user");
     $data_user      = mysqli_fetch_array($queryUser);
 
@@ -35,13 +35,13 @@
     $result     = mysqli_fetch_array($query);
 
      if(isset($_POST["submit"])) {
-        
+
         $id_program_donasi        = $_GET["id"];
         $status_donasi            = "Menunggu Verifikasi";
-        $nama_program_donasi      = $_POST["tb_nama_program_donasi"]; 
+        $nama_program_donasi      = $_POST["tb_nama_program_donasi"];
         $tgl_donasi               = date ('Y-m-d', time());
-        $nominal1                 = $_POST["nominal1"]; 
-        $nominal2                 = $_POST["nominal2"]; 
+        $nominal1                 = $_POST["nominal1"];
+        $nominal2                 = $_POST["nominal2"];
         $totalSementara           = $nominal1 + $nominal2;
         $unik                     = rand(1,999);
         $belum_dibayar            =  $totalSementara + $unik;
@@ -49,7 +49,7 @@
         $nama_penerima  = $_POST['tb_nama_user'];
         $email_penerima = $_POST['tb_email'];
 
-        $nama_donatur             = $_POST["tb_nama_donatur"]; 
+        $nama_donatur             = $_POST["tb_nama_donatur"];
 
         $_SESSION['id_program_donasi']   = $id_program_donasi;
         $_SESSION['nama_program_donasi'] = $nama_program_donasi;
@@ -58,8 +58,8 @@
 
         // Print_r($_SESSION);die;
 
-        
-        
+
+
 
         echo "
             <script type='text/javascript'>
@@ -67,16 +67,16 @@
             </script>
         ";
 
-        
-        
+
+
 
         // var_dump($id_user);die;
-        
+
         $query = "INSERT INTO t_donasi
-                    VALUES 
-                  ('','$status_donasi','$nama_donatur','','$id_user','$id_program_donasi',' $nama_program_donasi  ','$tgl_donasi','$belum_dibayar','$email_penerima')  
+                    VALUES
+                  ('','$status_donasi','$nama_donatur','','$id_user','$id_program_donasi',' $nama_program_donasi  ','$tgl_donasi','$belum_dibayar','$email_penerima')
                     ";
-     
+
         mysqli_query($conn,$query);
         // var_dump($query);die;
 
@@ -85,14 +85,14 @@
             echo "
             <script>
                 alert('Donasi Berhasil Dibuat !');
-                
+
             </script>
             ";
             // window.location = 'dashboard-user.php';
             //PHPMailer
             $email_pengirim = 'vchoze@gmail.com';
             $nama_pengirim = 'Yayasan Sekar Telkom';
-            
+
             $subjek = '[Yayasan Sekar Telkom] Checkout Donasi '.$tgl_donasi.'';
 
             $pesan = '<h3>Halo '.$nama_penerima.',</h3>
@@ -142,7 +142,7 @@
             $mail->Password = 'xzwuieypdcbmmcyp';
             $mail->Port = 465;
             $mail->SMTPAuth = true;
-            $mail->SMTPSecure ='ssl'; 
+            $mail->SMTPSecure ='ssl';
             $mail->SMTPDebug = 2;
 
             $mail->setFrom($email_pengirim,$nama_pengirim);
@@ -164,7 +164,7 @@
                 echo "
                 <script>
                     alert('Email Gagal Terkirim !');
-                    
+
                 </script>
                 ";
             }
@@ -202,7 +202,7 @@
     <link rel="stylesheet" type="text/css" href="../../../css/dashboard-yst.css">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&family=Roboto:wght@500&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&family=Roboto:wght@500&display=swap" rel="stylesheet">
 
 </head>
 
@@ -217,16 +217,16 @@
                 </li>
             </ul>
             <!-- Right navbar links -->
-            <ul class="navbar-nav ml-auto user-wrapper"> 
+            <ul class="navbar-nav ml-auto user-wrapper">
                 <img src="../../../img/user-default.jpg" width="30px" height="30px" alt="">
-                <li class="nav-item dropdown user-dropdown">  
-                    <a class="nav-link dropdown-toggle pr-4" href="#" id="navbarDropdownMenuLink" 
+                <li class="nav-item dropdown user-dropdown">
+                    <a class="nav-link dropdown-toggle pr-4" href="#" id="navbarDropdownMenuLink"
                     role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <?php echo("{$_SESSION['nama']}");?>
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">      
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item" href="../../../logout.php">Logout</a>
-                    </div>                   
+                    </div>
                 </li>
             </ul>
         </nav>
@@ -274,11 +274,11 @@
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
         <main>
-            <div class="page-title-link ml-4 mb-4">     
-                        <div class="page-title-link ml-4 mb-4">     
-                            <div class="page-title-link ml-4 mb-4">     
+            <div class="page-title-link ml-4 mb-4">
+                        <div class="page-title-link ml-4 mb-4">
+                            <div class="page-title-link ml-4 mb-4">
                                 <a href="../dashboard-user.php">
-                                    <i class="nav-icon fas fa-home mr-1"></i>Dashboard user</a> > 
+                                    <i class="nav-icon fas fa-home mr-1"></i>Dashboard user</a> >
                                 <a href="../dashboard-user.php">
                                     <i class="nav-icon fas fa-user-cog mr-1"></i>Donasi saya</a> >
                                 <a href="pilih-donasi.php">
@@ -286,14 +286,14 @@
                                 <a href="#" onclick="javascript:window.history.back(-1);return false;">
                                     <i class="nav-icon fas fa-info-circle mr-1"></i>Detail Donasi</a>
                             </div>
-                        </div>  
-                </div>               
+                        </div>
+                </div>
                 <div class="form-profil halaman-view">
-                    <div class="mt-2 regis-title"><h3>Buat Donasi</h3></div>    
+                    <div class="mt-2 regis-title"><h3>Buat Donasi</h3></div>
                         <form action="" enctype="multipart/form-data" method="POST">
                             <div class="form-group label-txt">
                                 <input type="hidden" id="tb_email" name="tb_email" class="form-control" value="<?php echo $data_user['email']?>" readonly>
-                                <input type="hidden" id="tb_nama_user" name="tb_nama_user" class="form-control" value="<?php echo $data_user['nama_lengkap']?>" readonly>
+                                <input type="hidden" id="tb_nama_user" name="tb_nama_user" class="form-control" value="<?php echo $data_user['nama']?>" readonly>
                                 <div class="form-group mt-4 mb-2">
                                     <label for="tb_nama_program_donasi" class="font-weight-bold" ><span class="label-form-span">Nama Program Donasi</span></label><br>
                                     <input type="text" id="tb_nama_program_donasi" name="tb_nama_program_donasi" class="form-control" value="<?php echo $result['nama_program_donasi']?>" readonly>
@@ -340,27 +340,27 @@
                                 <div class="form-group mt-3 mb-2">
                                     <label for="nama_donatur" class="font-weight-bold" ><span class="label-form-span">Nama Donatur<span class="red-star">*</span></span></label><br>
                                     <input type="text" id="tb_nama_donatur" name="tb_nama_donatur" class="form-control" placeholder="Nama Donatur" Required>
-                                </div>    
-                                
-                                       
+                                </div>
+
+
                             </div>
 
 
 
-                            
-                            <button type="submit" name="submit" value="Simpan" 
-                            class="btn btn-lg btn-primary w-100 yst-login-btn border-0 mt-4 mb-4" onclick="return confirm('Anda yakin ingin membuat donasi ?');"> 
+
+                            <button type="submit" name="submit" value="Simpan"
+                            class="btn btn-lg btn-primary w-100 yst-login-btn border-0 mt-4 mb-4" onclick="return confirm('Anda yakin ingin membuat donasi ?');">
                                 <span class="yst-login-btn-fs">Buat Donasi</span>
                             </button>
                         </form>
-                    </div>  
+                    </div>
         </main>
         </div>
         <!-- /.container-fluid -->
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-    
+
     <footer class="main-footer">
         <center><strong> &copy; YST 2021.</strong> Yayasan Sekar Telkom </center>
     </footer>
