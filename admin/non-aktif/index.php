@@ -9,29 +9,28 @@ if (!isset($_SESSION["username"])) {
     exit;
 }
 
-if ($_SESSION["level_user"] == 4){
+if ($_SESSION["level_user"] == 4) {
     header('Location: ../../user/dashboard-donasi/dashboard-user.php');
     exit;
 }
 
-// function query($query)
-// {
-//     global $conn;
-//     $result = mysqli_query($conn, $query);
-//     $rows = [];
-//     while ($row = mysqli_fetch_assoc($result)) {
-//         $rows[] = $row;
-//     }
-//     return $rows;
-// }
+function query($query)
+{
+    global $conn;
+    $result = mysqli_query($conn, $query);
+    $rows = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $rows[] = $row;
+    }
+    return $rows;
+}
 
-// $userQuery = query("SELECT * FROM t_user
-//                     ORDER BY id_user                   
-//                     ");
-// $organigram = query("SELECT * FROM t_organigram
-//                     ORDER BY user_id
-//                     ");
-
+$userQuery = query("SELECT * FROM t_meninggal
+                    LEFT JOIN t_user 
+                    ON t_meninggal.id_user = t_user.id_user               
+                    GROUP BY t_meninggal.id_user 
+                    ORDER BY t_meninggal.id_user DESC                
+                    ");
 
 ?>
 <?php include '../../component/admin/header.php'; ?>
@@ -52,9 +51,10 @@ if ($_SESSION["level_user"] == 4){
                 <div class="card card-request-data">
                     <div class="card-header-req">
                         <div class="row ml-1 ">
-
                         </div>
-                        <button class="mr-5" onclick="location.href='input.php'">Tambah Data <span class="fas fa-plus-square"></span></button>
+                        <?php if ($_SESSION['level_user'] == 1 || $_SESSION['level_user'] == 3) { ?>
+                            <button class="mr-5" onclick="location.href='input.php'">Tambah Data <span class="fas fa-plus-square"></span></button>
+                        <?php } ?>
                     </div>
                     <div class="card-body card-body-req">
                         <div class="table-responsive">
@@ -66,29 +66,39 @@ if ($_SESSION["level_user"] == 4){
                                         <td>Tanggal</td>
                                         <td>Tempat</td>
                                         <td>Penyebab</td>
-
+                                        <td>Status Data</td>
                                         <td class="justify-content-center">Aksi</td>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <?php foreach ($userQuery as $row) : ?>
+                                        <tr>
+                                            <td class="text-center"><?= $row["id_user"]; ?></td>
+                                            <td class="table-snipet1"><?= $row["nik"]; ?></td>
+                                            <td><?= $row["tgl"]; ?></td>
+                                            <td><?= $row["tempat"]; ?></td>
+                                            <td><?= $row["penyebab_kematian"]; ?></td>
+                                            <td>
+                                                <?php
+                                                if ($row['is_approve'] == 'y') {
+                                                    echo 'Terverifikasi';
+                                                } else {
+                                                    echo 'Pending';
+                                                } ?></td>
+                                            </td>
 
-                                    <tr>
-                                        <td class="text-center">1</td>
-                                        <td class="table-snipet1">TEST</td>
-                                        <td>01-05-2022</td>
-                                        <td>Bandung</td>
-                                        <td>Sakit Jantung</td>
-
-                                        <td class="justify-content-center">
-                                            <button type="button" class="btn btn-edit">
-                                                <a href="edit.php" class="fas fa-edit"></a>
-                                            </button>
-                                            <button type="button" class="btn btn-delete ml-1">
-                                                <a href="#" class="far fa-trash-alt" onclick="return confirm('Anda yakin ingin menghapus user ini ?');"></a>
-                                            </button>
-                                        </td>
-                                    </tr>
-
+                                            <td class="justify-content-center">
+                                                <?php if ($_SESSION['level_user'] == 1 || $_SESSION['level_user'] == '2b') { ?>
+                                                    <button type="button" class="btn btn-edit">
+                                                        <a href="edit.php?id_meninggal=<?= $row["id_meninggal"]; ?>" class="fas fa-edit"></a>
+                                                    </button>
+                                                <?php } ?>
+                                                <button type="button" class="btn btn-delete ml-1">
+                                                    <a href="../../hapus.php?type=nonaktif&id_meninggal=<?= $row["id_meninggal"]; ?>" class="far fa-trash-alt" onclick="return confirm('Anda yakin ingin menghapus user ini ?');"></a>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>

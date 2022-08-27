@@ -8,7 +8,7 @@ if (!isset($_SESSION["username"])) {
     exit;
 }
 
-if ($_SESSION["level_user"] == 4){
+if ($_SESSION["level_user"] == 4) {
     header('Location: ../../user/dashboard-donasi/dashboard-user.php');
     exit;
 }
@@ -200,7 +200,7 @@ if (isset($_POST["submit"])) {
                         </div>
                     </div>
                     <!-- Hanya muncul jika level user = 3 / super admin -->
-                    <?php if ($_SESSION['level_user'] == 1 || $_SESSION['level_user'] == 2) { ?>
+                    <?php if ($_SESSION['level_user'] == 1 || $_SESSION['level_user'] == '2a' || $_SESSION['level_user'] == '2b') { ?>
                         <div class="form-group mb-5">
                             <label for="status_berita" class="font-weight-bold"><span class="label-form-span">Status Berita</span></label><br>
                             <div class="radio-wrapper mt-1 bg-white">

@@ -3,10 +3,6 @@ include "config/connection.php";
 
 $type = $_GET['type'];
 
-
-
-
-
 if ($type == 'pdonasi') {
     //ambil id program di URL
     $id_program_donasi = $_GET["id_program_donasi"];
@@ -72,5 +68,12 @@ if ($type == 'pdonasi') {
                             WHERE  	id_user = $id_user");
 
     header('Location: admin/kelolas-user/index.php?status=deletesuccess');
+    exit();
+} elseif ($type == 'nonaktif') {
+    $id_meninggal = $_GET["id_meninggal"];
+    mysqli_query($conn, "DELETE FROM t_meninggal
+                            WHERE  	id_meninggal = $id_meninggal");
+
+    header('Location: admin/non-aktif/index.php?status=deletesuccess');
     exit();
 }

@@ -81,7 +81,7 @@ $programDonasi = queryDonasi("SELECT *, SUM(t_donasi.nominal_donasi) AS dana_ter
                 <img src="../../../img/user-default.jpg" width="30px" height="30px" alt="">
                 <li class="nav-item dropdown user-dropdown">
                     <a class="nav-link dropdown-toggle pr-4" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <?php echo ("{$_SESSION['username']}"); ?>
+                        <?php echo ("{$_SESSION['nama']}"); ?>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item" href="../../../logout.php">Logout</a>

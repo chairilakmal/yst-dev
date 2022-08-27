@@ -13,9 +13,9 @@
         <nav class="mt-4">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <?php if (
-                    $backUrl == "/yst-dev/admin/berita/" ||
-                    $backUrl == "/yst-dev/admin/berita/input.php" ||
-                    $backUrl == "/yst-dev/admin/berita/edit.php"
+                    $backUrl == "/yst-dev-restructured/admin/berita/" ||
+                    $backUrl == "/yst-dev-restructured/admin/berita/input.php" ||
+                    $backUrl == "/yst-dev-restructured/admin/berita/edit.php"
                 ) {
                     echo '<li class="nav-item nav-item-sidebar  menu-open">
                     <a href="../berita/" class="nav-link side-icon active">
@@ -38,9 +38,9 @@
                 ?>
 
                 <?php if (
-                    $backUrl == "/yst-dev/admin/donasi/" ||
-                    $backUrl == "/yst-dev/admin/donasi/input.php" ||
-                    $backUrl == "/yst-dev/admin/donasi/edit.php"
+                    $backUrl == "/yst-dev-restructured/admin/donasi/" ||
+                    $backUrl == "/yst-dev-restructured/admin/donasi/input.php" ||
+                    $backUrl == "/yst-dev-restructured/admin/donasi/edit.php"
                 ) {
                     echo '<li class="nav-item nav-item-sidebar">
                     <a href="../donasi/" class="nav-link active side-icon">
@@ -63,9 +63,9 @@
                 ?>
 
                 <?php if (
-                    $backUrl == "/yst-dev/admin/relawan/" ||
-                    $backUrl == "/yst-dev/admin/relawan/input.php" ||
-                    $backUrl == "/yst-dev/admin/relawan/edit.php"
+                    $backUrl == "/yst-dev-restructured/admin/relawan/" ||
+                    $backUrl == "/yst-dev-restructured/admin/relawan/input.php" ||
+                    $backUrl == "/yst-dev-restructured/admin/relawan/edit.php"
                 ) {
                     echo '<li class="nav-item nav-item-sidebar">
                     <a href="../relawan/" class="nav-link active side-icon">
@@ -87,14 +87,12 @@
                 }
                 ?>
 
-                <?php if ($_SESSION['level_user'] == 1 || $_SESSION['level_user'] == 2) { ?>
-
-                    <?php if (
-                        $backUrl == "/yst-dev/admin/beasiswa/" ||
-                        $backUrl == "/yst-dev/admin/beasiswa/input.php" ||
-                        $backUrl == "/yst-dev/admin/beasiswa/edit.php"
-                    ) {
-                        echo '<li class="nav-item nav-item-sidebar">
+                <?php if (
+                    $backUrl == "/yst-dev-restructured/admin/beasiswa/" ||
+                    $backUrl == "/yst-dev-restructured/admin/beasiswa/input.php" ||
+                    $backUrl == "/yst-dev-restructured/admin/beasiswa/edit.php"
+                ) {
+                    echo '<li class="nav-item nav-item-sidebar">
                         <a href="../beasiswa/" class="active nav-link side-icon">
                             <i class="nav-icon fas fa-graduation-cap"></i>
                             <p>
@@ -102,8 +100,8 @@
                             </p>
                         </a>
                     </li>';
-                    } else {
-                        echo '<li class="nav-item nav-item-sidebar">
+                } else {
+                    echo '<li class="nav-item nav-item-sidebar">
                         <a href="../beasiswa/" class="nav-link side-icon">
                             <i class="nav-icon fas fa-graduation-cap"></i>
                             <p>
@@ -111,18 +109,18 @@
                             </p>
                         </a>
                     </li>';
-                    }
-                    ?>
+                }
+                ?>
 
-                    <?php if (
-                        $backUrl == "/yst-dev/admin/kelola-user/" ||
-                        $backUrl == "/yst-dev/admin/kelola-user/input.php" ||
-                        $backUrl == "/yst-dev/admin/kelola-user/edit.php" ||
-                        $backUrl == "/yst-dev/admin/non-aktif/" ||
-                        $backUrl == "/yst-dev/admin/non-aktif/input.php" ||
-                        $backUrl == "/yst-dev/admin/non-aktif/edit.php"
-                    ) {
-                        echo '<li class="nav-item nav-item-sidebar">
+                <?php if (
+                    $backUrl == "/yst-dev-restructured/admin/kelola-user/" ||
+                    $backUrl == "/yst-dev-restructured/admin/kelola-user/input.php" ||
+                    $backUrl == "/yst-dev-restructured/admin/kelola-user/edit.php" ||
+                    $backUrl == "/yst-dev-restructured/admin/non-aktif/" ||
+                    $backUrl == "/yst-dev-restructured/admin/non-aktif/input.php" ||
+                    $backUrl == "/yst-dev-restructured/admin/non-aktif/edit.php"
+                ) {
+                    echo '<li class="nav-item nav-item-sidebar">
                         <a class="nav-link active side-icon dropdown-toggle" data-toggle="collapse" href="#menu-user" role="button" aria-controls="menu-user">
                             <i class="nav-icon fas fa-users-cog"></i>
                             <p>Users</p>
@@ -147,8 +145,8 @@
                             </div>
                         </div>
                     </li>';
-                    } else {
-                        echo '<li class="nav-item nav-item-sidebar">
+                } else {
+                    echo '<li class="nav-item nav-item-sidebar">
                         <a class="nav-link side-icon dropdown-toggle" data-toggle="collapse" href="#menu-user" role="button" aria-controls="menu-user">
                             <i class="nav-icon fas fa-users-cog"></i>
                             <p>Users</p>
@@ -173,17 +171,16 @@
                             </div>
                         </div>
                     </li>';
-                    }
-                    ?>
-                <?php } ?>
+                }
+                ?>
 
                 <?php if (
-                    $backUrl == "/yst-dev/admin/program-donasi/" ||
-                    $backUrl == "/yst-dev/admin/program-donasi/input.php" ||
-                    $backUrl == "/yst-dev/admin/program-donasi/edit.php" ||
-                    $backUrl == "/yst-dev/admin/program-relawan/" ||
-                    $backUrl == "/yst-dev/admin/program-relawan/input.php" ||
-                    $backUrl == "/yst-dev/admin/program-relawan/edit.php"
+                    $backUrl == "/yst-dev-restructured/admin/program-donasi/" ||
+                    $backUrl == "/yst-dev-restructured/admin/program-donasi/input.php" ||
+                    $backUrl == "/yst-dev-restructured/admin/program-donasi/edit.php" ||
+                    $backUrl == "/yst-dev-restructured/admin/program-relawan/" ||
+                    $backUrl == "/yst-dev-restructured/admin/program-relawan/input.php" ||
+                    $backUrl == "/yst-dev-restructured/admin/program-relawan/edit.php"
                 ) {
                     echo '<li class="nav-item nav-item-sidebar">
                     <a class="nav-link side-icon active dropdown-toggle" data-toggle="collapse" href="#menu-cf" role="button" aria-controls="menu-cf">
@@ -230,11 +227,11 @@
                 ?>
 
                 <?php if (
-                    $backUrl == "/yst-dev/admin/laporan/laporan-donasi.php" ||
-                    $backUrl == "/yst-dev/admin/laporan/laporan-relawan.php" ||
-                    $backUrl == "/yst-dev/admin/laporan/laporan-program-donasi.php" ||
-                    $backUrl == "/yst-dev/admin/laporan/laporan-program-relawan.php" ||
-                    $backUrl == "/yst-dev/admin/laporan/laporan-bulanan.php"
+                    $backUrl == "/yst-dev-restructured/admin/laporan/laporan-donasi.php" ||
+                    $backUrl == "/yst-dev-restructured/admin/laporan/laporan-relawan.php" ||
+                    $backUrl == "/yst-dev-restructured/admin/laporan/laporan-program-donasi.php" ||
+                    $backUrl == "/yst-dev-restructured/admin/laporan/laporan-program-relawan.php" ||
+                    $backUrl == "/yst-dev-restructured/admin/laporan/laporan-bulanan.php"
 
                 ) {
                     echo ' <li class="nav-item nav-item-sidebar">
@@ -317,14 +314,14 @@
                 }
                 ?>
 
-                <?php if ($_SESSION['level_user'] == 1 || $_SESSION['level_user'] == 2) { ?>
+                <?php if ($_SESSION['level_user'] == 1 || $_SESSION['level_user'] == '2a' || $_SESSION['level_user'] == '2b') { ?>
                     <?php if (
-                        $backUrl == "/yst-dev/admin/kategori-donasi/" ||
-                        $backUrl == "/yst-dev/admin/kategori-donasi/input.php" ||
-                        $backUrl == "/yst-dev/admin/kategori-donasi/edit.php" ||
-                        $backUrl == "/yst-dev/admin/kategori-relawan/" ||
-                        $backUrl == "/yst-dev/admin/kategori-relawan/input.php" ||
-                        $backUrl == "/yst-dev/admin/kategori-relawan/edit.php"
+                        $backUrl == "/yst-dev-restructured/admin/kategori-donasi/" ||
+                        $backUrl == "/yst-dev-restructured/admin/kategori-donasi/input.php" ||
+                        $backUrl == "/yst-dev-restructured/admin/kategori-donasi/edit.php" ||
+                        $backUrl == "/yst-dev-restructured/admin/kategori-relawan/" ||
+                        $backUrl == "/yst-dev-restructured/admin/kategori-relawan/input.php" ||
+                        $backUrl == "/yst-dev-restructured/admin/kategori-relawan/edit.php"
 
                     ) {
                         echo '<li class="nav-item nav-item-sidebar">
@@ -372,7 +369,40 @@
                     ?>
                 <?php } ?>
 
-
+                <?php if (
+                    $backUrl == "/yst-dev-restructured/admin/kelola-konten/halaman-utama/"
+                ) {
+                    echo '<li class="nav-item nav-item-sidebar">
+                        <a class="nav-link side-icon dropdown-toggle" data-toggle="collapse" href="#menu-konten" role="button" aria-controls="menu-konten">
+                            <i class="nav-icon fa fa-window-maximize"></i>
+                            <p>Kelola Konten</p>
+                        </a>
+                        <div class="collapse" id="menu-master">
+                            <div class="row py-2 ml-2">
+                                <a class="nav-item side-icon ml-3" href="../kelola-konten/halaman-utama">
+                                    <i class="nav-icon fa fa-clone" aria-hidden="true"></i>
+                                    Halaman Utama
+                                </a>
+                            </div>
+                        </div>
+                    </li>';
+                } else {
+                    echo '<li class="nav-item nav-item-sidebar">
+                        <a class="nav-link side-icon dropdown-toggle" data-toggle="collapse" href="#menu-konten" role="button" aria-controls="menu-konten">
+                            <i class="nav-icon fa fa-window-maximize"></i>
+                            <p>Kelola Konten</p>
+                        </a>
+                        <div class="collapse" id="menu-konten">
+                            <div class="row py-2 ml-2">
+                                <a class="nav-item side-icon ml-3" href="../kelola-konten/halaman-utama/">
+                                    <i class="nav-icon fa fa-clone" aria-hidden="true"></i>
+                                    Halaman Utama
+                                </a>
+                            </div>
+                        </div>
+                    </li>';
+                }
+                ?>
 
             </ul>
         </nav>

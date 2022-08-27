@@ -8,30 +8,100 @@ if (!isset($_SESSION["username"])) {
     exit;
 }
 
-if ($_SESSION["level_user"] == 4){
+if ($_SESSION["level_user"] == 4) {
     header('Location: ../../user/dashboard-donasi/dashboard-user.php');
     exit;
 }
 
 
 
+
+function upload($image_upload)
+{
+    //upload gambar
+    $namaFile = $_FILES[$image_upload]['name'];
+    $ukuranFile = $_FILES[$image_upload]['size'];
+    $error = $_FILES[$image_upload]['error'];
+    $tmpName = $_FILES[$image_upload]['tmp_name'];
+
+    //  if($error === 4){
+    //      echo "
+    //          <script>
+    //              alert('gambar tidak ditemukan !');
+    //          </script>
+    //      ";
+    //      return false;
+    //  }
+
+    //cek ekstensi gambar
+    $ekstensiGambarValid = ['jpg', 'jpeg', 'png'];
+    $ekstensiGambar = explode('.', $namaFile);
+    $ekstensiGambar = strtolower(end($ekstensiGambar));
+
+    if (!in_array($ekstensiGambar, $ekstensiGambarValid)) {
+        echo "
+                     <script>
+                         alert('kesalahan pada format gambar !');
+                     </script>
+                 ";
+        return false;
+    }
+
+    //generate nama baru
+    $namaFileBaru = uniqid();
+    $namaFileBaru .= '.';
+    $namaFileBaru .= $ekstensiGambar;
+
+
+    //lolos pengecekan
+    move_uploaded_file($tmpName, '../../img/' . $namaFileBaru);
+
+    return $namaFileBaru;
+}
+
+function queryNIK($query)
+{
+    global $conn;
+    $result = mysqli_query($conn, $query);
+    $rows = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $rows[] = $row;
+    }
+    return $rows;
+}
+
+$selectNIK = queryNIK("SELECT * FROM t_user
+                WHERE is_die = 'n' AND status_aktif = 'y' 
+                ORDER BY nik ASC ");
+
+
 if (isset($_POST["submit"])) {
 
-    $kategori_donasi      = $_POST["tb_kategori_donasi"];
-    $kategori_donasi        = htmlspecialchars($kategori_donasi);
+    $id_user                    = $_POST["tb_nik"];
+    $tgl_kematian               = $_POST["tb_tgl_kematian"];
+    $waktu                      = $_POST["tb_waktu_kematian"];
+    $tempat_meninggal           = $_POST["tb_tempat_kematian"];
+    $tempat_pemakaman           = $_POST["tb_tempat_pemakaman"];
 
-    $ket_kategori_donasi      = $_POST["tb_ket_kategori_donasi"];
+    $penyebab_kematian          = $_POST["tb_penyebab_kematian"];
+    $penyebab_kematian          = htmlspecialchars($penyebab_kematian);
+
+    $suratKematian              = upload("image_uploads1");
+    $KartuKeluarga              = upload("image_uploads2");
+
+    $nama = $_SESSION['nama'];
+
+    $created_by                 = $_POST[$nama];
+    $updated_by                 = $_POST[$nama];
 
 
-    $query = "INSERT INTO t_kat_donasi (kategori_donasi,ket_kategori_donasi)
-                VALUES ('$kategori_donasi','$ket_kategori_donasi')  
-                     ";
-
+    $query = "INSERT INTO t_meninggal (id_user, tgl, waktu, tempat, tempat_pemakaman, penyebab_kematian, file_kk, file_surat_kematian, created_by, updated_by)
+                VALUES ('$id_user', '$tgl_kematian','$waktu','$tempat_meninggal','$tempat_pemakaman','$penyebab_kematian', '$suratKematian', '$KartuKeluarga', '$created_by', '$updated_by')";
 
 
     mysqli_query($conn, $query);
-    // var_dump($query);die;
-
+    // var_dump($query);
+    // die;
     //cek keberhasilan
     if (mysqli_affected_rows($conn) > 0) {
         echo "
@@ -69,39 +139,39 @@ if (isset($_POST["submit"])) {
             <form action="" enctype="multipart/form-data" method="POST">
                 <div class="form-group label-txt">
                     <div class="form-group mt-4 mb-3">
-                        <label for="tb_kategori">NIK<span class="red-star">*</span></label></label>
-                        <select class="form-control" id="tb_kategori" name="tb_kategori" required>
-                            <option value="" selected disabled>Pilih NIK</option>
-                            <option value="">NIK 111222</option>
-                            <option value="">NIK 222333</option>
-                            <option value="">NIK 444555</option>
+                        <label for="tb_nik">NIK<span class="red-star">*</span></label></label>
+                        <select class="form-control" id="tb_nik" name="tb_nik" required>
+                            <option value="" selected disabled>Pilih NIK</option>;
+                            <?php foreach ($selectNIK as $row) : ?>
+                                <option value="<?= $row["id_user"]; ?>"><?= $row["nik"]; ?></option>';
+                            <?php endforeach; ?>
                         </select>
                     </div>
-                    <div class="form-group mt-4 mb-3" id="tgl_selesai_form">
-                        <label for="tb_tgl_selesai" class="label-txt">Tanggal<span class="red-star">*</span></label>
-                        <input type="date" id="tb_tgl_selesai" name="tb_tgl_selesai" class="form-control" placeholder="Tanggal akhir pengumpulan dana">
-                    </div>
-                    <div class="form-group mt-4 mb-3" id="tgl_selesai_form">
-                        <label for="tb_tgl_selesai" class="label-txt">Waktu<span class="red-star">*</span></label>
-                        <input type="time" id="tb_tgl_selesai" name="tb_tgl_selesai" class="form-control" placeholder="Tanggal akhir pengumpulan dana">
+                    <div class="form-group mt-4 mb-3">
+                        <label for="tb_tgl_kematian" class="label-txt">Tanggal<span class="red-star">*</span></label>
+                        <input type="date" id="tb_tgl_kematian" name="tb_tgl_kematian" class="form-control">
                     </div>
                     <div class="form-group mt-4 mb-3">
-                        <label for="tb_nama_program_donasi" class="label-txt">Tempat<span class="red-star">*</span></label>
-                        <input type="text" id="tb_nama_program_donasi" name="tb_nama_program_donasi" class="form-control" placeholder="Tempat Meninggal" Required>
+                        <label for="tb_waktu_kematian" class="label-txt">Waktu<span class="red-star">*</span></label>
+                        <input type="time" id="tb_waktu_kematian" name="tb_waktu_kematian" class="form-control">
                     </div>
                     <div class="form-group mt-4 mb-3">
-                        <label for="tb_nama_program_donasi" class="label-txt">Tempat Pemakaman<span class="red-star">*</span></label>
-                        <input type="text" id="tb_nama_program_donasi" name="tb_nama_program_donasi" class="form-control" placeholder="Tempat Pemakaman" Required>
+                        <label for="tb_tempat_kematian" class="label-txt">Tempat<span class="red-star">*</span></label>
+                        <input type="text" id="tb_tempat_kematian" name="tb_tempat_kematian" class="form-control" placeholder="Tempat Meninggal" Required>
+                    </div>
+                    <div class="form-group mt-4 mb-3">
+                        <label for="tb_tempat_pemakaman" class="label-txt">Tempat Pemakaman<span class="red-star">*</span></label>
+                        <input type="text" id="tb_tempat_pemakaman" name="tb_tempat_pemakaman" class="form-control" placeholder="Tempat Pemakaman" Required>
                     </div>
                     <div class="form-group">
-                        <label for="tb_ket_kategori_donasi" class="label-txt">Penyebab Kematian</label>
-                        <textarea class="form-control" id="tb_ket_kategori_donasi" name="tb_ket_kategori_donasi" rows="6" placeholder="Penyebab Kematian"></textarea>
+                        <label for="tb_penyebab_kematian" class="label-txt">Penyebab Kematian</label>
+                        <textarea class="form-control" id="tb_penyebab_kematian" name="tb_penyebab_kematian" rows="6" placeholder="Penyebab Kematian"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="image_uploads2" class="label-txt"> Kartu Keluarga </label><br>
+                        <label for="image_uploads1" class="label-txt"> Kartu Keluarga </label><br>
                         <!-- <img src="img/" class="edit-img popup " alt=""> -->
                         <div class="file-form">
-                            <input type="file" id="image_uploads2" name="image_uploads2" class="form-control ">
+                            <input type="file" id="image_uploads1" name="image_uploads1" class="form-control ">
                         </div>
                     </div>
                     <div class="form-group">

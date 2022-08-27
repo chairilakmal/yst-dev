@@ -99,7 +99,8 @@ if (isset($_POST["register"])) {
                         <div class="form-group mt-4 mb-3">
                             <select class="form-control select-color" id="tb_jabatan" name="tb_jabatan" required>
                                 <option selected disabled>Jabatan</option>
-                                <option value="2">DPP Sekar/Pengurus YST</option>
+                                <option value="2a">Pengurus YST</option>
+                                <option value="2b">DPP Sekar</option>
                                 <option value="3">DPW Sekar</option>
                             </select>
                         </div>

@@ -7,12 +7,32 @@ if (!isset($_SESSION["username"])) {
     exit;
 }
 
-if ($_SESSION["level_user"] == 4){
+if ($_SESSION["level_user"] == 4) {
     header('Location: ../../user/dashboard-donasi/dashboard-user.php');
     exit;
 }
 
 
+function query($query)
+{
+    global $conn;
+    $result = mysqli_query($conn, $query);
+    $rows = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $rows[] = $row;
+    }
+    return $rows;
+}
+
+$selectNIK = query("SELECT * FROM t_meninggal
+                WHERE is_approve = 'y' ");
+
+$userQuery = query("SELECT * FROM t_meninggal
+                    LEFT JOIN t_user 
+                    ON t_meninggal.id_user = t_user.id_user               
+                    GROUP BY t_meninggal.id_user 
+                    ORDER BY t_meninggal.id_user DESC                
+                    ");
 
 if (isset($_POST["submit"])) {
 
@@ -70,15 +90,15 @@ if (isset($_POST["submit"])) {
                     <div class="form-group mt-4 mb-3">
                         <label for="tb_kategori">Penerima<span class="red-star">*</span></label></label>
                         <select class="form-control" id="tb_kategori" name="tb_kategori" required>
-                            <option value="" selected disabled>Pilih Penerima</option>
-                            <option value="">NIK 111222</option>
-                            <option value="">NIK 222333</option>
-                            <option value="">NIK 444555</option>
+                            <option value="" selected disabled>Pilih NIK</option>;
+                            <?php foreach ($userQuery as $row) : ?>
+                                <option value=""><?= $row["nik"]; ?></option>';
+                            <?php endforeach; ?>
                         </select>
                     </div>
                     <div class="form-group mt-4 mb-3" id="tgl_selesai_form">
                         <label for="tb_tgl_selesai" class="label-txt">Tanggal<span class="red-star">*</span></label>
-                        <input type="date" id="tb_tgl_selesai" name="tb_tgl_selesai" class="form-control" placeholder="Tanggal akhir pengumpulan dana">
+                        <input type="date" id="tb_nama_lengkap" name="tb_nama_lengkap" class="form-control">
                     </div>
                     <div class="form-group mt-4 mb-3">
                         <label for="tb_nama_program_donasi" class="label-txt">Nominal<span class="red-star">*</span></label>

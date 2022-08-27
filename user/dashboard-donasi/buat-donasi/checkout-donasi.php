@@ -1,19 +1,20 @@
 <?php
 
-    session_start();
-    include '../../../config/connection.php';
+session_start();
+include '../../../config/connection.php';
 
 
-    if(!isset($_SESSION["username"])) {
-        header('Location: ../../../login.php?status=restrictedaccess');
-        exit;
-    }
+if (!isset($_SESSION["username"])) {
+    header('Location: ../../../login.php?status=restrictedaccess');
+    exit;
+}
 
-    function rupiah($angka){
-        $hasil_rupiah = "Rp. ".number_format($angka,0,'.','.');
-        return $hasil_rupiah;
-    }
-  
+function rupiah($angka)
+{
+    $hasil_rupiah = "Rp. " . number_format($angka, 0, '.', '.');
+    return $hasil_rupiah;
+}
+
 
 ?>
 
@@ -37,7 +38,7 @@
     <link rel="stylesheet" type="text/css" href="../../../css/dashboard-yst.css">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&family=Roboto:wght@500&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&family=Roboto:wght@500&display=swap" rel="stylesheet">
 
 </head>
 
@@ -52,16 +53,15 @@
                 </li>
             </ul>
             <!-- Right navbar links -->
-            <ul class="navbar-nav ml-auto user-wrapper"> 
+            <ul class="navbar-nav ml-auto user-wrapper">
                 <img src="../../../img/user-default.jpg" width="30px" height="30px" alt="">
-                <li class="nav-item dropdown user-dropdown">  
-                    <a class="nav-link dropdown-toggle pr-4" href="#" id="navbarDropdownMenuLink" 
-                    role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <?php echo("{$_SESSION['username']}");?>
+                <li class="nav-item dropdown user-dropdown">
+                    <a class="nav-link dropdown-toggle pr-4" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <?php echo ("{$_SESSION['nama']}"); ?>
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">      
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item" href="../../../logout.php">Logout</a>
-                    </div>                   
+                    </div>
                 </li>
             </ul>
         </nav>
@@ -72,13 +72,13 @@
             <!-- Brand Logo -->
 
             <a href="../dashboard-user.php" class="brand-link">
-                <img src="../../../img/logo-only.svg"  class="brand-image mt-1">
+                <img src="../../../img/logo-only.svg" class="brand-image mt-1">
                 <span class="brand-text font-weight-bold mt-2"><i>Dashboard User</i></span>
             </a>
 
             <!-- Sidebar -->
             <div class="sidebar">
-           <!-- Sidebar Menu -->
+                <!-- Sidebar Menu -->
                 <nav class="mt-4">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
@@ -108,68 +108,68 @@
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-        <main>
-            <div class="page-title-link ml-4 mb-4">     
-                        <div class="page-title-link ml-4 mb-4">     
-                            <div class="page-title-link ml-4 mb-4">     
-                                <a href="../dashboard-user.php">
-                                    <i class="nav-icon fas fa-home mr-1"></i>Dashboard user</a> > 
-                                <a href="../dashboard-user.php">
-                                    <i class="nav-icon fas fa-user-cog mr-1"></i>Donasi saya</a> >
-                                <a href="pilih-donasi.php">
-                                    <i class="nav-icon fas fa-hand-holding-heart mr-1"></i>Buat Donasi</a> >
-                                <a href="#" onclick="javascript:window.history.back(-1);return false;">
-                                    <i class="nav-icon fas fa-info-circle mr-1"></i>Detail Donasi</a>
-                            </div>
-                        </div>  
-                </div>               
+            <main>
+                <div class="page-title-link ml-4 mb-4">
+                    <div class="page-title-link ml-4 mb-4">
+                        <div class="page-title-link ml-4 mb-4">
+                            <a href="../dashboard-user.php">
+                                <i class="nav-icon fas fa-home mr-1"></i>Dashboard user</a> >
+                            <a href="../dashboard-user.php">
+                                <i class="nav-icon fas fa-user-cog mr-1"></i>Donasi saya</a> >
+                            <a href="pilih-donasi.php">
+                                <i class="nav-icon fas fa-hand-holding-heart mr-1"></i>Buat Donasi</a> >
+                            <a href="#" onclick="javascript:window.history.back(-1);return false;">
+                                <i class="nav-icon fas fa-info-circle mr-1"></i>Detail Donasi</a>
+                        </div>
+                    </div>
+                </div>
                 <div class="form-profil halaman-view">
-                    <div class="mt-2 regis-title"><h3>Review Donasi</h3></div>    
-                        <form action="" enctype="multipart/form-data" method="POST">
-                            <div class="form-group label-txt">
-                                <div class="mt-4">                                 
-                                        <h5>Donasi berhasil dibuat ! Dengan rincian sebagai berikut : </h5>
-                                </div>   
-                                
-                                <div class="form-group mt-4 mb-2">
-                                    <label for="tb_nama_program_donasi" class="font-weight-bold" ><span class="label-form-span">Nama Program Donasi Pilihan</span></label><br>
-                                    <input type="text" id="tb_nama_program_donasi" name="tb_nama_program_donasi" class="form-control" value="<?php echo $_SESSION['nama_program_donasi']?>" readonly>
-                                </div>
-
-                                <div class="form-group mt-3 mb-2">
-                                    <label for="tb_nominal_program_donasi" class="font-weight-bold" ><span class="label-form-span">Nominal Donasi</span></label><br>
-                                    <input type="text" id="tb_nominal_program_donasi" name="tb_nominal_program_donasi" class="form-control" value="<?php echo rupiah($_SESSION['nominal'])?>" readonly>
-                                </div>
-                                <div class="form-group mt-3 mb-2">
-                                    <label for="nama_donatur" class="font-weight-bold" ><span class="label-form-span">Nama Donatur</span></label><br>
-                                    <input type="text" id="tb_nama_donatur" name="tb_nama_donatur" class="form-control" value="<?php echo $_SESSION['nama_donatur']?>" readonly>
-                                </div>    
-                                <div class="mt-4">                                 
-                                        Transfer ke nomor rekening berikut : Bank MANDIRI <strong>131-00-0458589-1</strong> (an. Yayasan Sekar Telkom)              
-                                </div> 
-                                <div class="mt-4">                                 
-                                        <strong>PENTING :</strong> Mohon transfer tepat sampai 3 angka terakhir nominal donasi agar donasi Anda dapat diproses. Kode unik akan didonasikan.
-                                        Anda akan menerima notifikasi ketika transaksi sudah kami terima.   
-                                        
-                                        <br><br>Anda juga dapat melihat tagihan donasi ini pada menu "Donasi Saya" atau pada email yang telah kami kirim kepada email Anda.
-                                </div>       
+                    <div class="mt-2 regis-title">
+                        <h3>Review Donasi</h3>
+                    </div>
+                    <form action="" enctype="multipart/form-data" method="POST">
+                        <div class="form-group label-txt">
+                            <div class="mt-4">
+                                <h5>Donasi berhasil dibuat ! Dengan rincian sebagai berikut : </h5>
                             </div>
-          
-                            <button type="submit" name="submit" value="Simpan" 
-                            class="btn btn-lg btn-primary w-100 yst-login-btn border-0 mt-4 mb-4"
-                            onclick="javascript:window.location.href='../../delete-review-session/delete-review-donasi.php'; return false;"> 
-                           
-                                <span class="yst-login-btn-fs">OK</span>
-                            </button>
-                        </form>
-                    </div>  
-        </main>
+
+                            <div class="form-group mt-4 mb-2">
+                                <label for="tb_nama_program_donasi" class="font-weight-bold"><span class="label-form-span">Nama Program Donasi Pilihan</span></label><br>
+                                <input type="text" id="tb_nama_program_donasi" name="tb_nama_program_donasi" class="form-control" value="<?php echo $_SESSION['nama_program_donasi'] ?>" readonly>
+                            </div>
+
+                            <div class="form-group mt-3 mb-2">
+                                <label for="tb_nominal_program_donasi" class="font-weight-bold"><span class="label-form-span">Nominal Donasi</span></label><br>
+                                <input type="text" id="tb_nominal_program_donasi" name="tb_nominal_program_donasi" class="form-control" value="<?php echo rupiah($_SESSION['nominal']) ?>" readonly>
+                            </div>
+                            <div class="form-group mt-3 mb-2">
+                                <label for="nama_donatur" class="font-weight-bold"><span class="label-form-span">Nama Donatur</span></label><br>
+                                <input type="text" id="tb_nama_donatur" name="tb_nama_donatur" class="form-control" value="<?php echo $_SESSION['nama_donatur'] ?>" readonly>
+                            </div>
+                            <div class="mt-4">
+                                Transfer ke nomor rekening berikut : Bank MANDIRI <strong>131-00-0458589-1</strong> (an. Yayasan Sekar Telkom)
+                            </div>
+                            <div class="mt-4">
+                                <strong>PENTING :</strong> Mohon transfer tepat sampai 3 angka terakhir nominal donasi agar donasi Anda dapat diproses. Kode unik akan didonasikan.
+                                Anda akan menerima notifikasi ketika transaksi sudah kami terima.
+
+                                <br><br>Anda juga dapat melihat tagihan donasi ini pada menu "Donasi Saya" atau pada email yang telah kami kirim kepada email Anda.
+                            </div>
+                        </div>
+
+                        <button type="submit" name="submit" value="Simpan" class="btn btn-lg btn-primary w-100 yst-login-btn border-0 mt-4 mb-4" onclick="javascript:window.location.href='../../delete-review-session/delete-review-donasi.php'; return false;">
+
+                            <span class="yst-login-btn-fs">OK</span>
+                        </button>
+                    </form>
+                </div>
+            </main>
         </div>
         <!-- /.container-fluid -->
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-    
+
     <footer class="main-footer">
         <center><strong> &copy; YST 2021.</strong> Yayasan Sekar Telkom </center>
     </footer>

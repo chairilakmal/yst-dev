@@ -7,6 +7,7 @@ if (isset($_POST["login"])) {
 
   $username = $_POST["username"];
   $password = $_POST["password"];
+  //$password = md5($_POST["password"]);
 
   $result = mysqli_query($conn, "SELECT * FROM t_user WHERE
     username = '$username'");
@@ -19,6 +20,7 @@ if (isset($_POST["login"])) {
     if (password_verify($password, $row["password"])) {
       //set session
       $_SESSION["id_user"] = $row["id_user"];
+      $_SESSION["nama"] = $row["nama"];
       $_SESSION["username"] = $row["username"];
       $_SESSION["level_user"] = $row["level_user"];
 
