@@ -240,14 +240,14 @@ if (isset($_POST["submit"])) {
                         <label for="kartuKeluarga_Baru" class="label-txt"> Kartu Keluarga </label><br>
                         <img src="../../img/<?= $dataKematian["file_kk"]; ?>" class="edit-img popup " alt="">
                         <div class="file-form">
-                            <input type="file" id="kartuKeluarga_Baru" name="kartuKeluarga_Baru" class="form-control ">
+                            <br><input type="file" id="kartuKeluarga_Baru" name="kartuKeluarga_Baru" class="form-control ">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="suratKematian_Baru" class="label-txt"> Surat Keterangan Kematian </label><br>
                         <img src="../../img/<?= $dataKematian["file_surat_kematian"]; ?>" class="edit-img popup " alt="">
                         <div class="file-form">
-                            <input type="file" id="suratKematian_Baru" name="suratKematian_Baru" class="form-control ">
+                            <br><input type="file" id="suratKematian_Baru" name="suratKematian_Baru" class="form-control ">
                         </div>
                     </div>
                     <!-- <div class="form-group">

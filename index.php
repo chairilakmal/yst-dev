@@ -5,6 +5,19 @@
 
 include "config/connection.php";
 
+function queryBanner($query)
+{
+    global $conn;
+    $result = mysqli_query($conn, $query);
+    $rows = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $rows[] = $row;
+    }
+    return $rows;
+}
+
+$Banner = queryBanner("SELECT * FROM t_konten_beranda")[0];
+
 function rupiah($angka)
 {
     $hasil_rupiah = "Rp. " . number_format($angka, 0, '.', '.');
@@ -81,7 +94,6 @@ function queryRelawan($query)
     }
     return $rows;
 }
-
 
 $programRelawan = queryRelawan("SELECT *, SUM(t_relawan.relawan_jadi) AS jumlah_relawan 
                     FROM t_relawan 
@@ -209,15 +221,15 @@ $programRelawan = queryRelawan("SELECT *, SUM(t_relawan.relawan_jadi) AS jumlah_
                 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner berbagi-banner">
                         <div class="carousel-item active">
-                            <img class="d-block w-100" src="img/slide2.jpg" alt="First slide">
+                            <img class="d-block w-100 img-fluid" src="img/<?= $Banner["Gambar"]; ?>" alt="First slide">
                             <div class="carousel-caption  d-md-block">
                                 <center>
-                                    <h3>BERBAGI MAKIN MUDAH</h3><br>
+                                    <h3><?= $Banner["Judul"]; ?></h3><br>
                                     <p>
-                                        Berbagi bersama YST semakin mudah hanya dengan lewat smartphone
+                                        <?= $Banner["Deskripsi"]; ?>
                                     </p><br>
                                     <a href="kontribusi.php" class="btn btn-link-slide py-2" role="button" aria-pressed="true">
-                                        Simak Caranya
+                                        <?= $Banner["buttonText"]; ?>
                                     </a>
                                 </center>
                             </div>
