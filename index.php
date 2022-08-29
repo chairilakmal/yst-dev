@@ -221,7 +221,9 @@ $programRelawan = queryRelawan("SELECT *, SUM(t_relawan.relawan_jadi) AS jumlah_
                 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner berbagi-banner">
                         <div class="carousel-item active">
-                            <img class="d-block w-100 img-fluid" src="img/<?= $Banner["Gambar"]; ?>" alt="First slide">
+                            <div class="landing-page-banner" style="background-image: url('img/<?= $Banner["Gambar"]; ?>');">
+                            </div>
+                            <!-- <img class="d-block w-100 img-fluid" width="100%" height="auto" src="img/<?= $Banner["Gambar"]; ?>" alt="First slide"> -->
                             <div class="carousel-caption  d-md-block">
                                 <center>
                                     <h3><?= $Banner["Judul"]; ?></h3><br>

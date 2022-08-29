@@ -82,7 +82,7 @@ $berita = query("SELECT * FROM t_berita WHERE id_berita = $id_berita")[0];
 //UPDATE
 if (isset($_POST["submit"])) {
 
-    $id_berita         = $_POST["id_berita"];
+    $id_berita                  = $_POST["id_berita"];
 
     $judul_berita               = $_POST["tb_judul_berita"];
 

@@ -59,6 +59,8 @@ function upload()
 
 if (isset($_POST["submit"])) {
 
+    $id_banner                  = $_POST["id_banner"];
+
     $judul_halaman_utama        = $_POST["tb_judul_halaman"];
     $judul_halaman_utama        = htmlspecialchars($judul_halaman_utama);
 
@@ -68,29 +70,42 @@ if (isset($_POST["submit"])) {
     $buttonText                 = $_POST["tb_textButton"];
     $buttonText                 = htmlspecialchars($buttonText);
 
-    $gambar                     = upload();
+    $gambarLama                 = $_POST["gambarLama"];
+
+    if ($_FILES['image_uploads']['error'] === 4) {
+        $gambar = $gambarLama;
+    } else {
+        $gambar = upload();
+    }
 
 
-    $query = "UPDATE t_konten_beranda (Judul, Deskripsi, buttonText, Gambar)
-                VALUES ('$judul_halaman_utama', '$deskripsi', '$buttonText', '$gambar')";
-
+    $query = "UPDATE t_konten_beranda SET
+    Judul                = '$judul_halaman_utama',
+    Deskripsi            = '$deskripsi',
+    buttonText           = '$buttonText',
+    Gambar               = '$gambar'
+           
+    WHERE id_banner      = $id_banner
+";
+    // var_dump($query);
+    // die();
 
     mysqli_query($conn, $query);
-    // var_dump($query);
-    // die;
+
 
     //cek keberhasilan
     if (mysqli_affected_rows($conn) > 0) {
         echo "
             <script>
-                alert('Data berhasil ditambahkan!');
+            alert('Data berhasil diubah!');
+            window.location.href = 'halaman-utama.php'; 
             </script>
             ";
     } else {
         echo "
-                <script>
-                    alert('Data gagal ditambahkan!');
-                </script>
+            <script>
+                alert('Tidak ada perubahan data');
+            </script>
             ";
     }
 }
@@ -131,6 +146,8 @@ $Banner = queryBanner("SELECT * FROM t_konten_beranda")[0];
                 <h3>Kelola Halaman Utama</h3>
             </div>
             <form action="" enctype="multipart/form-data" method="POST">
+                <input type="hidden" name="id_banner" value="<?= $Banner["id_banner"]; ?>">
+                <input type="hidden" name="gambarLama" value="<?= $Banner["Gambar"]; ?>">
                 <div class="form-group label-txt">
                     <div class="form-group mt-4 mb-3">
                         <label for="tb_judul_halaman" class="label-txt">Judul Halaman Utama<span class="red-star">*</span></label>
@@ -148,7 +165,7 @@ $Banner = queryBanner("SELECT * FROM t_konten_beranda")[0];
                         <label for="image_uploads" class="label-txt">Gambar Latar Belakang<span class="red-star">*</span></label>
                         <br><img src="../../img/<?= $Banner["Gambar"]; ?>" class="edit-img popup " alt="">
                         <div class="file-form">
-                            <br><input type="file" id="image_uploads" name="image_uploads" class="form-control" Required>
+                            <br><input type="file" id="image_uploads" name="image_uploads" class="form-control">
                         </div>
                     </div>
                 </div>
