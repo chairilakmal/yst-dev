@@ -8,24 +8,130 @@ if (!isset($_SESSION["username"])) {
     exit;
 }
 
-if ($_SESSION["level_user"] == 4){
+if ($_SESSION["level_user"] == 4) {
     header('Location: ../../user/dashboard-donasi/dashboard-user.php');
     exit;
 }
 
+//ambil id program di URL
+$id_beasiswa = $_GET["id_beasiswa"];
+
+function upload()
+{
+    //upload gambar
+    $namaFile = $_FILES['image_uploads']['name'];
+    $ukuranFile = $_FILES['image_uploads']['size'];
+    $error = $_FILES['image_uploads']['error'];
+    $tmpName = $_FILES['image_uploads']['tmp_name'];
+
+
+    // if($error === 4){
+    //     echo "
+    //         <script>
+    //             alert('gambar tidak ditemukan !');
+    //         </script>
+    //     ";
+    //     return false;
+    // }
+
+    //cek ekstensi gambar
+    $ekstensiGambarValid = ['jpg', 'jpeg', 'png'];
+    $ekstensiGambar = explode('.', $namaFile);
+    $ekstensiGambar = strtolower(end($ekstensiGambar));
+
+    if (!in_array($ekstensiGambar, $ekstensiGambarValid)) {
+        echo "
+                    <script>
+                        alert('kesalahan pada format gambar !');
+                    </script>
+                ";
+        return false;
+    }
+
+    //generate nama baru
+    $namaFileBaru = uniqid();
+    $namaFileBaru .= '.';
+    $namaFileBaru .= $ekstensiGambar;
+
+
+    //lolos pengecekan
+    move_uploaded_file($tmpName, '../../img/' . $namaFileBaru);
+    return $namaFileBaru;
+}
+
+
+function query($query)
+{
+    global $conn;
+    $result = mysqli_query($conn, $query);
+    $rows = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $rows[] = $row;
+    }
+    return $rows;
+}
+
+$cariNamaApprove = query("SELECT * FROM t_approval_beasiswa
+                        LEFT JOIN t_user
+                        ON t_approval_beasiswa.user_id = t_user.id_user 
+                        WHERE is_approve = 1 AND beasiswa_id = $id_beasiswa              
+                        ");
+
+$cariNamaReject = query("SELECT * FROM t_approval_beasiswa
+                        LEFT JOIN t_user
+                        ON t_approval_beasiswa.user_id = t_user.id_user 
+                        WHERE is_approve = 2 AND beasiswa_id = $id_beasiswa              
+                        ");
+
+$beasiswa = query("SELECT * FROM t_beasiswa
+                        LEFT JOIN t_user
+                        ON t_beasiswa.user_id = t_user.id_user               
+                        WHERE id_beasiswa = $id_beasiswa 
+                        ")[0];
+
+$jumlah_approval = mysqli_query($conn, "SELECT COUNT(id_approval)
+                            FROM t_approval_beasiswa
+                            WHERE is_approve = 1 AND beasiswa_id = $id_beasiswa");
+
+$approved = mysqli_fetch_array($jumlah_approval);
+$jumlah_diterima = intval($approved[0]);
+
+$jumlah_nonApproval = mysqli_query($conn, "SELECT COUNT(id_approval)
+                        FROM t_approval_beasiswa
+                        WHERE is_approve = 2 AND beasiswa_id = $id_beasiswa");
+
+$rejected = mysqli_fetch_array($jumlah_nonApproval);
+$jumlah_ditolak = intval($rejected[0]);
 
 
 if (isset($_POST["submit"])) {
 
-    $kategori_donasi      = $_POST["tb_kategori_donasi"];
-    $kategori_donasi        = htmlspecialchars($kategori_donasi);
+    $Tanggal           = $_POST["tb_tgl_beasiswa"];
 
-    $ket_kategori_donasi      = $_POST["tb_ket_kategori_donasi"];
+    $Nominal           = $_POST["tb_nominal"];
 
+    $Keterangan        = $_POST["tb_ket_beasiswa"];
+    $Keterangan        = htmlspecialchars($Keterangan);
 
-    $query = "INSERT INTO t_kat_donasi (kategori_donasi,ket_kategori_donasi)
-                VALUES ('$kategori_donasi','$ket_kategori_donasi')  
-                     ";
+    $status_beasiswa   = $_POST["status_beasiswa"];
+
+    $gambarLama        = $_POST["gambarLama"];
+
+    if ($_FILES['image_uploads']['error'] === 4) {
+        $gambar = $gambarLama;
+    } else {
+        $gambar = upload();
+    }
+
+    $query = "UPDATE t_beasiswa SET
+    tgl                 = '$Tanggal',
+    nominal             = '$Nominal',
+    keterangan          = '$Keterangan',
+    file_trf            = '$gambar',
+    is_approve          = '$status_beasiswa' 
+           
+    WHERE id_beasiswa     = $id_beasiswa
+    ";
 
 
 
@@ -66,69 +172,101 @@ if (isset($_POST["submit"])) {
                 <h3>Edit Beasiswa</h3>
             </div>
             <form action="" enctype="multipart/form-data" method="POST">
+                <input type="hidden" name="updated_by" value="<?= $_SESSION["nama"] ?>">
+                <input type="hidden" name="gambarLama" value="<?= $beasiswa["file_trf"]; ?>">
                 <div class="form-group label-txt">
                     <div class="form-group mt-4 mb-3">
                         <label for="tb_penerima" class="label-txt">Penerima<span class="red-star">*</span></label>
-                        <input type="text" id="tb_penerima" name="tb_penerima" class="form-control" placeholder="Nama penerima" Required>
+                        <input type="text" id="tb_penerima" name="tb_penerima" class="form-control" placeholder="Nama penerima" value="<?= $beasiswa["nama"]; ?>" readonly>
                     </div>
                     <div class="form-group mt-4 mb-3" id="tgl_selesai_form">
-                        <label for="tb_tgl_selesai" class="label-txt">Tanggal<span class="red-star">*</span></label>
-                        <input type="date" id="tb_tgl_selesai" name="tb_tgl_selesai" class="form-control" placeholder="Tanggal akhir pengumpulan dana">
+                        <label for="tb_tgl_beasiswa" class="label-txt">Tanggal<span class="red-star">*</span></label>
+                        <input type="date" id="tb_tgl_beasiswa" name="tb_tgl_beasiswa" class="form-control" value="<?= $beasiswa["tgl"]; ?>">
                     </div>
                     <div class="form-group mt-4 mb-3">
-                        <label for="tb_nama_program_donasi" class="label-txt">Nominal<span class="red-star">*</span></label>
-                        <input type="number" id="tb_nama_program_donasi" name="tb_nama_program_donasi" class="form-control" placeholder="Masukan nominal beasiswa" Required>
+                        <label for="tb_nominal" class="label-txt">Nominal<span class="red-star">*</span></label>
+                        <input type="number" id="tb_nominal" name="tb_nominal" class="form-control" placeholder="Masukan Nominal beasiswa" value="<?= $beasiswa["nominal"]; ?>" Required>
                     </div>
                     <div class="form-group">
-                        <label for="tb_ket_kategori_donasi" class="label-txt">Keterangan</label>
-                        <textarea class="form-control" id="tb_ket_kategori_donasi" name="tb_ket_kategori_donasi" rows="6" placeholder="Keterangan"></textarea>
+                        <label for="tb_ket_beasiswa" class="label-txt">Keterangan</label>
+                        <textarea class="form-control" id="tb_ket_beasiswa" name="tb_ket_beasiswa" rows="6" placeholder="Keterangan"><?= $beasiswa["keterangan"]; ?></textarea>
                     </div>
                     <div class="form-group">
                         <label for="image_uploads2" class="label-txt"> Bukti Transfer</label><br>
-                        <!-- <img src="img/" class="edit-img popup " alt=""> -->
+                        <br><img src="../../img/<?= $beasiswa["file_trf"]; ?>" class="edit-img popup " alt="Preview Image Not Available">
                         <div class="file-form">
-                            <input type="file" id="image_uploads2" name="image_uploads2" class="form-control ">
+                            <br><input type="file" id="image_uploads" name="image_uploads" class="form-control ">
                         </div>
                     </div>
                     <div class="form-group mb-5">
-                        <label for="status_program_donasi" class="font-weight-bold"><span class="label-form-span">Status Beasiswa</span></label><br>
+                        <br><label for="status_program_donasi" class="font-weight-bold"><span class="label-form-span">Jumlah Approve : <?= $jumlah_diterima ?> </span></label><br>
+                        <table>
+                            <?php foreach ($cariNamaApprove as $row) : ?>
+                                <tr>
+                                    <td> - <?= $row["nama"]; ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </table>
+                        <br><label for="status_program_donasi" class="font-weight-bold"><span class="label-form-span">Jumlah Reject : <?= $jumlah_ditolak ?> </span></label><br>
+                        <table>
+                            <?php foreach ($cariNamaReject as $row) : ?>
+                                <tr>
+                                    <td> - <?= $row["nama"]; ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </table>
+
+                        <br><label for="status_program_donasi" class="font-weight-bold"><span class="label-form-span">Aksi</span></label><br>
+
                         <div class="radio-wrapper mt-1 bg-white">
                             <div class="form-check form-check-inline">
-                                <input type="radio" id="status_program_donasi" name="status_program_donasi" class="form-check-input" value="Pending" checked>
-                                <label class="form-check-label" for="status_program_donasi">1</label>
+                                <input type="radio" id="status_beasiswa" name="status_beasiswa" class="form-check-input" value="0" <?php if ($beasiswa['is_approve'] == 0) echo 'checked' ?>>
+                                <label class="form-check-label" for="status_berita">Pending</label>
                             </div>
                         </div>
-                        <div class="radio-wrapper2 mt-1 bg-white">
-                            <div class="form-check form-check-inline">
-                                <input type="radio" id="status_program_donasi" name="status_program_donasi" class="form-check-input" value="Berjalan">
-                                <label class="form-check-label" for="status_program_donasi">2</label>
+
+                        <?php
+                        if ($jumlah_diterima == 6) {
+                            echo
+                            '<div class="radio-wrapper mt-1 bg-white">
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" id="status_beasiswa" name="status_beasiswa" class="form-check-input" value="1" checked>
+                                <label class="form-check-label" for="status_berita">Terverifikasi</label>
                             </div>
-                        </div>
-                        <div class="radio-wrapper mt-1 ml-3 bg-white">
-                            <div class="form-check form-check-inline">
-                                <input type="radio" id="status_program_donasi" name="status_program_donasi" class="form-check-input" value="Siap disalurkan">
-                                <label class="form-check-label" for="status_program_donasi">3</label>
+                        </div>';
+                        } else {
+                            echo
+                            '<div class="radio-wrapper mt-1 bg-white">
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" id="status_beasiswa" name="status_beasiswa" class="form-check-input" value="1" disabled>
+                                <label class="form-check-label" for="status_berita">Terverifikasi</label>
                             </div>
-                        </div>
-                        <div class="radio-wrapper mt-1 bg-white">
-                            <div class="form-check form-check-inline">
-                                <input type="radio" id="status_program_donasi" name="status_program_donasi" class="form-check-input" value="Selesai">
-                                <label class="form-check-label" for="status_program_donasi">4</label>
-                            </div>
-                        </div>
+                        </div>';
+                        } ?>
+
                     </div>
-
                 </div>
-
-
-
+                <button type="submit" name="submit" value="Simpan" class="btn btn-lg btn-primary w-100 yst-login-btn border-0 mt-4 mb-4">
+                    <span class="yst-login-btn-fs">Simpan</span>
+                </button>
+            </form>
         </div>
-        <button type="submit" name="submit" value="Simpan" class="btn btn-lg btn-primary w-100 yst-login-btn border-0 mt-4 mb-4">
-            <span class="yst-login-btn-fs">Simpan</span>
-        </button>
-        </form>
-</div>
-</main>
+        <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel"> Preview Image </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <img src="" id="popup-img" alt="image" class="w-100">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 </div>
 <!-- /.container-fluid -->
 <!-- /.content -->

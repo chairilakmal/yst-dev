@@ -163,7 +163,7 @@ $Banner = queryBanner("SELECT * FROM t_konten_beranda")[0];
                     </div>
                     <div class="form-group">
                         <label for="image_uploads" class="label-txt">Gambar Latar Belakang<span class="red-star">*</span></label>
-                        <br><img src="../../img/<?= $Banner["Gambar"]; ?>" class="edit-img popup " alt="">
+                        <br><img src="../../img/<?= $Banner["Gambar"]; ?>" class="edit-img popup " alt="Preview Image Not Available">
                         <div class="file-form">
                             <br><input type="file" id="image_uploads" name="image_uploads" class="form-control">
                         </div>

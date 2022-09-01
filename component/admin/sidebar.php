@@ -2,7 +2,7 @@
 <aside class="main-sidebar sidebar-background elevation-4">
     <!-- Brand Logo -->
 
-    <a href="dashboard-admin.php" class="brand-link">
+    <a href="index.php" class="brand-link">
         <img src="../../img/logo-only.svg" class="brand-image mt-1">
         <span class="brand-text font-weight-bold mt-2"><i>Dashboard Admin</i></span>
     </a>
@@ -139,7 +139,7 @@
                                 <a href="../non-aktif/" class="nav-link side-icon">
                                     <i class="nav-icon fas fa-user-slash"></i>
                                     <p>
-                                        User Non Aktif
+                                        Data Kematian
                                     </p>
                                 </a>
                             </div>
