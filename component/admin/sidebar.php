@@ -131,7 +131,7 @@
 
                                     <i class="nav-icon fas fa-user-check"></i>
                                     <p>
-                                        User Aktif
+                                        Data Aktif
                                     </p>
                                 </a>
                             </div>
@@ -157,7 +157,7 @@
 
                                     <i class="nav-icon fas fa-user-check"></i>
                                     <p>
-                                        User Aktif
+                                        Data Aktif
                                     </p>
                                 </a>
                             </div>
@@ -165,7 +165,7 @@
                                 <a href="../non-aktif/" class=" nav-link side-icon">
                                     <i class="nav-icon fas fa-user-slash"></i>
                                     <p>
-                                        User Non Aktif
+                                        Data Wafat
                                     </p>
                                 </a>
                             </div>

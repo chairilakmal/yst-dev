@@ -45,7 +45,7 @@ $userQuery = query("SELECT * FROM t_meninggal
                     <a href="../berita/index.php">
                         <i class="nav-icon fas fa-home mr-1"></i>Dashboard admin</a> >
                     <a href="index.php">
-                        <i class="nav-icon fas fa-cog mr-1"></i>Kelola User Non Aktif</a>
+                        <i class="nav-icon fas fa-cog mr-1"></i>Kelola Data Wafat</a>
                 </div>
 
                 <div class="card card-request-data">

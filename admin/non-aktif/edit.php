@@ -265,13 +265,13 @@ if (isset($_POST["submit"])) {
                         <div class="radio-wrapper mt-1 bg-white">
                             <div class="form-check form-check-inline">
                                 <input type="radio" id="tb_status_meninggal" name="tb_status_meninggal" class="form-check-input" value="y" <?php if ($dataKematian['is_approve'] == 'y') echo 'checked' ?>>
-                                <label class="form-check-label" for="tb_status_meninggal">Sudah Meninggal</label>
+                                <label class="form-check-label" for="tb_status_meninggal">Terverifikasi </label>
                             </div>
                         </div>
                         <div class="radio-wrapper2 mt-1 bg-white">
                             <div class="form-check form-check-inline">
                                 <input type="radio" id="tb_status_meninggal" name="tb_status_meninggal" class="form-check-input" value="n" <?php if ($dataKematian['is_approve'] == 'n') echo 'checked' ?>>
-                                <label class="form-check-label" for="tb_status_meninggal">Belum Meninggal</label>
+                                <label class="form-check-label" for="tb_status_meninggal">Belum Terverifikasi</label>
                             </div>
                         </div>
                     </div>

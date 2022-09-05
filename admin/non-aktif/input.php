@@ -91,12 +91,33 @@ if (isset($_POST["submit"])) {
 
     $nama = $_SESSION['nama'];
 
-    $created_by                 = $_POST[$nama];
-    $updated_by                 = $_POST[$nama];
+    $created_by                 = $nama;
+    $updated_by                 = $nama;
 
 
-    $query = "INSERT INTO t_meninggal (id_user, tgl, waktu, tempat, tempat_pemakaman, penyebab_kematian, file_kk, file_surat_kematian, created_by, updated_by)
-                VALUES ('$id_user', '$tgl_kematian','$waktu','$tempat_meninggal','$tempat_pemakaman','$penyebab_kematian', '$suratKematian', '$KartuKeluarga', '$created_by', '$updated_by')";
+    $query = "INSERT INTO t_meninggal 
+        (
+            id_user, 
+            tgl, 
+            waktu, 
+            tempat, 
+            tempat_pemakaman, 
+            penyebab_kematian, 
+            file_kk, 
+            file_surat_kematian, 
+            created_by, 
+            updated_by)
+            VALUES (
+                '$id_user', 
+                '$tgl_kematian',
+                '$waktu',
+                '$tempat_meninggal',
+                '$tempat_pemakaman',
+                '$penyebab_kematian', 
+                '$KartuKeluarga', 
+                '$suratKematian', 
+                '$created_by', 
+                '$updated_by')";
 
 
     mysqli_query($conn, $query);
