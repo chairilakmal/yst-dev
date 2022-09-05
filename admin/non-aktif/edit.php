@@ -240,14 +240,14 @@ if (isset($_POST["submit"])) {
                         <label for="kartuKeluarga_Baru" class="label-txt"> Kartu Keluarga </label><br>
                         <img src="../../img/<?= $dataKematian["file_kk"]; ?>" class="edit-img popup " alt="">
                         <div class="file-form">
-                            <input type="file" id="kartuKeluarga_Baru" name="kartuKeluarga_Baru" class="form-control ">
+                            <br><input type="file" id="kartuKeluarga_Baru" name="kartuKeluarga_Baru" class="form-control ">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="suratKematian_Baru" class="label-txt"> Surat Keterangan Kematian </label><br>
                         <img src="../../img/<?= $dataKematian["file_surat_kematian"]; ?>" class="edit-img popup " alt="">
                         <div class="file-form">
-                            <input type="file" id="suratKematian_Baru" name="suratKematian_Baru" class="form-control ">
+                            <br><input type="file" id="suratKematian_Baru" name="suratKematian_Baru" class="form-control ">
                         </div>
                     </div>
                     <!-- <div class="form-group">
@@ -281,6 +281,22 @@ if (isset($_POST["submit"])) {
             <span class="yst-login-btn-fs">Simpan</span>
         </button>
         </form>
+</div>
+
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel"> Preview Image </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img src="" id="popup-img" alt="image" class="w-100">
+            </div>
+        </div>
+    </div>
 </div>
 </main>
 </div>

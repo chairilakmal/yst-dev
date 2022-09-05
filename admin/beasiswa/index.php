@@ -14,6 +14,24 @@ if ($_SESSION["level_user"] == 4) {
 }
 
 
+function query($query)
+{
+    global $conn;
+    $result = mysqli_query($conn, $query);
+    $rows = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $rows[] = $row;
+    }
+    return $rows;
+}
+
+$getBeasiswa = query("SELECT * FROM t_beasiswa
+                        LEFT JOIN t_user
+                        ON t_beasiswa.user_id = t_user.id_user               
+                        GROUP BY t_beasiswa.user_id 
+                        ORDER BY t_beasiswa.user_id DESC     
+                        ");
+
 
 
 ?>
@@ -63,24 +81,38 @@ if ($_SESSION["level_user"] == 4) {
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <?php foreach ($getBeasiswa as $row) : ?>
+                                        <tr>
+                                            <td class="text-center"><?= $row["id_beasiswa"]; ?></td>
+                                            <td class="table-snipet1"><?= $row["nama"]; ?></td>
+                                            <td><?= $row["tgl"]; ?></td>
+                                            <td><?= $row["nominal"]; ?></td>
+                                            <td>
+                                                <?php
+                                                if ($row['is_approve'] == 1) {
+                                                    echo 'Terverifikasi';
+                                                } else {
+                                                    echo 'Pending';
+                                                } ?></td>
+                                            </td>
 
-                                    <tr>
-                                        <td class="text-center">1</td>
-                                        <td class="table-snipet1">TEST</td>
-                                        <td>01-05-2022</td>
-                                        <td>Rp. 20.000.000</td>
-                                        <td>Pending</td>
-
-                                        <td class="justify-content-center">
-                                            <button type="button" class="btn btn-edit">
-                                                <a href="edit.php" class="fas fa-edit"></a>
-                                            </button>
-                                            <button type="button" class="btn btn-delete ml-1">
-                                                <a href="#" class="far fa-trash-alt" onclick="return confirm('Anda yakin ingin menghapus user ini ?');"></a>
-                                            </button>
-                                        </td>
-                                    </tr>
-
+                                            <td class="justify-content-center">
+                                                <?php if ($_SESSION['level_user'] == '2a' || $_SESSION['level_user'] == '1') { ?>
+                                                    <button type="button" class="btn btn-edit">
+                                                        <a href="edit.php?id_beasiswa=<?= $row["id_beasiswa"]; ?>" class="fas fa-edit"></a>
+                                                    </button>
+                                                <?php } ?>
+                                                <?php if ($_SESSION['level_user'] == '2b') { ?>
+                                                    <button type="button" class="btn btn-edit">
+                                                        <a href="form-approved.php?id_beasiswa=<?= $row["id_beasiswa"]; ?>" class="fas fa-edit"></a>
+                                                    </button>
+                                                <?php } ?>
+                                                <button type="button" class="btn btn-delete ml-1">
+                                                    <a href="../../hapus.php?type=beasiswa&id_beasiswa=<?= $row["id_beasiswa"]; ?>" class="far fa-trash-alt" onclick="return confirm('Anda yakin ingin menghapus data ini ?');"></a>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>

@@ -2,7 +2,7 @@
 <aside class="main-sidebar sidebar-background elevation-4">
     <!-- Brand Logo -->
 
-    <a href="dashboard-admin.php" class="brand-link">
+    <a href="index.php" class="brand-link">
         <img src="../../img/logo-only.svg" class="brand-image mt-1">
         <span class="brand-text font-weight-bold mt-2"><i>Dashboard Admin</i></span>
     </a>
@@ -139,7 +139,7 @@
                                 <a href="../non-aktif/" class="nav-link side-icon">
                                     <i class="nav-icon fas fa-user-slash"></i>
                                     <p>
-                                        User Non Aktif
+                                        Data Kematian
                                     </p>
                                 </a>
                             </div>
@@ -370,7 +370,8 @@
                 <?php } ?>
 
                 <?php if (
-                    $backUrl == "/yst-dev-restructured/admin/kelola-konten/halaman-utama/"
+                    $backUrl == "/yst-dev-restructured/admin/kelola-konten/" ||
+                    $backUrl == "/yst-dev-restructured/admin/kelola-konten/halaman-utama.php"
                 ) {
                     echo '<li class="nav-item nav-item-sidebar">
                         <a class="nav-link side-icon dropdown-toggle" data-toggle="collapse" href="#menu-konten" role="button" aria-controls="menu-konten">
@@ -379,7 +380,7 @@
                         </a>
                         <div class="collapse" id="menu-master">
                             <div class="row py-2 ml-2">
-                                <a class="nav-item side-icon ml-3" href="../kelola-konten/halaman-utama">
+                                <a class="nav-item side-icon ml-3" href="../kelola-konten/halaman-utama.php">
                                     <i class="nav-icon fa fa-clone" aria-hidden="true"></i>
                                     Halaman Utama
                                 </a>
@@ -394,7 +395,7 @@
                         </a>
                         <div class="collapse" id="menu-konten">
                             <div class="row py-2 ml-2">
-                                <a class="nav-item side-icon ml-3" href="../kelola-konten/halaman-utama/">
+                                <a class="nav-item side-icon ml-3" href="../kelola-konten/halaman-utama.php">
                                     <i class="nav-icon fa fa-clone" aria-hidden="true"></i>
                                     Halaman Utama
                                 </a>

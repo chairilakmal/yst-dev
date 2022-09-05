@@ -36,14 +36,20 @@ $userQuery = query("SELECT * FROM t_meninggal
 
 if (isset($_POST["submit"])) {
 
-    $kategori_donasi      = $_POST["tb_kategori_donasi"];
-    $kategori_donasi        = htmlspecialchars($kategori_donasi);
+    $Penerima          = $_POST["tb_penerima"];
 
-    $ket_kategori_donasi      = $_POST["tb_ket_kategori_donasi"];
+    $Tanggal           = $_POST["tb_tgl_beasiswa"];
+
+    $Nominal           = $_POST["tb_nominal"];
+
+    $Keterangan        = $_POST["tb_ket_beasiswa"];
+    $Keterangan        = htmlspecialchars($Keterangan);
 
 
-    $query = "INSERT INTO t_kat_donasi (kategori_donasi,ket_kategori_donasi)
-                VALUES ('$kategori_donasi','$ket_kategori_donasi')  
+
+
+    $query = "INSERT INTO t_beasiswa (user_id, tgl, nominal, keterangan)
+                VALUES ('$Penerima','$Tanggal', '$Nominal', '$Keterangan')  
                      ";
 
 
@@ -79,7 +85,9 @@ if (isset($_POST["submit"])) {
             <a href="../berita/index.php">
                 <i class="nav-icon fas fa-home mr-1"></i>Dashboard admin</a> >
             <a href="index.php">
-                <i class="nav-icon fas fa-cog mr-1"></i>Kelola Beasiswa</a>
+                <i class="nav-icon fas fa-cog mr-1"></i>Kelola Beasiswa</a> >
+            <a href="input.php">
+                <i class="nav-icon fas fa-cog mr-1"></i>Input Beasiswa</a>
         </div>
         <div class="form-profil">
             <div class="mt-2 regis-title">
@@ -89,24 +97,24 @@ if (isset($_POST["submit"])) {
                 <div class="form-group label-txt">
                     <div class="form-group mt-4 mb-3">
                         <label for="tb_kategori">Penerima<span class="red-star">*</span></label></label>
-                        <select class="form-control" id="tb_kategori" name="tb_kategori" required>
+                        <select class="form-control" id="tb_penerima" name="tb_penerima" required>
                             <option value="" selected disabled>Pilih NIK</option>;
                             <?php foreach ($userQuery as $row) : ?>
-                                <option value=""><?= $row["nik"]; ?></option>';
+                                <option value="<?= $row["id_user"]; ?>"><?= $row["nik"]; ?></option>';
                             <?php endforeach; ?>
                         </select>
                     </div>
                     <div class="form-group mt-4 mb-3" id="tgl_selesai_form">
-                        <label for="tb_tgl_selesai" class="label-txt">Tanggal<span class="red-star">*</span></label>
-                        <input type="date" id="tb_nama_lengkap" name="tb_nama_lengkap" class="form-control">
+                        <label for="tb_tgl_beasiswa" class="label-txt">Tanggal<span class="red-star">*</span></label>
+                        <input type="date" id="tb_tgl_beasiswa" name="tb_tgl_beasiswa" class="form-control">
                     </div>
                     <div class="form-group mt-4 mb-3">
-                        <label for="tb_nama_program_donasi" class="label-txt">Nominal<span class="red-star">*</span></label>
-                        <input type="number" id="tb_nama_program_donasi" name="tb_nama_program_donasi" class="form-control" placeholder="Masukan nominal beasiswa" Required>
+                        <label for="tb_nominal" class="label-txt">Nominal<span class="red-star">*</span></label>
+                        <input type="number" id="tb_nominal" name="tb_nominal" class="form-control" placeholder="Masukan nominal beasiswa" Required>
                     </div>
                     <div class="form-group">
-                        <label for="tb_ket_kategori_donasi" class="label-txt">Keterangan</label>
-                        <textarea class="form-control" id="tb_ket_kategori_donasi" name="tb_ket_kategori_donasi" rows="6" placeholder="Keterangan"></textarea>
+                        <label for="tb_ket_beasiswa" class="label-txt">Keterangan</label>
+                        <textarea class="form-control" id="tb_ket_beasiswa" name="tb_ket_beasiswa" rows="6" placeholder="Keterangan"></textarea>
                     </div>
                 </div>
                 <button type="submit" name="submit" value="Simpan" class="btn btn-lg btn-primary w-100 yst-login-btn border-0 mt-4 mb-4">

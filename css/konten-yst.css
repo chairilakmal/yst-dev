@@ -16,6 +16,13 @@ body {
   overflow-x: hidden;
 }
 
+.landing-page-banner {
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 85vh;
+}
+
 .donasi-relawan-konten {
   padding-top: 6vw;
 }
@@ -158,11 +165,7 @@ body {
   /* border-radius: 8px; */
   border-radius: 6px;
   background: rgb(147, 16, 23);
-  background: linear-gradient(
-    45deg,
-    rgba(147, 16, 23, 1) 0%,
-    rgba(229, 19, 29, 1) 100%
-  );
+  background: linear-gradient(45deg, rgba(147, 16, 23, 1) 0%, rgba(229, 19, 29, 1) 100%);
   border-style: none;
 
   color: #ffffff;
@@ -189,11 +192,7 @@ body {
 .btn-donasi {
   border-radius: 6px;
   background: rgb(147, 16, 23);
-  background: linear-gradient(
-    45deg,
-    rgba(147, 16, 23, 1) 0%,
-    rgba(229, 19, 29, 1) 100%
-  );
+  background: linear-gradient(45deg, rgba(147, 16, 23, 1) 0%, rgba(229, 19, 29, 1) 100%);
   border-style: none;
   color: #ffffff;
   font-family: "Montserrat", sans-serif;
@@ -557,11 +556,7 @@ body {
 .btn-kata-media {
   border-style: none;
   background: rgb(147, 16, 23);
-  background: linear-gradient(
-    45deg,
-    rgba(147, 16, 23, 1) 0%,
-    rgba(229, 19, 29, 1) 100%
-  );
+  background: linear-gradient(45deg, rgba(147, 16, 23, 1) 0%, rgba(229, 19, 29, 1) 100%);
   color: #ffffff;
   font-family: "Montserrat", sans-serif;
   font-size: 15px;
