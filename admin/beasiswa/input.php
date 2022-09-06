@@ -13,6 +13,7 @@ if ($_SESSION["level_user"] == 4) {
 }
 
 
+
 function query($query)
 {
     global $conn;
@@ -34,6 +35,50 @@ $userQuery = query("SELECT * FROM t_meninggal
                     ORDER BY t_meninggal.id_user DESC                
                     ");
 
+function upload()
+{
+    //upload gambar
+    $namaFile = $_FILES['image_uploads']['name'];
+    $ukuranFile = $_FILES['image_uploads']['size'];
+    $error = $_FILES['image_uploads']['error'];
+    $tmpName = $_FILES['image_uploads']['tmp_name'];
+
+    //  if($error === 4){
+    //      echo "
+    //          <script>
+    //              alert('gambar tidak ditemukan !');
+    //          </script>
+    //      ";
+    //      return false;
+    //  }
+
+    //cek ekstensi gambar
+    $ekstensiGambarValid = ['jpg', 'jpeg', 'png'];
+    $ekstensiGambar = explode('.', $namaFile);
+    $ekstensiGambar = strtolower(end($ekstensiGambar));
+
+    if (!in_array($ekstensiGambar, $ekstensiGambarValid)) {
+        echo "
+                     <script>
+                         alert('kesalahan pada format gambar !');
+                     </script>
+                 ";
+        return false;
+    }
+
+    //generate nama baru
+    $namaFileBaru = uniqid();
+    $namaFileBaru .= '.';
+    $namaFileBaru .= $ekstensiGambar;
+
+
+    //lolos pengecekan
+    move_uploaded_file($tmpName, '../../img/' . $namaFileBaru);
+
+    return $namaFileBaru;
+}
+
+
 if (isset($_POST["submit"])) {
 
     $Penerima          = $_POST["tb_penerima"];
@@ -42,14 +87,23 @@ if (isset($_POST["submit"])) {
 
     $Nominal           = $_POST["tb_nominal"];
 
+    $suratTagihan      = upload();
+
+    $namaPIC           = $_POST["tb_pic_sekolah"];
+    $namaPIC           = htmlspecialchars($namaPIC);
+
+    $kontakPIC         = $_POST["tb_kontak_pic"];
+    $kontakPIC         = htmlspecialchars($kontakPIC);
+
+
     $Keterangan        = $_POST["tb_ket_beasiswa"];
     $Keterangan        = htmlspecialchars($Keterangan);
 
 
 
 
-    $query = "INSERT INTO t_beasiswa (user_id, tgl, nominal, keterangan)
-                VALUES ('$Penerima','$Tanggal', '$Nominal', '$Keterangan')  
+    $query = "INSERT INTO t_beasiswa (user_id, tgl, nominal, file_surat_tagihan, nama_pic, kontak_pic, keterangan )
+                VALUES ('$Penerima','$Tanggal', '$Nominal', '$suratTagihan', '$namaPIC','$kontakPIC', '$Keterangan' )  
                      ";
 
 
@@ -105,12 +159,26 @@ if (isset($_POST["submit"])) {
                         </select>
                     </div>
                     <div class="form-group mt-4 mb-3" id="tgl_selesai_form">
-                        <label for="tb_tgl_beasiswa" class="label-txt">Tanggal<span class="red-star">*</span></label>
+                        <label for="tb_tgl_beasiswa" class="label-txt">Tanggal Pengajuan Beasiswa<span class="red-star">*</span></label>
                         <input type="date" id="tb_tgl_beasiswa" name="tb_tgl_beasiswa" class="form-control">
                     </div>
                     <div class="form-group mt-4 mb-3">
                         <label for="tb_nominal" class="label-txt">Nominal<span class="red-star">*</span></label>
                         <input type="number" id="tb_nominal" name="tb_nominal" class="form-control" placeholder="Masukan nominal beasiswa" Required>
+                    </div>
+                    <div class="form-group">
+                        <label for="image_uploads" class="label-txt">Surat Tagihan Sekolah / Kampus</label>
+                        <div class="file-form">
+                            <input type="file" id="image_uploads" name="image_uploads" class="form-control ">
+                        </div>
+                    </div>
+                    <div class="form-group mt-4 mb-3">
+                        <label for="tb_pic_sekolah" class="label-txt">Nama PIC Sekolah / Kampus<span class="red-star">*</span></label>
+                        <input type="text" id="tb_pic_sekolah" name="tb_pic_sekolah" class="form-control" placeholder="Masukan Nama PIC Sekolah / Kampus" Required>
+                    </div>
+                    <div class="form-group mt-4 mb-3">
+                        <label for="tb_kontak_pic" class="label-txt">Kontak PIC Sekolah / Kampus<span class="red-star">*</span></label>
+                        <input type="text" id="tb_kontak_pic" name="tb_kontak_pic" class="form-control" placeholder="Masukan Nomor Kontak dari PIC Sekolah / Kampus" Required>
                     </div>
                     <div class="form-group">
                         <label for="tb_ket_beasiswa" class="label-txt">Keterangan</label>

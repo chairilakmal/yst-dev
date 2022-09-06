@@ -114,10 +114,12 @@ if (isset($_POST["submit"])) {
 <div class="content-wrapper">
     <main>
         <div class="page-title-link ml-4 mb-4">
+            <a href="../berita/index.php">
+                <i class="nav-icon fas fa-home mr-1"></i>Dashboard admin</a> >
             <a href="index.php">
-                <i class="nav-icon fas fa-home mr-1"></i>Kelola User</a> >
-            <a href="edit.php">
-                <i class="nav-icon fas fa-cog mr-1"></i>Edit User</a>
+                <i class="nav-icon fas fa-cog mr-1"></i>Kelola User Aktif</a> >
+            <a href="edit.php?id_user=<?= $id_user ?>">
+                <i class=" nav-icon fas fa-plus-square mr-1"></i>Edit User</a>
         </div>
         <div class="form-profil">
             <div class="mt-2 form-title">

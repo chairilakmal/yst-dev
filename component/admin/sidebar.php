@@ -139,7 +139,7 @@
                                 <a href="../non-aktif/" class="nav-link side-icon">
                                     <i class="nav-icon fas fa-user-slash"></i>
                                     <p>
-                                        Data Kematian
+                                        Data Wafat
                                     </p>
                                 </a>
                             </div>
@@ -165,7 +165,7 @@
                                 <a href="../non-aktif/" class=" nav-link side-icon">
                                     <i class="nav-icon fas fa-user-slash"></i>
                                     <p>
-                                        User Non Aktif
+                                        Data Wafat
                                     </p>
                                 </a>
                             </div>

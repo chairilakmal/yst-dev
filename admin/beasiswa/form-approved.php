@@ -40,7 +40,6 @@ $beasiswa = query("SELECT * FROM t_beasiswa
                         WHERE id_beasiswa = $id_beasiswa 
                         ")[0];
 
-
 if (isset($_POST["submit"])) {
 
     $beasiswa_id      = $_POST["id_beasiswa"];
@@ -87,7 +86,9 @@ if (isset($_POST["submit"])) {
             <a href="../berita/index.php">
                 <i class="nav-icon fas fa-home mr-1"></i>Dashboard admin</a> >
             <a href="index.php">
-                <i class="nav-icon fas fa-cog mr-1"></i>Kelola Beasiswa</a>
+                <i class="nav-icon fas fa-cog mr-1"></i>Kelola Beasiswa</a> >
+            <a href="form-approved.php?id_beasiswa=<?= $row["id_beasiswa"]; ?>">
+                <i class="nav-icon fas fa-cog mr-1"></i>Form Approve</a>
         </div>
         <div class="form-profil">
             <div class="mt-2 regis-title">
@@ -102,12 +103,24 @@ if (isset($_POST["submit"])) {
                         <input type="text" id="tb_penerima" name="tb_penerima" class="form-control" placeholder="Nama penerima" value="<?= $beasiswa["nama"]; ?>" readonly>
                     </div>
                     <div class="form-group mt-4 mb-3" id="tgl_selesai_form">
-                        <label for="tb_tgl_beasiswa" class="label-txt">Tanggal<span class="red-star">*</span></label>
+                        <label for="tb_tgl_beasiswa" class="label-txt">Tanggal Pengajuan<span class="red-star">*</span></label>
                         <input type="date" id="tb_tgl_beasiswa" name="tb_tgl_beasiswa" class="form-control" value="<?= $beasiswa["tgl"]; ?>" readonly>
                     </div>
                     <div class="form-group mt-4 mb-3">
                         <label for="tb_nominal" class="label-txt">Nominal<span class="red-star">*</span></label>
                         <input type="number" id="tb_nominal" name="tb_nominal" class="form-control" placeholder="Masukan Nominal beasiswa" value="<?= $beasiswa["nominal"]; ?>" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="image_uploads2" class="label-txt">Surat Tagihan Sekolah / Kampus</label><br>
+                        <img src="../../img/<?= $beasiswa["file_surat_tagihan"]; ?>" class="edit-img popup " alt="Preview Image Not Available">
+                    </div>
+                    <div class="form-group mt-4 mb-3">
+                        <label for="tb_nama_pic" class="label-txt">Nama PIC Sekolah / Kampus<span class="red-star">*</span></label>
+                        <input type="text" id="tb_nama_pic" name="tb_nama_pic" class="form-control" placeholder="Nama PIC" value="<?= $beasiswa["nama_pic"]; ?>" readonly>
+                    </div>
+                    <div class="form-group mt-4 mb-3">
+                        <label for="tb_kontak_pic" class="label-txt">Kontak PIC Sekolah / Kampus<span class="red-star">*</span></label>
+                        <input type="text" id="tb_kontak_pic" name="tb_kontak_pic" class="form-control" placeholder="Kontak PIC" value="<?= $beasiswa["kontak_pic"]; ?>" readonly>
                     </div>
                     <div class="form-group">
                         <label for="tb_ket_beasiswa" class="label-txt">Keterangan</label>
@@ -156,6 +169,21 @@ if (isset($_POST["submit"])) {
                     </button>';
                 } ?>
             </form>
+        </div>
+        <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel"> Preview Image </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <img src="" id="popup-img" alt="image" class="w-100">
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 </div>
