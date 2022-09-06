@@ -23,7 +23,7 @@ if (!isset($_SESSION["username"])) {
     exit;
 }
 
-if ($_SESSION["level_user"] == 4){
+if ($_SESSION["level_user"] == 4) {
     header('Location: ../../user/dashboard-donasi/dashboard-user.php');
     exit;
 }
@@ -186,8 +186,8 @@ if (isset($_POST["submit"])) {
                 <i class="nav-icon fas fa-home mr-1"></i>Dashboard admin</a> >
             <a href="index.php">
                 <i class="nav-icon fas fa-cog mr-1"></i>Program donasi</a> >
-            <a href="edit.php">
-                <i class="nav-icon fas fa-plus-square mr-1"></i>Edit donasi</a>
+            <a href="edit.php?id_donasi=<?= $id_donasi ?>">
+                <i class=" nav-icon fas fa-plus-square mr-1"></i>Edit donasi</a>
         </div>
         <div class="form-profil halaman-view">
             <div class="mt-2 regis-title">

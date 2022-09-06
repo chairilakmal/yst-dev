@@ -194,7 +194,9 @@ if (isset($_POST["submit"])) {
             <a href="../berita/index.php">
                 <i class="nav-icon fas fa-home mr-1"></i>Dashboard admin</a> >
             <a href="index.php">
-                <i class="nav-icon fas fa-cog mr-1"></i>Kelola Meninggal</a>
+                <i class="nav-icon fas fa-cog mr-1"></i>Kelola Data Wafat</a> >
+            <a href="edit.php?id_meninggal=<?= $id_meninggal ?>">
+                <i class="nav-icon fas fa-cog mr-1"></i>Edit Data Wafat</a>
         </div>
         <div class="form-profil">
             <div class="mt-2 regis-title">
@@ -202,7 +204,6 @@ if (isset($_POST["submit"])) {
             </div>
             <form action="" enctype="multipart/form-data" method="POST">
                 <input type="hidden" name="id_meninggal" value="<?= $dataKematian["id_meninggal"]; ?>">
-                <input type="hidden" name="kartuKeluarga_Lama" value="<?= $dataKematian["file_kk"]; ?>">
                 <input type="hidden" name="kartuKeluarga_Lama" value="<?= $dataKematian["file_kk"]; ?>">
                 <input type="hidden" name="suratKematian_Lama" value="<?= $dataKematian["file_surat_kematian"]; ?>">
                 <div class="form-group label-txt">

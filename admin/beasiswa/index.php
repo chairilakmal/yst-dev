@@ -73,7 +73,7 @@ $getBeasiswa = query("SELECT * FROM t_beasiswa
                                     <tr>
                                         <td class="text-center">ID <br> Beasiswa</td>
                                         <td>Penerima</td>
-                                        <td>Tanggal</td>
+                                        <td>Tanggal Pengajuan</td>
                                         <td>Nominal</td>
                                         <td>Status</td>
 

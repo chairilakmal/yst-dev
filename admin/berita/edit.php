@@ -162,7 +162,7 @@ if (isset($_POST["submit"])) {
                 <i class="nav-icon fas fa-home mr-1"></i>Dashboard admin</a> >
             <a href="index.php">
                 <i class="nav-icon fas fa-cog mr-1"></i>Kelola Berita</a> >
-            <a href="edit.php">
+            <a href="edit.php?id_berita=<?= $id_berita ?>">
                 <i class="nav-icon fas fa-plus-square mr-1"></i>Edit Berita</a>
         </div>
         <div class="form-profil">
