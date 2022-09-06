@@ -76,6 +76,7 @@ if ($type == 'pdonasi') {
 
     header('Location: admin/non-aktif/index.php?status=deletesuccess');
     exit();
+
 } elseif ($type == 'beasiswa') {
     $id_meninggal = $_GET["id_beasiswa"];
     mysqli_query($conn, "DELETE FROM t_beasiswa
@@ -83,4 +84,11 @@ if ($type == 'pdonasi') {
 
     header('Location: admin/beasiswa/index.php?status=deletesuccess');
     exit();
-}
+
+} elseif ($type == 'laporanbulanan') {
+    $id_lap_keuangan = $_GET["id_lap_keuangan"];
+    mysqli_query($conn, "DELETE FROM t_lap_keuangan
+                            WHERE  	id_lap_keuangan = $id_lap_keuangan");
+
+    header('Location: admin/laporan/laporan-bulanan.php?status=deletesuccess');
+}    
