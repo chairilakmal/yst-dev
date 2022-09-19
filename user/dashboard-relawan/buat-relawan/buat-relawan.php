@@ -59,7 +59,7 @@ if (isset($_POST["submit"])) {
 
     $query = "INSERT INTO t_relawan
                     VALUES 
-                  ('','$status_relawan','$id_user','$id_program_relawan ','$nama_program_relawan','$tgl_pelaksanaan','$domisili','$nama_lengkap','$no_hp ','$tgl_daftar','$relawan_pending','','$email')  
+                  (null,'$status_relawan','$id_user','$id_program_relawan ','$nama_program_relawan','$tgl_pelaksanaan','$domisili','$nama_lengkap','$no_hp ','$tgl_daftar','$relawan_pending',null,'$email')  
                     ";
 
     mysqli_query($conn, $query);
