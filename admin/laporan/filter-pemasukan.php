@@ -15,14 +15,11 @@ if ($_SESSION["level_user"] == 4){
 
 
 
-
 function rupiah($angka)
 {
     $hasil_rupiah = "Rp. " . number_format($angka, 0, '.', '.');
     return $hasil_rupiah;
 }
-
-$filterBulan = query("SELECT * FROM t_lap_keuangan ORDER BY tanggal ASC");
 
 function query($query)
 {
@@ -35,15 +32,10 @@ function query($query)
     return $rows;
 }
 
+$laporanKeuangan = query("SELECT *
+                    FROM t_lap_keuangan WHERE status ='0'
+                    ");
 
-
-$laporanKeuangan = query("SELECT * FROM t_lap_keuangan ORDER BY id_lap_keuangan DESC");
-
-
-
-
-
-                  
 ?>
 <?php include '../../component/admin/header.php'; ?>
 <?php include '../../component/admin/sidebar.php'; ?>
@@ -64,23 +56,20 @@ $laporanKeuangan = query("SELECT * FROM t_lap_keuangan ORDER BY id_lap_keuangan 
 
                             <div class="col ">
                                 <div class="dropdown show ">
-                                    <a class="btn btn-info  filter-btn dropdown-toggle" href="filter.php" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <a class="btn btn-info  filter-btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Filter
                                     </a>
-                                  
                                     <div class="dropdown-menu green-drop" aria-labelledby="dropdownMenuLink">
                                         <a class="dropdown-item" href="filter-bulan.php">Bulan</a>
                                         <a class="dropdown-item" href="filter-pemasukan.php">Pemasukan</a>
                                         <a class="dropdown-item" href="filter-pengeluaran.php">Pengeluaran</a>
-                                       
                                     </div>
-                                 
+                              
                             </div>
                         </div>
-                        <div>
                         <button class="mr-2" onclick="location.href='input-pemasukan.php'">Pemasukan <span class="fas fa-plus-square"></span></button>
                         <button class="btn bg-transparent" onclick="location.href='input-pengeluaran.php'">Pengeluaran <span class="fas fa-plus-square"></span></button>
-                        </div>
+
                 </div>
                 
                 <div class="card-body card-body-req">
