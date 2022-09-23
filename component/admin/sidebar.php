@@ -12,6 +12,32 @@
         <!-- Sidebar Menu -->
         <nav class="mt-4">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <?php if (
+                    $backUrl == "/yst-dev-restructured/admin/dashboard-statistik/" ||
+                    $backUrl == "/yst-dev-restructured/admin/dashboard-statistik/input.php" ||
+                    $backUrl == "/yst-dev-restructured/admin/dashboard-statistik//edit.php"
+                ) {
+                    echo '<li class="nav-item nav-item-sidebar  menu-open">
+                    <a href="../dashboard-statistik/" class="nav-link side-icon active">
+                        <i class="nav-icon fas fa-home "></i>
+                        <p>
+                            Dashboard
+                        </p>
+                    </a>
+                </li>';
+                } else {
+                    echo '<li class="nav-item nav-item-sidebar  menu-open">
+                    <a href="../dashboard-statistik/" class="nav-link side-icon">
+                        <i class="nav-icon fas fa-home "></i>
+                        <p>
+                            Dashboard
+                        </p>
+                    </a>
+                </li>';
+                }
+                ?>
+                
+                
                 <?php if (
                     $backUrl == "/yst-dev-restructured/admin/berita/" ||
                     $backUrl == "/yst-dev-restructured/admin/berita/input.php" ||

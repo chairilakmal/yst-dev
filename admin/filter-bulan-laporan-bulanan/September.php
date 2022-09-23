@@ -37,12 +37,11 @@ function query($query)
 
 
 
-$laporanKeuangan = query("SELECT * FROM t_lap_keuangan WHERE status ='1'");
-
-$totalNominal = query("SELECT SUM(nominal) AS total_nominal FROM t_lap_keuangan WHERE status='1'");
+$laporanKeuangan = query("SELECT * FROM t_lap_keuangan WHERE MONTHNAME(tanggal)='September'");
 
 
 
+$totalNominal = query("SELECT SUM(nominal) AS total_nominal FROM t_lap_keuangan WHERE MONTHNAME(tanggal)='September'");
 
 
 
@@ -55,15 +54,15 @@ $totalNominal = query("SELECT SUM(nominal) AS total_nominal FROM t_lap_keuangan 
         <div class="request-data">
             <div class="projects">
                 <div class="page-title-link ml-4 mb-4">
-                    <a href="laporan-bulanan.php">
+                    <a href="../laporan/laporan-bulanan.php">
                         <i class="nav-icon fas fa-home mr-1"></i>Dashboard admin</a> >
-                    <a href="laporan-bulanan.php">
+                    <a href="../laporan/laporan-bulanan.php">
                         <i class="nav-icon fas fa-donate mr-1"></i>Laporan bulanan</a>
                 </div>
 
                 <div class="card card-request-data">
                     <div class="card-header-req">
-
+                    <div class="row ml-1 ">
                             <div class="col ">
                                 <div class="dropdown show ">
                                     <a class="btn btn-info  filter-btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -71,8 +70,8 @@ $totalNominal = query("SELECT SUM(nominal) AS total_nominal FROM t_lap_keuangan 
                                     </a>
 
                                     <div class="dropdown-menu green-drop" aria-labelledby="dropdownMenuLink">
-                                        <a class="dropdown-item" href="filter-pemasukan.php">Pemasukan</a>
-                                        <a class="dropdown-item" href="filter-pengeluaran.php">Pengeluaran</a>
+                                        <a class="dropdown-item" href="../laporan/filter-pemasukan.php">Pemasukan</a>
+                                        <a class="dropdown-item" href="../laporan/filter-pengeluaran.php">Pengeluaran</a>
                                     </div>
                                     <style>
                                     .dropdown {
@@ -83,6 +82,7 @@ $totalNominal = query("SELECT SUM(nominal) AS total_nominal FROM t_lap_keuangan 
                                     .dropdown-content {
                                     display: none;
                                     position: absolute;
+                                    background-color: #f9f9f9;
                                     min-width: 160px;
                                     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
                                     padding: 12px 16px;
@@ -94,31 +94,32 @@ $totalNominal = query("SELECT SUM(nominal) AS total_nominal FROM t_lap_keuangan 
                                     }
                                     </style>
                                     <div class="dropdown">
-                                    <a class="btn btn-info  filter-btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown">
+                                    <a class="btn btn-info  filter-btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Bulan
                                     </a>
 
                                     <div class="dropdown-menu green-drop" aria-labelledby="dropdownMenuLink">
-                                        <a class="dropdown-item" href="../filter-bulan-laporan-bulanan/Januari.php">Januari</a>
+                                    <a class="dropdown-item" href="../filter-bulan-laporan-bulanan/Januari.php">Januari</a>
                                         <a class="dropdown-item" href="../filter-bulan-laporan-bulanan/Ferbuari.php">Ferbuari</a>
                                         <a class="dropdown-item" href="../filter-bulan-laporan-bulanan/Maret.php">Maret</a>
                                         <a class="dropdown-item" href="../filter-bulan-laporan-bulanan/April.php">April</a>
-                                        <a class="dropdown-item" href="../filter-bulan-laporan-bulanann/Mei.php">Mei</a>
+                                        <a class="dropdown-item" href="../filter-bulan-laporan-bulanan/Mei.php">Mei</a>
                                         <a class="dropdown-item" href="../filter-bulan-laporan-bulanan/Juni.php">Juni</a>
                                         <a class="dropdown-item" href="../filter-bulan-laporan-bulanan/Juli.php">Juli</a>
                                         <a class="dropdown-item" href="../filter-bulan-laporan-bulanan/Agustus.php">Agustus</a>
                                         <a class="dropdown-item" href="../filter-bulan-laporan-bulanan/September.php">September</a>
-                                        <a class="dropdown-item" href="../filter-bulan-laporan-bulanann/Oktober.php">Oktober</a>
+                                        <a class="dropdown-item" href="../filter-bulan-laporan-bulanan/Oktober.php">Oktober</a>
                                         <a class="dropdown-item" href="../filter-bulan-laporan-bulanan/November.php">November</a>
                                         <a class="dropdown-item" href="../filter-bulan-laporan-bulanan/Desember.php">Desember</a>
 
                                     </div>
                         </div>
+                        </div>
                             </div>
                         </div>
                         <div>
-                        <button class="mr-2" onclick="location.href='input-pemasukan.php'">Pemasukan <span class="fas fa-plus-square"></span></button>
-                        <button class="btn bg-transparent" onclick="location.href='input-pengeluaran.php'">Pengeluaran <span class="fas fa-plus-square"></span></button>
+                        <button class="mr-2" onclick="location.href='../laporan/input-pemasukan.php'">Pemasukan <span class="fas fa-plus-square"></span></button>
+                        <button class="btn bg-transparent" onclick="../laporan/location.href='input-pengeluaran.php'">Pengeluaran <span class="fas fa-plus-square"></span></button>
                         </div>
                 </div>
 
@@ -139,7 +140,7 @@ $totalNominal = query("SELECT SUM(nominal) AS total_nominal FROM t_lap_keuangan 
                                 <tbody>
                                 <?php foreach ($laporanKeuangan as $row) : ?>
                                         <tr>
-                                            <td><?= date("d F Y", strtotime($row["tanggal"])); ?></td>
+                                            <td><?= date("F Y", strtotime($row["tanggal"])); ?></td>
                                             <td><?= $row["nomor_referensi"] ?></td>
                                             <td><?= rupiah($row["nominal"]); ?></td>
                                             <td><?= $row["sumber"]; ?></td>
@@ -152,7 +153,7 @@ $totalNominal = query("SELECT SUM(nominal) AS total_nominal FROM t_lap_keuangan 
 
                                             <td class="justify-content-center">
                                                 <button type="button" class="btn btn-edit">
-                                                    <a href="edit.php?id_lap_keuangan=<?= $row["id_lap_keuangan"]; ?>" class="fas fa-edit"></a>
+                                                    <a href="../laporan/edit.php?id_lap_keuangan=<?= $row["id_lap_keuangan"]; ?>" class="fas fa-edit"></a>
                                                 </button>
                                                 <button type="button" class="btn btn-delete ml-1">
                                                     <a href="../../hapus.php?type=laporanbulanan&id_lap_keuangan=<?= $row["id_lap_keuangan"]; ?>" class="far fa-trash-alt" onclick="return confirm('Anda yakin ingin menghapus data ini ?');"></a>
@@ -160,9 +161,8 @@ $totalNominal = query("SELECT SUM(nominal) AS total_nominal FROM t_lap_keuangan 
                                             </td>
                                         </tr>
                                 <?php endforeach; ?>
-                                </tbody>
-
-                                <thead>
+                                            </tbody>
+                                            <thead>
                                     <tr>
                                         <td></td>
                                         <td></td>

@@ -27,7 +27,7 @@ if (isset($_POST["login"])) {
       if ($_SESSION["level_user"] == "4") {
         header("Location: user/dashboard-donasi/dashboard-user.php");
       } else {
-        header("Location: admin/berita/");
+        header("Location: admin/dashboard-statistik/");
       }
     }
   }
