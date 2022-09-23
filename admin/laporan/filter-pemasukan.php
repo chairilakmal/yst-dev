@@ -127,8 +127,8 @@ $totalNominal = query("SELECT SUM(nominal) AS total_nominal FROM t_lap_keuangan 
                             <table width="100%">
                                 <thead>
                                 <tr>
-                                        <td>Tanggal</td>
                                         <td>No. Referensi</td>
+                                        <td>Tanggal</td>
                                         <td>Nominal</td>
                                         <td>Sumber Dana</td>
                                         <td>Status</td>
@@ -139,8 +139,8 @@ $totalNominal = query("SELECT SUM(nominal) AS total_nominal FROM t_lap_keuangan 
                                 <tbody>
                                 <?php foreach ($laporanKeuangan as $row) : ?>
                                         <tr>
-                                            <td><?= date("d F Y", strtotime($row["tanggal"])); ?></td>
                                             <td><?= $row["nomor_referensi"] ?></td>
+                                            <td><?= date("d F Y", strtotime($row["tanggal"])); ?></td>
                                             <td><?= rupiah($row["nominal"]); ?></td>
                                             <td><?= $row["sumber"]; ?></td>
                                             <td><?php
