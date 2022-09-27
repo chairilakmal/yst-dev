@@ -84,7 +84,7 @@ $relawanPending = query ("SELECT COUNT(status_program_relawan) AS Pending FROM t
               
 
                     <div class="row justify-content-around">
-                        <div class="card mb-3" style="width: 650px;">
+                        <div class="card col-sm-5">
                             <div class="row no-gutters">
                                 <div class="card-block">
                                 <div class="col my-4 mx-5 card-body">
@@ -107,7 +107,7 @@ $relawanPending = query ("SELECT COUNT(status_program_relawan) AS Pending FROM t
                                 </div>
                             </div>
                             </div>
-                            <div class="card mb-3" style="width: 650px;">
+                            <div class="card col-sm-5">
                             <div class="row no-gutters">
                                 <div class="card-block">
                                 <div class="col my-4 mx-5 card-body">
@@ -130,7 +130,7 @@ $relawanPending = query ("SELECT COUNT(status_program_relawan) AS Pending FROM t
                                 </div>
                             </div>
                             </div>
-                            <div class="card my-4" style="width: 650px;">
+                            <div class="card col-sm-5 my-4" >
                             <div class="row no-gutters">
                                 <div class="card-block">
                                 <div class="col my-4 mx-5 card-body">
@@ -153,7 +153,7 @@ $relawanPending = query ("SELECT COUNT(status_program_relawan) AS Pending FROM t
                                 </div>
                             </div>
                             </div>
-                        <div class="card my-4" style="width: 650px;">
+                        <div class="card col-sm-5 my-4" >
                             <div class="row no-gutters">
                                 <div class="card-block">
                                 <div class="col my-4 mx-5 card-body">
@@ -176,7 +176,7 @@ $relawanPending = query ("SELECT COUNT(status_program_relawan) AS Pending FROM t
                                 </div>
                             </div>
                             </div>
-                            <div class="card my-4" style="width: 650px;">
+                            <div class="card col-sm-5 my-4" >
                             <div class="row no-gutters">
                                 <div class="card-block">
                                 <div class="col my-4 mx-5 card-body">

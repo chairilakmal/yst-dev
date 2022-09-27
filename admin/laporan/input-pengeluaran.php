@@ -40,7 +40,6 @@ if (isset($_POST["submit"])) {
     $bulan            = $_POST['tb_bulan'];
     $tahun            = $_POST['tb_tahun'];
     $tanggal          = $_POST['tb_tanggal'];
-    $nomorReferensi   = $_POST['tb_nomor_referensi'];
     $nominal          = $_POST['tb_nominal'];
     $sumber           = $_POST['tb_sumber'];
     $keterangan       = $_POST['tb_keterangan'];
@@ -48,8 +47,8 @@ if (isset($_POST["submit"])) {
 
 
     // GLOBAL UPDATE
-    $query = "INSERT INTO t_lap_keuangan (bulan,tahun,tanggal,nomor_referensi,nominal,sumber,keterangan,status)
-                VALUES ('$bulan', '$tahun', '$tanggal', '$nomorReferensi', '$nominal','$sumber','$keterangan','$status')";
+    $query = "INSERT INTO t_lap_keuangan (bulan,tahun,tanggal,nominal,sumber,keterangan,status)
+                VALUES ('$bulan', '$tahun', '$tanggal', '$nominal','$sumber','$keterangan','$status')";
 
                 
 
@@ -129,17 +128,13 @@ if (isset($_POST["submit"])) {
                         <label for="tb_tanggal" class="label-txt">Tanggal<span class="red-star">*</span></label>
                         <input type="date" id="tb_tanggal" name="tb_tanggal" Required>
                     </div>
-                    <div class="form-group mt-4 mb-3">
-                        <label for="tb_nomor_referensi" class="label-num">Nomor Referensi<span class="red-star">*</span></label>
-                        <input type="number" id="tb_nomor_referensi" name="tb_nomor_referensi" class="form-control" placeholder="Masukan nomor referensi" Required>
-                    </div>
                         <div class="form-group mt-4 mb-3">
                         <label for="tb_nominal" class="label-num">Nominal<span class="red-star">*</span></label>
                        <input type="number" id="tb_nominal" name="tb_nominal" class="form-control" placeholder="Masukan nominal pemasukan" Required>     
                     </div>
                     <div class="form-group">
                         <label for="tb_sumber" class="label-txt">Sumber Dana<span class="red-star">*</label>
-                        <textarea class="form-control" id="tb_sumber" name="tb_sumber" placeholder="Masukkan sumber dana"></textarea>
+                        <textarea class="form-control" id="tb_sumber" name="tb_sumber" placeholder="Masukkan sumber dana" Required></textarea>
                     </div>
                     <div class="form-group">
                         <label for="tb_keterangan" class="label-txt">Keterangan</label>

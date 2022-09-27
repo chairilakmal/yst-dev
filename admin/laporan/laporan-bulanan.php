@@ -115,6 +115,16 @@ $totalNominal = query("SELECT SUM(nominal) AS total_nominal FROM t_lap_keuangan"
                         </div>
                         </div>
                             </div>
+                            <style>
+                                .btn-reset {
+                                background: #e4e4e4 !important;
+                                border-style: none;
+                                border-radius: 8px;
+                                }
+                                </style>
+                            <div class="button">
+                            <a class="btn btn-reset mx-2" onclick="location.href='../laporan/laporan-bulanan.php'">Reset</a> 
+                                </div>
                         </div>
                         <div>
                         <button class="mr-2" onclick="location.href='input-pemasukan.php'">Pemasukan <span class="fas fa-plus-square"></span></button>
