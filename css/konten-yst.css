@@ -1101,9 +1101,9 @@ body {
   padding-top: 2px;
 }
 
-span, p {
+/* span, p {
   color: white;
-}
+} */
 
 .mini-stat-info span {
   display: block;
