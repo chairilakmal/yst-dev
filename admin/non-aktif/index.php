@@ -25,14 +25,14 @@ function query($query)
     return $rows;
 }
 
-// $userQuery = query("SELECT * FROM t_meninggal
-//                     LEFT JOIN t_user 
-//                     ON t_meninggal.id_user = t_user.id_user               
-//                     GROUP BY t_meninggal.id_user 
-//                     ORDER BY t_meninggal.id_user DESC                
-//                     ");
+$userQuery = query("SELECT * FROM t_meninggal
+                    LEFT JOIN t_user 
+                    ON t_meninggal.id_user = t_user.id_user               
+                    -- GROUP BY t_meninggal.id_user 
+                    ORDER BY t_meninggal.id_user DESC                
+                    ");
 
-$userQuery = query("SELECT * FROM t_meninggal          ");
+// $userQuery = query("SELECT * FROM t_meninggal          ");
 
 ?>
 <?php include '../../component/admin/header.php'; ?>
@@ -63,11 +63,10 @@ $userQuery = query("SELECT * FROM t_meninggal          ");
                             <table width="100%">
                                 <thead>
                                     <tr>
-                                        <td class="text-center">ID <br> User</td>
                                         <td>NIK</td>
-                                        <td>Tanggal</td>
-                                        <td>Tempat</td>
-                                        <td>Penyebab</td>
+                                        <td>Nama User</td>
+                                        <td>Tempat/Tanggal Wafat</td>
+                                        <!-- <td>Penyebab</td> -->
                                         <td>Status Data</td>
                                         <td class="justify-content-center">Aksi</td>
                                     </tr>
@@ -75,11 +74,12 @@ $userQuery = query("SELECT * FROM t_meninggal          ");
                                 <tbody>
                                     <?php foreach ($userQuery as $row) : ?>
                                         <tr>
-                                            <td class="text-center"><?= $row["id_user"]; ?></td>
                                             <td class="table-snipet1"><?= $row["nik"]; ?></td>
-                                            <td><?= $row["tgl"]; ?></td>
-                                            <td><?= $row["tempat"]; ?></td>
-                                            <td><?= $row["penyebab_kematian"]; ?></td>
+                                            <td class=""><?= $row["nama"]; ?></td>
+                                            <td>
+                                                <?php echo $row['tempat']; ?>,
+                                                <?php echo date("d-m-Y", strtotime($row['tgl'])) ?>
+                                            </td>
                                             <td>
                                                 <?php
                                                 if ($row['is_approve'] == 'y') {

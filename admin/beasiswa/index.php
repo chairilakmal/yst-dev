@@ -25,16 +25,14 @@ function query($query)
     return $rows;
 }
 
-// $getBeasiswa = query("SELECT * FROM t_beasiswa
-//                         LEFT JOIN t_user
-//                         ON t_beasiswa.user_id = t_user.id_user               
-//                         GROUP BY t_beasiswa.user_id 
-//                         ORDER BY t_beasiswa.user_id DESC     
-//                         ");
-
 $getBeasiswa = query("SELECT * FROM t_beasiswa
-                       
+                        LEFT JOIN t_user
+                        ON t_beasiswa.user_id = t_user.id_user               
+                        -- GROUP BY t_beasiswa.user_id 
+                        ORDER BY t_beasiswa.user_id DESC     
                         ");
+
+// $getBeasiswa = query("SELECT * FROM t_beasiswa");
 
 
 

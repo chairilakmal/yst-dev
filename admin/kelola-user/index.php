@@ -69,20 +69,37 @@ $organigram = query("SELECT * FROM t_organigram
                             <table width="100%">
                                 <thead>
                                     <tr>
-                                        <td class="text-center">ID <br> User</td>
+                                        <td class="text-center">No</td>
                                         <td>Nama Lengkap</td>
-                                        <td>Username</td>
+                                        <!-- <td>Username</td> -->
+                                        <td>Jabatan</td>
+
                                         <td>Wilayah</td>
 
                                         <td class="justify-content-center">Aksi</td>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($wilayahQuery as $row) : ?>
+                                    <?php
+                                    $i = 1;
+                                    foreach ($wilayahQuery as $row) : ?>
                                         <tr>
-                                            <td class="text-center"><?= $row["id_user"]; ?></td>
+                                            <td class="text-center"><?= $i++ ?></td>
                                             <td class="table-snipet1"><?= $row["nama"]; ?></td>
-                                            <td><?= $row["username"]; ?></td>
+                                            <td>
+                                                <?php
+                                                if ($row['level_user'] == 1) {
+                                                    echo 'Super Admin';
+                                                } else if ($row['level_user'] == '2a') {
+                                                    echo 'YST';
+                                                } else if ($row['level_user'] == '2b') {
+                                                    echo 'DPP';
+                                                } else if ($row['level_user'] == '3') {
+                                                    echo 'DPW';
+                                                } else {
+                                                    echo '-';
+                                                }
+                                                ?></td>
                                             <td><?= $row["kode_wilayah"]; ?></td>
 
                                             <td class="justify-content-center">

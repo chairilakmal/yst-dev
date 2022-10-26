@@ -30,7 +30,7 @@ $selectNIK = query("SELECT * FROM t_meninggal WHERE is_approve = 'y' ");
 $userQuery = query("SELECT * FROM t_meninggal
                     LEFT JOIN t_user 
                     ON t_meninggal.id_user = t_user.id_user               
-                    GROUP BY t_meninggal.id_user 
+                    -- GROUP BY t_meninggal.id_user 
                     ORDER BY t_meninggal.id_user DESC                
                     ");
 
@@ -153,13 +153,16 @@ if (isset($_POST["submit"])) {
                         <select class="form-control" id="tb_penerima" name="tb_penerima" required>
                             <option value="" selected disabled>Pilih NIK</option>;
                             <?php foreach ($userQuery as $row) : ?>
-                                <option value="<?= $row["id_user"]; ?>"><?= $row["nik"]; ?></option>';
+                                <option value="<?= $row["id_user"]; ?>">
+                                    <?php echo $row['nik']; ?> -
+                                    <?php echo $row['nama'] ?>
+                                </option>';
                             <?php endforeach; ?>
                         </select>
                     </div>
                     <div class="form-group mt-4 mb-3" id="tgl_selesai_form">
                         <label for="tb_tgl_beasiswa" class="label-txt">Tanggal Pengajuan Beasiswa<span class="red-star">*</span></label>
-                        <input type="date" id="tb_tgl_beasiswa" name="tb_tgl_beasiswa" class="form-control">
+                        <input type="date" id="tb_tgl_beasiswa" name="tb_tgl_beasiswa" class="form-control" value="<?php echo date("Y-m-d"); ?>">
                     </div>
                     <div class="form-group mt-4 mb-3">
                         <label for="tb_nominal" class="label-txt">Nominal<span class="red-star">*</span></label>

@@ -71,8 +71,9 @@ function queryNIK($query)
 }
 
 $selectNIK = queryNIK("SELECT * FROM t_user
-                WHERE is_die = 'n' AND status_aktif = 'y' 
-                ORDER BY nik ASC ");
+                WHERE is_die = 'y' AND status_aktif = 'n' 
+                ORDER BY nik ASC 
+                ");
 
 
 if (isset($_POST["submit"])) {

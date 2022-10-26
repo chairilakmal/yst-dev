@@ -23,6 +23,7 @@ if (isset($_POST["login"])) {
       $_SESSION["nama"] = $row["nama"];
       $_SESSION["username"] = $row["username"];
       $_SESSION["level_user"] = $row["level_user"];
+      $_SESSION["wilayah_id"] = $row["wilayah_id"];
 
       if ($_SESSION["level_user"] == "4") {
         header("Location: user/dashboard-donasi/dashboard-user.php");
