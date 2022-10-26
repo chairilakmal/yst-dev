@@ -25,12 +25,14 @@ function query($query)
     return $rows;
 }
 
-$userQuery = query("SELECT * FROM t_meninggal
-                    LEFT JOIN t_user 
-                    ON t_meninggal.id_user = t_user.id_user               
-                    GROUP BY t_meninggal.id_user 
-                    ORDER BY t_meninggal.id_user DESC                
-                    ");
+// $userQuery = query("SELECT * FROM t_meninggal
+//                     LEFT JOIN t_user 
+//                     ON t_meninggal.id_user = t_user.id_user               
+//                     GROUP BY t_meninggal.id_user 
+//                     ORDER BY t_meninggal.id_user DESC                
+//                     ");
+
+$userQuery = query("SELECT * FROM t_meninggal          ");
 
 ?>
 <?php include '../../component/admin/header.php'; ?>

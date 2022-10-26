@@ -25,11 +25,15 @@ function query($query)
     return $rows;
 }
 
+// $getBeasiswa = query("SELECT * FROM t_beasiswa
+//                         LEFT JOIN t_user
+//                         ON t_beasiswa.user_id = t_user.id_user               
+//                         GROUP BY t_beasiswa.user_id 
+//                         ORDER BY t_beasiswa.user_id DESC     
+//                         ");
+
 $getBeasiswa = query("SELECT * FROM t_beasiswa
-                        LEFT JOIN t_user
-                        ON t_beasiswa.user_id = t_user.id_user               
-                        GROUP BY t_beasiswa.user_id 
-                        ORDER BY t_beasiswa.user_id DESC     
+                       
                         ");
 
 
@@ -86,7 +90,7 @@ $getBeasiswa = query("SELECT * FROM t_beasiswa
                                             <td class="text-center"><?= $row["id_beasiswa"]; ?></td>
                                             <td class="table-snipet1"><?= $row["nama"]; ?></td>
                                             <td><?= $row["tgl"]; ?></td>
-                                            <td><?= $row["nominal"]; ?></td>
+                                            <td><?= $row["total_nominal"]; ?></td>
                                             <td>
                                                 <?php
                                                 if ($row['is_approve'] == 1) {

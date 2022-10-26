@@ -9,7 +9,7 @@ if (!isset($_SESSION["username"])) {
     exit;
 }
 
-if ($_SESSION["level_user"] == 4){
+if ($_SESSION["level_user"] == 4) {
     header('Location: ../../user/dashboard-donasi/dashboard-user.php');
     exit;
 }
@@ -25,9 +25,15 @@ function query($query)
     return $rows;
 }
 
-$userQuery = query("SELECT * FROM t_user
-                    ORDER BY id_user                   
-                    ");
+// $userQuery = query("SELECT * FROM t_user
+//                     ORDER BY level_user                   
+//                     ");
+
+$wilayahQuery = query("SELECT * FROM t_wilayah  
+                    RIGHT JOIN t_user ON t_user.wilayah_id = t_wilayah.id_wilayah ORDER BY t_user.level_user");
+
+// var_dump($wilayahQuery);die;
+
 $organigram = query("SELECT * FROM t_organigram
                     ORDER BY user_id
                     ");
@@ -66,18 +72,18 @@ $organigram = query("SELECT * FROM t_organigram
                                         <td class="text-center">ID <br> User</td>
                                         <td>Nama Lengkap</td>
                                         <td>Username</td>
-                                        <td>Level</td>
+                                        <td>Wilayah</td>
 
                                         <td class="justify-content-center">Aksi</td>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($userQuery as $row) : ?>
+                                    <?php foreach ($wilayahQuery as $row) : ?>
                                         <tr>
                                             <td class="text-center"><?= $row["id_user"]; ?></td>
                                             <td class="table-snipet1"><?= $row["nama"]; ?></td>
                                             <td><?= $row["username"]; ?></td>
-                                            <td><?= $row["level_user"]; ?></td>
+                                            <td><?= $row["kode_wilayah"]; ?></td>
 
                                             <td class="justify-content-center">
                                                 <button type="button" class="btn btn-edit">

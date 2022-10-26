@@ -25,8 +25,7 @@ function query($query)
     return $rows;
 }
 
-$selectNIK = query("SELECT * FROM t_meninggal
-                WHERE is_approve = 'y' ");
+$selectNIK = query("SELECT * FROM t_meninggal WHERE is_approve = 'y' ");
 
 $userQuery = query("SELECT * FROM t_meninggal
                     LEFT JOIN t_user 
@@ -102,7 +101,7 @@ if (isset($_POST["submit"])) {
 
 
 
-    $query = "INSERT INTO t_beasiswa (user_id, tgl, nominal, file_surat_tagihan, nama_pic, kontak_pic, keterangan )
+    $query = "INSERT INTO t_beasiswa (user_id, tgl, total_nominal, file_surat_tagihan, nama_pic, kontak_pic, keterangan )
                 VALUES ('$Penerima','$Tanggal', '$Nominal', '$suratTagihan', '$namaPIC','$kontakPIC', '$Keterangan' )  
                      ";
 

@@ -139,7 +139,7 @@ if (isset($_POST["submit"])) {
 
         $query = "UPDATE t_beasiswa SET
         tgl                 = '$Tanggal',
-        nominal             = '$Nominal',
+        total_nominal       = '$Nominal',
         keterangan          = '$Keterangan',
         nama_pic            = '$namaPIC',
         kontak_pic          = '$kontakPIC',
@@ -152,7 +152,7 @@ if (isset($_POST["submit"])) {
     } else {
         $query = "UPDATE t_beasiswa SET
         tgl                 = '$Tanggal',
-        nominal             = '$Nominal',
+        total_nominal       = '$Nominal',
         keterangan          = '$Keterangan',
         nama_pic            = '$namaPIC',
         kontak_pic          = '$kontakPIC',
