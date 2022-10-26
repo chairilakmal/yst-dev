@@ -224,7 +224,7 @@ if (isset($_POST["submit"])) {
                     </div>
                     <div class="form-group mt-4 mb-3">
                         <label for="tb_nominal" class="label-txt">Nominal<span class="red-star">*</span></label>
-                        <input type="number" id="tb_nominal" name="tb_nominal" class="form-control" placeholder="Masukan Nominal beasiswa" value="<?= $beasiswa["nominal"]; ?>" Required>
+                        <input type="number" id="tb_nominal" name="tb_nominal" class="form-control" placeholder="Masukan Nominal beasiswa" value="<?= $beasiswa["total_nominal"]; ?>" Required>
                     </div>
                     <div class="form-group">
                         <label for="suratTagihan_Baru" class="label-txt">Surat Tagihan Sekolah / Kampus</label>
