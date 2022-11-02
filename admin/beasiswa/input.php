@@ -34,50 +34,6 @@ $userQuery = query("SELECT * FROM t_meninggal
                     ORDER BY t_meninggal.id_user DESC                
                     ");
 
-function upload()
-{
-    //upload gambar
-    $namaFile = $_FILES['image_uploads']['name'];
-    $ukuranFile = $_FILES['image_uploads']['size'];
-    $error = $_FILES['image_uploads']['error'];
-    $tmpName = $_FILES['image_uploads']['tmp_name'];
-
-    //  if($error === 4){
-    //      echo "
-    //          <script>
-    //              alert('gambar tidak ditemukan !');
-    //          </script>
-    //      ";
-    //      return false;
-    //  }
-
-    //cek ekstensi gambar
-    $ekstensiGambarValid = ['jpg', 'jpeg', 'png'];
-    $ekstensiGambar = explode('.', $namaFile);
-    $ekstensiGambar = strtolower(end($ekstensiGambar));
-
-    if (!in_array($ekstensiGambar, $ekstensiGambarValid)) {
-        echo "
-                     <script>
-                         alert('kesalahan pada format gambar !');
-                     </script>
-                 ";
-        return false;
-    }
-
-    //generate nama baru
-    $namaFileBaru = uniqid();
-    $namaFileBaru .= '.';
-    $namaFileBaru .= $ekstensiGambar;
-
-
-    //lolos pengecekan
-    move_uploaded_file($tmpName, '../../img/' . $namaFileBaru);
-
-    return $namaFileBaru;
-}
-
-
 if (isset($_POST["submit"])) {
 
     $Penerima          = $_POST["tb_penerima"];
@@ -86,24 +42,18 @@ if (isset($_POST["submit"])) {
 
     $Nominal           = $_POST["tb_nominal"];
 
-    $suratTagihan      = upload();
-
-    $namaPIC           = $_POST["tb_pic_sekolah"];
-    $namaPIC           = htmlspecialchars($namaPIC);
-
-    $kontakPIC         = $_POST["tb_kontak_pic"];
-    $kontakPIC         = htmlspecialchars($kontakPIC);
-
 
     $Keterangan        = $_POST["tb_ket_beasiswa"];
     $Keterangan        = htmlspecialchars($Keterangan);
 
+    // $formData = [$Penerima, $Tanggal, $Nominal, $Keterangan];
+        
+    // var_dump($formData);die;
 
 
-
-    $query = "INSERT INTO t_beasiswa (user_id, tgl, total_nominal, file_surat_tagihan, nama_pic, kontak_pic, keterangan )
-                VALUES ('$Penerima','$Tanggal', '$Nominal', '$suratTagihan', '$namaPIC','$kontakPIC', '$Keterangan' )  
-                     ";
+    $query = "INSERT INTO t_beasiswa (user_id, tgl, total_nominal, keterangan )
+                VALUES ('$Penerima','$Tanggal', '$Nominal', '$Keterangan' )  
+             ";
 
 
 
@@ -148,6 +98,10 @@ if (isset($_POST["submit"])) {
             </div>
             <form action="" enctype="multipart/form-data" method="POST">
                 <div class="form-group label-txt">
+                    <div class="form-group mt-4 mb-3" id="tgl_selesai_form">
+                        <label for="tb_tgl_beasiswa" class="label-txt">Tanggal Pengajuan Beasiswa<span class="red-star">*</span></label>
+                        <input type="date" id="tb_tgl_beasiswa" name="tb_tgl_beasiswa" class="form-control" value="<?php echo date("Y-m-d"); ?>">
+                    </div>
                     <div class="form-group mt-4 mb-3">
                         <label for="tb_kategori">Penerima<span class="red-star">*</span></label></label>
                         <select class="form-control" id="tb_penerima" name="tb_penerima" required>
@@ -160,28 +114,39 @@ if (isset($_POST["submit"])) {
                             <?php endforeach; ?>
                         </select>
                     </div>
-                    <div class="form-group mt-4 mb-3" id="tgl_selesai_form">
-                        <label for="tb_tgl_beasiswa" class="label-txt">Tanggal Pengajuan Beasiswa<span class="red-star">*</span></label>
-                        <input type="date" id="tb_tgl_beasiswa" name="tb_tgl_beasiswa" class="form-control" value="<?php echo date("Y-m-d"); ?>">
-                    </div>
+
                     <div class="form-group mt-4 mb-3">
-                        <label for="tb_nominal" class="label-txt">Nominal<span class="red-star">*</span></label>
-                        <input type="number" id="tb_nominal" name="tb_nominal" class="form-control" placeholder="Masukan nominal beasiswa" Required>
-                    </div>
-                    <div class="form-group">
-                        <label for="image_uploads" class="label-txt">Surat Tagihan Sekolah / Kampus</label>
-                        <div class="file-form">
-                            <input type="file" id="image_uploads" name="image_uploads" class="form-control ">
+                        <label for="tb_kategori">Data Anak<span class="red-star">*</span></label></label>
+                        <div class="row mb-2 font-weight-bold">
+                            <div class="col num-col d-flex justify-content-center">No</div>
+                            <div class="col">Nama Anak</div>
+                            <div class="col">Jenjang Pendidikan</div>
+                            <div class="col">Nominal/6 bln</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col num-col d-flex align-items-center justify-content-center">1</div>
+                            <div class="col"><input type="text" id="tb_nama_anak1" name="tb_nama_anak1" class="form-control" placeholder="Masukan nama anak" Required></div>
+                            <div class="col">
+                            <select class="form-control" id="tb_jenjang_pendidikan1" name="tb_jenjang_pendidikan1" required onclick="handleJenjang()">
+                                <option value="" selected disabled hidden>Jenjang Pendidikan</option>
+                                <option value="600000">SD / Sederajat</option>
+                                <option value="1200000">SMP / Sederajat</option>
+                                <option value="1800000">SMA / Sederajat</option>
+                                <option value="2400000">Kuliah</option>
+                            </select>
+                            </div>
+                            <div class="col"><input type="number" id="tb_nominal1" name="tb_nominal1" class="form-control" Required></div>
+                        </div>
+                        <div class="row justify-content-end mr-2 font-weight-bold">
+                            <div class="col-auto ">Total Nominal</div>
+                            <div class="col-auto ">0</div>
                         </div>
                     </div>
-                    <div class="form-group mt-4 mb-3">
-                        <label for="tb_pic_sekolah" class="label-txt">Nama PIC Sekolah / Kampus<span class="red-star">*</span></label>
-                        <input type="text" id="tb_pic_sekolah" name="tb_pic_sekolah" class="form-control" placeholder="Masukan Nama PIC Sekolah / Kampus" Required>
-                    </div>
-                    <div class="form-group mt-4 mb-3">
-                        <label for="tb_kontak_pic" class="label-txt">Kontak PIC Sekolah / Kampus<span class="red-star">*</span></label>
-                        <input type="text" id="tb_kontak_pic" name="tb_kontak_pic" class="form-control" placeholder="Masukan Nomor Kontak dari PIC Sekolah / Kampus" Required>
-                    </div>
+                   
+                    <!-- <div class="form-group mt-4 mb-3">
+                        <label for="tb_nominal" class="label-txt">Nominal<span class="red-star">*</span></label>
+                        <input type="number" id="tb_nominal" name="tb_nominal" class="form-control" placeholder="Masukan nominal beasiswa" Required>
+                    </div> -->
                     <div class="form-group">
                         <label for="tb_ket_beasiswa" class="label-txt">Keterangan</label>
                         <textarea class="form-control" id="tb_ket_beasiswa" name="tb_ket_beasiswa" rows="6" placeholder="Keterangan"></textarea>
@@ -192,6 +157,23 @@ if (isset($_POST["submit"])) {
                 </button>
             </form>
         </div>
+        <script>
+            var e = document.getElementById("tb_jenjang_pendidikan1");
+
+            function handleJenjang() {
+            var value = e.value;
+            console.log(value);
+            document.querySelector('input[name="tb_nominal1"]').value = value;
+            }
+            e.onchange = handleJenjang;
+            // handleJenjang();
+
+
+            // var jenjang = document.querySelector('select[name="tb_jenjang_pendidikan1"]').value;
+            // console.log("jenjang", jenjang)
+            // // var abc = 1124
+            // document.querySelector('input[name="tb_nominal1"]').value = jenjang;
+        </script>
     </main>
 </div>
 <!-- /.container-fluid -->
