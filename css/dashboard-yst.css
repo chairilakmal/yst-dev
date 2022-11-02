@@ -662,6 +662,12 @@ flex-grow: 1;
 max-width: 40px;
 }
 
+.input-total{
+  border: none;
+  max-width: 125px;
+  text-align: right;
+}
+
 @media only screen and (max-width: 1200px) {
 }
 

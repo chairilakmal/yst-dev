@@ -123,11 +123,15 @@ if (isset($_POST["submit"])) {
                             <div class="col">Jenjang Pendidikan</div>
                             <div class="col">Nominal/6 bln</div>
                         </div>
-                        <div class="row mb-2">
-                            <div class="col num-col d-flex align-items-center justify-content-center">1</div>
-                            <div class="col"><input type="text" id="tb_nama_anak1" name="tb_nama_anak1" class="form-control" placeholder="Masukan nama anak" Required></div>
+
+                        <?php for ($x = 1; $x <= 3; $x++) : ?>
+                        <div class="row mb-2" id="appendForm<?=$x?>">
+                            <div class="col num-col d-flex align-items-center justify-content-center">
+                            <?= $x ?>
+                            </div>
+                            <div class="col"><input type="text" id="tb_nama_anak<?=$x?>" name="tb_nama_anak<?=$x?>" class="form-control" placeholder="Masukan nama anak" Required></div>
                             <div class="col">
-                            <select class="form-control" id="tb_jenjang_pendidikan1" name="tb_jenjang_pendidikan1" required onclick="handleJenjang()">
+                            <select class="form-control" id="tb_jenjang_pendidikan<?=$x?>" name="tb_jenjang_pendidikan<?=$x?>" required onchange="handleJenjang()">
                                 <option value="" selected disabled hidden>Jenjang Pendidikan</option>
                                 <option value="600000">SD / Sederajat</option>
                                 <option value="1200000">SMP / Sederajat</option>
@@ -135,18 +139,24 @@ if (isset($_POST["submit"])) {
                                 <option value="2400000">Kuliah</option>
                             </select>
                             </div>
-                            <div class="col"><input type="number" id="tb_nominal1" name="tb_nominal1" class="form-control" Required></div>
+                            <div class="col"><input type="number" id="tb_nominal<?=$x?>" name="tb_nominal<?=$x?>" class="form-control" Required onchange="handleNominal()"></div>
+                            <div class="append-action">
+                                <?php if($x > 1){?>
+                                <button type="button" onclick="removeField<?=$x?>()">-</button>
+                                <?php }?>
+                            </div>
                         </div>
-                        <div class="row justify-content-end mr-2 font-weight-bold">
+                        <?php endfor; ?>
+                        
+                        <div class="row justify-content-end align-items-center  font-weight-bold">
                             <div class="col-auto ">Total Nominal</div>
-                            <div class="col-auto ">0</div>
+                            <div class="col-auto ">
+                            <input type="text" id="tb_total" name="tb_total" class="input-total">
+                            </div>
                         </div>
                     </div>
+                    
                    
-                    <!-- <div class="form-group mt-4 mb-3">
-                        <label for="tb_nominal" class="label-txt">Nominal<span class="red-star">*</span></label>
-                        <input type="number" id="tb_nominal" name="tb_nominal" class="form-control" placeholder="Masukan nominal beasiswa" Required>
-                    </div> -->
                     <div class="form-group">
                         <label for="tb_ket_beasiswa" class="label-txt">Keterangan</label>
                         <textarea class="form-control" id="tb_ket_beasiswa" name="tb_ket_beasiswa" rows="6" placeholder="Keterangan"></textarea>
@@ -158,21 +168,49 @@ if (isset($_POST["submit"])) {
             </form>
         </div>
         <script>
-            var e = document.getElementById("tb_jenjang_pendidikan1");
-
+            // Declare Variables
+            var jenjang1 = document.getElementById("tb_jenjang_pendidikan1");
+            var jenjang2 = document.getElementById("tb_jenjang_pendidikan2");
+            var jenjang3 = document.getElementById("tb_jenjang_pendidikan3");
+            var nominal1 = document.getElementById("tb_nominal1");
+            var nominal2 = document.getElementById("tb_nominal2");
+            var nominal3 = document.getElementById("tb_nominal3");
+            
             function handleJenjang() {
-            var value = e.value;
-            console.log(value);
-            document.querySelector('input[name="tb_nominal1"]').value = value;
+            let value1 = parseInt(jenjang1.value);
+            let value2 = parseInt(jenjang2.value);
+            let value3 = parseInt(jenjang3.value);
+            let total1 = value1 ? value1 : 0;
+            let total2 = value2 ? value2 : 0;
+            let total3 = value3 ? value3 : 0;
+            document.querySelector('input[name="tb_nominal1"]').value = value1;
+            document.querySelector('input[name="tb_nominal2"]').value = value2;
+            document.querySelector('input[name="tb_nominal3"]').value = value3;
+            document.querySelector('input[name="tb_total"]').value = total1+total2+total3;  
+            }  
+        
+            function handleNominal(){
+            let value1 = parseInt(nominal1.value);
+            let value2 = parseInt(nominal2.value);
+            let value3 = parseInt(nominal3.value);
+            let total1 = value1 ? value1 : 0;
+            let total2 = value2 ? value2 : 0;
+            let total3 = value3 ? value3 : 0;
+            document.querySelector('input[name="tb_nominal1"]').value = value1;
+            document.querySelector('input[name="tb_nominal2"]').value = value2;
+            document.querySelector('input[name="tb_nominal3"]').value = value3;
+            document.querySelector('input[name="tb_total"]').value = total1+total2+total3;  
             }
-            e.onchange = handleJenjang;
-            // handleJenjang();
 
+            function removeField2(){
+            var element = document.getElementById("appendForm2");
+            element.classList.add("d-none");    
+            }
 
-            // var jenjang = document.querySelector('select[name="tb_jenjang_pendidikan1"]').value;
-            // console.log("jenjang", jenjang)
-            // // var abc = 1124
-            // document.querySelector('input[name="tb_nominal1"]').value = jenjang;
+            function removeField3(){
+            var element = document.getElementById("appendForm3");
+            element.classList.add("d-none");    
+            }
         </script>
     </main>
 </div>
