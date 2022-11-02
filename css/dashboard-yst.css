@@ -668,6 +668,12 @@ max-width: 40px;
   text-align: right;
 }
 
+.data-anak-container{
+  border: 2px solid #e6e9ec;
+  border-radius: 4px;
+  padding: 10px 10px;
+}
+
 @media only screen and (max-width: 1200px) {
 }
 

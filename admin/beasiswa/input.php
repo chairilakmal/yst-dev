@@ -13,6 +13,22 @@ if ($_SESSION["level_user"] == 4) {
 }
 
 
+// Kategori
+function queryPlafon($query)
+{
+    global $conn;
+    $result = mysqli_query($conn, $query);
+    $rows = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $rows[] = $row;
+    }
+    return $rows;
+}
+$plafonBeasiswa = queryPlafon("SELECT * FROM t_plafon_beasiswa
+                    ORDER BY id
+                    ");
+
+
 
 function query($query)
 {
@@ -36,25 +52,61 @@ $userQuery = query("SELECT * FROM t_meninggal
 
 if (isset($_POST["submit"])) {
 
-    $Penerima          = $_POST["tb_penerima"];
+    $tanggal           = $_POST["tb_tgl_beasiswa"];
+    $penerima          = $_POST["tb_penerima"];
 
-    $Tanggal           = $_POST["tb_tgl_beasiswa"];
+    $namaAnak1         = $_POST["tb_nama_anak1"];
+    $namaAnak2         = $_POST["tb_nama_anak2"];
+    $namaAnak3         = $_POST["tb_nama_anak3"];
 
-    $Nominal           = $_POST["tb_nominal"];
+    $jenjang1          = $_POST["tb_jenjang_pendidikan1"];
+    $jenjang2          = $_POST["tb_jenjang_pendidikan2"];
+    $jenjang3          = $_POST["tb_jenjang_pendidikan3"];
+
+    $nominal1          = $_POST["tb_nominal1"] ? $_POST["tb_nominal1"] : 0 ;
+    $nominal2          = $_POST["tb_nominal2"] ? $_POST["tb_nominal2"] : 0;
+    $nominal3          = $_POST["tb_nominal3"] ? $_POST["tb_nominal3"] : 0;
+
+    $totalNominal      = $_POST["tb_total_nominal"];
 
 
-    $Keterangan        = $_POST["tb_ket_beasiswa"];
-    $Keterangan        = htmlspecialchars($Keterangan);
+    $keterangan        = $_POST["tb_ket_beasiswa"];
+    $keterangan        = htmlspecialchars($keterangan);
 
     // $formData = [$Penerima, $Tanggal, $Nominal, $Keterangan];
         
     // var_dump($formData);die;
 
 
-    $query = "INSERT INTO t_beasiswa (user_id, tgl, total_nominal, keterangan )
-                VALUES ('$Penerima','$Tanggal', '$Nominal', '$Keterangan' )  
+    $query = "INSERT INTO t_beasiswa (
+                tgl,
+                user_id, 
+                nama_anak1,
+                nama_anak2,
+                nama_anak3,
+                jenjang_pendidikan1,
+                jenjang_pendidikan2,
+                jenjang_pendidikan3,
+                nominal_1,
+                nominal_2,
+                nominal_3,
+                total_nominal, 
+                keterangan )
+              VALUES (
+                '$tanggal',
+                '$penerima',
+                '$namaAnak1',
+                '$namaAnak2',
+                '$namaAnak3',
+                '$jenjang1',
+                '$jenjang2',
+                '$jenjang3',
+                $nominal1,
+                $nominal2,
+                $nominal3,
+                $totalNominal, 
+                '$keterangan' )  
              ";
-
 
 
     mysqli_query($conn, $query);
@@ -114,49 +166,53 @@ if (isset($_POST["submit"])) {
                             <?php endforeach; ?>
                         </select>
                     </div>
-
+                                
                     <div class="form-group mt-4 mb-3">
-                        <label for="tb_kategori">Data Anak<span class="red-star">*</span></label></label>
-                        <div class="row mb-2 font-weight-bold">
-                            <div class="col num-col d-flex justify-content-center">No</div>
-                            <div class="col">Nama Anak</div>
-                            <div class="col">Jenjang Pendidikan</div>
-                            <div class="col">Nominal/6 bln</div>
-                        </div>
+                        <label for="data_anak">Data Anak<span class="red-star">*</span></label></label>
+                        <div class="data-anak-container">
+                            <div class="row mb-2 font-weight-bold">
+                                <div class="col num-col d-flex justify-content-center">No</div>
+                                <div class="col">Nama Anak</div>
+                                <div class="col">Jenjang Pendidikan</div>
+                                <div class="col">Nominal/6 bln</div>
+                            </div>
 
-                        <?php for ($x = 1; $x <= 3; $x++) : ?>
-                        <div class="row mb-2" id="appendForm<?=$x?>">
-                            <div class="col num-col d-flex align-items-center justify-content-center">
-                            <?= $x ?>
+                            <?php for ($x = 1; $x <= 3; $x++) : ?>
+                            <div class="row mb-2" id="appendForm<?=$x?>">
+                                <div class="col num-col d-flex align-items-center justify-content-center">
+                                <?= $x ?>
+                                </div>
+                                <div class="col"><input type="text" id="tb_nama_anak<?=$x?>" name="tb_nama_anak<?=$x?>" class="form-control" ></div>
+                                <div class="col">
+                                <select class="form-control" id="tb_jenjang_pendidikan<?=$x?>" name="tb_jenjang_pendidikan<?=$x?>" onchange="handleJenjang()">
+                                <option value="" selected >Pilih Jenjang</option>     
+                                <?php foreach ($plafonBeasiswa as $row) : ?>       
+                                <option value="<?= $row["nominal"]; ?>"><?= $row["jenjang"]; ?></option>
+                                <?php endforeach; ?>
+                                </select>
+                                </div>
+                                <div class="col"><input type="number" id="tb_nominal<?=$x?>" name="tb_nominal<?=$x?>" class="form-control" onchange="handleNominal()">
+                                </div>
+                                <!-- <div class="append-action">                        
+                                    <button type="button" onclick="removeField?=$x?>()">-</button>                       
+                                </div> -->
                             </div>
-                            <div class="col"><input type="text" id="tb_nama_anak<?=$x?>" name="tb_nama_anak<?=$x?>" class="form-control" placeholder="Masukan nama anak" Required></div>
-                            <div class="col">
-                            <select class="form-control" id="tb_jenjang_pendidikan<?=$x?>" name="tb_jenjang_pendidikan<?=$x?>" required onchange="handleJenjang()">
-                                <option value="" selected disabled hidden>Jenjang Pendidikan</option>
-                                <option value="600000">SD / Sederajat</option>
-                                <option value="1200000">SMP / Sederajat</option>
-                                <option value="1800000">SMA / Sederajat</option>
-                                <option value="2400000">Kuliah</option>
-                            </select>
-                            </div>
-                            <div class="col"><input type="number" id="tb_nominal<?=$x?>" name="tb_nominal<?=$x?>" class="form-control" Required onchange="handleNominal()"></div>
-                            <div class="append-action">
-                                <?php if($x > 1){?>
-                                <button type="button" onclick="removeField<?=$x?>()">-</button>
-                                <?php }?>
-                            </div>
-                        </div>
-                        <?php endfor; ?>
-                        
-                        <div class="row justify-content-end align-items-center  font-weight-bold">
-                            <div class="col-auto ">Total Nominal</div>
-                            <div class="col-auto ">
-                            <input type="text" id="tb_total" name="tb_total" class="input-total">
+                            <?php endfor; ?>
+                            
+                            <div class="row justify-content-end align-items-center  font-weight-bold">
+                                <div class="col-auto ">Total</div>
+                                <div class="col-auto ">
+                                <input type="text" id="tb_total" name="tb_total" class="input-total">
+                                </div>
                             </div>
                         </div>
                     </div>
+
+                    <div class="form-group mt-2 mb-3" id="tgl_selesai_form">
+                        <label for="tb_total_nominal" class="label-txt">Total Nominal<span class="red-star">*</span></label>
+                        <input type="number" id="tb_total_nominal" name="tb_total_nominal" class="form-control" readonly>
+                    </div>
                     
-                   
                     <div class="form-group">
                         <label for="tb_ket_beasiswa" class="label-txt">Keterangan</label>
                         <textarea class="form-control" id="tb_ket_beasiswa" name="tb_ket_beasiswa" rows="6" placeholder="Keterangan"></textarea>
@@ -187,6 +243,8 @@ if (isset($_POST["submit"])) {
             document.querySelector('input[name="tb_nominal2"]').value = value2;
             document.querySelector('input[name="tb_nominal3"]').value = value3;
             document.querySelector('input[name="tb_total"]').value = total1+total2+total3;  
+            document.querySelector('input[name="tb_total_nominal"]').value = total1+total2+total3;  
+
             }  
         
             function handleNominal(){
@@ -200,17 +258,18 @@ if (isset($_POST["submit"])) {
             document.querySelector('input[name="tb_nominal2"]').value = value2;
             document.querySelector('input[name="tb_nominal3"]').value = value3;
             document.querySelector('input[name="tb_total"]').value = total1+total2+total3;  
+            document.querySelector('input[name="tb_total_nominal"]').value = total1+total2+total3;  
             }
 
-            function removeField2(){
-            var element = document.getElementById("appendForm2");
-            element.classList.add("d-none");    
-            }
+            // function removeField2(){
+            // var element = document.getElementById("appendForm2");
+            // element.classList.add("d-none");    
+            // }
 
-            function removeField3(){
-            var element = document.getElementById("appendForm3");
-            element.classList.add("d-none");    
-            }
+            // function removeField3(){
+            // var element = document.getElementById("appendForm3");
+            // element.classList.add("d-none");    
+            // }
         </script>
     </main>
 </div>
