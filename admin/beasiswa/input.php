@@ -12,8 +12,6 @@ if ($_SESSION["level_user"] == 4) {
     exit;
 }
 
-
-// Kategori
 function queryPlafon($query)
 {
     global $conn;
@@ -187,7 +185,7 @@ if (isset($_POST["submit"])) {
                                 <select class="form-control" id="tb_jenjang_pendidikan<?=$x?>" name="tb_jenjang_pendidikan<?=$x?>" onchange="handleJenjang()">
                                 <option value="" selected >Pilih Jenjang</option>     
                                 <?php foreach ($plafonBeasiswa as $row) : ?>       
-                                <option value="<?= $row["nominal"]; ?>"><?= $row["jenjang"]; ?></option>
+                                <option value="<?= $row["jenjang"]; ?>"><?= $row["jenjang"]; ?></option>
                                 <?php endforeach; ?>
                                 </select>
                                 </div>
@@ -233,9 +231,45 @@ if (isset($_POST["submit"])) {
             var nominal3 = document.getElementById("tb_nominal3");
             
             function handleJenjang() {
-            let value1 = parseInt(jenjang1.value);
-            let value2 = parseInt(jenjang2.value);
-            let value3 = parseInt(jenjang3.value);
+
+            // console.log('jen', jenjang1.value)
+            
+            if(jenjang1.value == 'SD / Sederajat'){
+                var value1 = parseInt(600000);
+            }else if(jenjang1.value == 'SMP / Sederajat'){
+                var value1 = parseInt(1200000);
+            }else if(jenjang1.value == 'SMA / Sederajat'){
+                var value1 = parseInt(1800000);
+            }else if(jenjang1.value == 'Kuliah'){
+                var value1 = parseInt(2400000);
+            }else{
+                var value1 = parseInt(0);
+            }
+
+            if(jenjang2.value == 'SD / Sederajat'){
+                var value2 = parseInt(600000);
+            }else if(jenjang2.value == 'SMP / Sederajat'){
+                var value2 = parseInt(1200000);
+            }else if(jenjang2.value == 'SMA / Sederajat'){
+                var value2 = parseInt(1800000);
+            }else if(jenjang2.value == 'Kuliah'){
+                var value2 = parseInt(2400000);
+            }else{
+                var value2 = parseInt(0);
+            }
+
+            if(jenjang3.value == 'SD / Sederajat'){
+                var value3 = parseInt(600000);
+            }else if(jenjang3.value == 'SMP / Sederajat'){
+                var value3 = parseInt(1200000);
+            }else if(jenjang3.value == 'SMA / Sederajat'){
+                var value3 = parseInt(1800000);
+            }else if(jenjang3.value == 'Kuliah'){
+                var value3 = parseInt(2400000);
+            }else{
+                var value3 = parseInt(0);
+            }
+            
             let total1 = value1 ? value1 : 0;
             let total2 = value2 ? value2 : 0;
             let total3 = value3 ? value3 : 0;

@@ -16,49 +16,19 @@ if ($_SESSION["level_user"] == 4) {
 //ambil id program di URL
 $id_beasiswa = $_GET["id_beasiswa"];
 
-function upload($image_uploads)
+function queryPlafon($query)
 {
-    //upload gambar
-    $namaFile = $_FILES[$image_uploads]['name'];
-    $ukuranFile = $_FILES[$image_uploads]['size'];
-    $error = $_FILES[$image_uploads]['error'];
-    $tmpName = $_FILES[$image_uploads]['tmp_name'];
-
-
-    // if($error === 4){
-    //     echo "
-    //         <script>
-    //             alert('gambar tidak ditemukan !');
-    //         </script>
-    //     ";
-    //     return false;
-    // }
-
-    //cek ekstensi gambar
-    $ekstensiGambarValid = ['jpg', 'jpeg', 'png'];
-    $ekstensiGambar = explode('.', $namaFile);
-    $ekstensiGambar = strtolower(end($ekstensiGambar));
-
-    if (!in_array($ekstensiGambar, $ekstensiGambarValid)) {
-        echo "
-                    <script>
-                        alert('kesalahan pada format gambar !');
-                    </script>
-                ";
-        return false;
+    global $conn;
+    $result = mysqli_query($conn, $query);
+    $rows = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $rows[] = $row;
     }
-
-    //generate nama baru
-    $namaFileBaru = uniqid();
-    $namaFileBaru .= '.';
-    $namaFileBaru .= $ekstensiGambar;
-
-
-    //lolos pengecekan
-    move_uploaded_file($tmpName, '../../img/' . $namaFileBaru);
-    return $namaFileBaru;
+    return $rows;
 }
-
+$plafonBeasiswa = queryPlafon("SELECT * FROM t_plafon_beasiswa
+                    ORDER BY id
+                    ");
 
 function query($query)
 {
@@ -106,69 +76,66 @@ $jumlah_ditolak = intval($rejected[0]);
 
 if (isset($_POST["submit"])) {
 
-    $Tanggal           = $_POST["tb_tgl_beasiswa"];
+    $tanggal           = $_POST["tb_tgl_beasiswa"];
+    $penerima          = $_POST["tb_penerima"];
 
-    $Nominal           = $_POST["tb_nominal"];
+    $namaAnak1         = $_POST["tb_nama_anak1"];
+    $namaAnak2         = $_POST["tb_nama_anak2"];
+    $namaAnak3         = $_POST["tb_nama_anak3"];
 
-    $Keterangan        = $_POST["tb_ket_beasiswa"];
-    $Keterangan        = htmlspecialchars($Keterangan);
+    $jenjang1          = $_POST["tb_jenjang_pendidikan1"];
+    $jenjang2          = $_POST["tb_jenjang_pendidikan2"];
+    $jenjang3          = $_POST["tb_jenjang_pendidikan3"];
 
-    $namaPIC           = $_POST["tb_nama_pic"];
-    $namaPIC           = htmlspecialchars($namaPIC);
+    $nominal1          = $_POST["tb_nominal1"] ? $_POST["tb_nominal1"] : 0 ;
+    $nominal2          = $_POST["tb_nominal2"] ? $_POST["tb_nominal2"] : 0;
+    $nominal3          = $_POST["tb_nominal3"] ? $_POST["tb_nominal3"] : 0;
 
-    $kontakPIC         = $_POST["tb_kontak_pic"];
-    $kontakPIC         = htmlspecialchars($kontakPIC);
+    $totalNominal      = $_POST["tb_total_nominal"];
+
+
+    $keterangan        = $_POST["tb_ket_beasiswa"];
+    $keterangan        = htmlspecialchars($keterangan);
 
     $status_beasiswa   = $_POST["status_beasiswa"];
 
-    $suratTagihan_Lama            = $_POST["suratTagihan_Lama"];
-
-    if ($_FILES['suratTagihan_Baru']['error'] === 4) {
-        $suratTagihan_Baru = $suratTagihan_Lama;
-    } else {
-        $suratTagihan_Baru = upload("suratTagihan_Baru");
-    }
-
     if ($beasiswa['is_approve'] == 1) {
-        $buktiTransfer_Lama  = $_POST["buktiTransfer_Lama"];
-        if ($_FILES['buktiTransfer_Baru']['error'] === 4) {
-            $buktiTransfer_Baru = $buktiTransfer_Lama;
-        } else {
-            $buktiTransfer_Baru = upload("buktiTransfer_Baru");
-        }
-
         $query = "UPDATE t_beasiswa SET
-        tgl                 = '$Tanggal',
-        total_nominal       = '$Nominal',
-        keterangan          = '$Keterangan',
-        nama_pic            = '$namaPIC',
-        kontak_pic          = '$kontakPIC',
-        file_trf            = '$buktiTransfer_Baru',
-        file_surat_tagihan  = '$suratTagihan_Baru',
+        tgl                 = '$tanggal',
+        nama_anak1          = '$namaAnak1',
+        nama_anak2          = '$namaAnak2',
+        nama_anak3          = '$namaAnak1',
+        jenjang_pendidikan1 = '$jenjang1',
+        jenjang_pendidikan2 = '$jenjang2', 
+        jenjang_pendidikan3 = '$jenjang3',
+        nominal_1           = '$nominal1',
+        nominal_2           = '$nominal2',
+        nominal_3           = '$nominal3',      
+        total_nominal       = '$totalNominal',
+        keterangan          = '$keterangan',
+        
         is_approve          = '$status_beasiswa' 
                
         WHERE id_beasiswa     = $id_beasiswa
         ";
     } else {
         $query = "UPDATE t_beasiswa SET
-        tgl                 = '$Tanggal',
-        total_nominal       = '$Nominal',
-        keterangan          = '$Keterangan',
-        nama_pic            = '$namaPIC',
-        kontak_pic          = '$kontakPIC',
-        file_surat_tagihan  = '$suratTagihan_Baru',
-        is_approve          = '$status_beasiswa' 
-               
-        WHERE id_beasiswa     = $id_beasiswa
+        tgl                 = '$tanggal',
+        nama_anak1          = '$namaAnak1',
+        nama_anak2          = '$namaAnak2',
+        nama_anak3          = '$namaAnak3',
+        jenjang_pendidikan1 = '$jenjang1',
+        jenjang_pendidikan2 = '$jenjang2', 
+        jenjang_pendidikan3 = '$jenjang3',
+        nominal_1           = '$nominal1',
+        nominal_2           = '$nominal2',
+        nominal_3           = '$nominal3',      
+        total_nominal       = '$totalNominal',
+        keterangan          = '$keterangan',
+        is_approve          = '$status_beasiswa'           
+        WHERE id_beasiswa   = $id_beasiswa
         ";
     }
-
-
-
-
-
-
-
 
     mysqli_query($conn, $query);
     // var_dump($query);die;
@@ -177,14 +144,14 @@ if (isset($_POST["submit"])) {
     if (mysqli_affected_rows($conn) > 0) {
         echo "
             <script>
-                alert('Data berhasil ditambahkan!');
+                alert('Data berhasil diubah!');
                 window.location.href = 'index.php';
             </script>
             ";
     } else {
         echo "
                 <script>
-                    alert('Data gagal ditambahkan!');
+                    alert('Data gagal diubah!');
                 </script>
             ";
     }
@@ -211,55 +178,98 @@ if (isset($_POST["submit"])) {
             </div>
             <form action="" enctype="multipart/form-data" method="POST">
                 <input type="hidden" name="updated_by" value="<?= $_SESSION["nama"] ?>">
-                <input type="hidden" name="buktiTransfer_Lama" value="<?= $beasiswa["file_trf"]; ?>">
-                <input type="hidden" name="suratTagihan_Lama" value="<?= $beasiswa["file_surat_tagihan"]; ?>">
                 <div class="form-group label-txt">
+                    <div class="form-group mt-4 mb-3" id="tgl_selesai_form">
+                        <label for="tb_tgl_beasiswa" class="label-txt">Tanggal Pengajuan Beasiswa<span class="red-star">*</span></label>
+                        <input type="date" id="tb_tgl_beasiswa" name="tb_tgl_beasiswa" class="form-control" value="<?= $beasiswa["tgl"]; ?>">
+                    </div>
                     <div class="form-group mt-4 mb-3">
                         <label for="tb_penerima" class="label-txt">Penerima<span class="red-star">*</span></label>
                         <input type="text" id="tb_penerima" name="tb_penerima" class="form-control" placeholder="Nama penerima" value="<?= $beasiswa["nama"]; ?>" readonly>
                     </div>
-                    <div class="form-group mt-4 mb-3" id="tgl_selesai_form">
-                        <label for="tb_tgl_beasiswa" class="label-txt">Tanggal Pengajuan<span class="red-star">*</span></label>
-                        <input type="date" id="tb_tgl_beasiswa" name="tb_tgl_beasiswa" class="form-control" value="<?= $beasiswa["tgl"]; ?>">
-                    </div>
+
                     <div class="form-group mt-4 mb-3">
-                        <label for="tb_nominal" class="label-txt">Nominal<span class="red-star">*</span></label>
-                        <input type="number" id="tb_nominal" name="tb_nominal" class="form-control" placeholder="Masukan Nominal beasiswa" value="<?= $beasiswa["total_nominal"]; ?>" Required>
-                    </div>
-                    <div class="form-group">
-                        <label for="suratTagihan_Baru" class="label-txt">Surat Tagihan Sekolah / Kampus</label>
-                        <br><img src="../../img/<?= $beasiswa["file_surat_tagihan"]; ?>" class="edit-img popup mb-3" alt="Preview Image Not Available">
-                        <div class="file-form">
-                            <input type="file" id="suratTagihan_Baru" name="suratTagihan_Baru" class="form-control ">
+                        <label for="data_anak">Data Anak<span class="red-star">*</span></label></label>
+                        <div class="data-anak-container">
+                            <div class="row mb-2 font-weight-bold d-flex justify-content-start">
+                                <div class="col num-col d-flex justify-content-center">No</div>
+                                <div class="col">Nama Anak</div>
+                                <div class="col">Jenjang Pendidikan</div>
+                                <div class="col">Nominal/6 bln</div>
+                            </div>
+                            <?php for ($x = 1; $x <= 3; $x++) : ?>
+                            <div class="row mb-2" id="appendForm<?=$x?>">
+                                <div class="col num-col d-flex align-items-center justify-content-center">
+                                <?= $x ?>
+                                </div>
+                                <div class="col"><input type="text" id="tb_nama_anak<?=$x?>" name="tb_nama_anak<?=$x?>" class="form-control" value="<?= $beasiswa["nama_anak$x"]; ?>" ></div>
+                                <div class="col">
+                                <select class="form-control" id="tb_jenjang_pendidikan<?=$x?>" name="tb_jenjang_pendidikan<?=$x?>" onchange="handleJenjang()">
+                                <option value="" >Pilih Jenjang</option>     
+
+                                <?php foreach ($plafonBeasiswa as $row) : ?>       
+                                <option 
+                                value="<?= $row["jenjang"]; ?>"
+                                <?php 
+                                if ($row["jenjang"] == $beasiswa["jenjang_pendidikan$x"]){
+                                    echo 'selected="selected"' ;
+                                }  
+                                ?> 
+                                >
+                                <?= $row["jenjang"]; ?>
+                                </option>
+
+                                <?php endforeach; ?>
+                                </select>
+                                </div>
+                                <div class="col">
+                                    <input type="number" id="tb_nominal<?=$x?>" name="tb_nominal<?=$x?>" class="form-control" 
+                                    value="<?= $beasiswa["nominal_$x"]; ?>"
+                                    onchange="handleNominal()">
+                                </div>
+                                <!-- <div class="append-action">                        
+                                    <button type="button" onclick="removeField?=$x?>()">-</button>                       
+                                </div> -->
+                            </div>
+                            <?php endfor; ?>
+                            
+                            <div class="row justify-content-end align-items-center  font-weight-bold">
+                                <div class="col-auto ">Total</div>
+                                <div class="col-auto ">
+                                <input type="text" id="tb_total" name="tb_total" class="input-total" 
+                                value="<?= $beasiswa["total_nominal"]; ?>">
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    
                     <div class="form-group mt-4 mb-3">
-                        <label for="tb_nama_pic" class="label-txt">Nama PIC Sekolah / Kampus<span class="red-star">*</span></label>
-                        <input type="text" id="tb_nama_pic" name="tb_nama_pic" class="form-control" placeholder="Nama PIC" value="<?= $beasiswa["nama_pic"]; ?>">
+                        <label for="tb_total_nominal" class="label-txt">Total Nominal<span class="red-star">*</span></label>
+                        <input type="number" id="tb_total_nominal" name="tb_total_nominal" class="form-control" placeholder="Masukan Nominal beasiswa" value="<?= $beasiswa["total_nominal"]; ?>" Required>
                     </div>
-                    <div class="form-group mt-4 mb-3">
-                        <label for="tb_kontak_pic" class="label-txt">Kontak PIC Sekolah / Kampus<span class="red-star">*</span></label>
-                        <input type="text" id="tb_kontak_pic" name="tb_kontak_pic" class="form-control" placeholder="Kontak PIC" value="<?= $beasiswa["kontak_pic"]; ?>">
-                    </div>
+                    
                     <div class="form-group">
                         <label for="tb_ket_beasiswa" class="label-txt">Keterangan</label>
                         <textarea class="form-control" id="tb_ket_beasiswa" name="tb_ket_beasiswa" rows="6" placeholder="Keterangan"><?= $beasiswa["keterangan"]; ?></textarea>
                     </div>
-                    <?php if ($beasiswa['is_approve'] == 1) { ?>
-                        <div class="form-group">
-                            <label for="buktiTransfer_Baru" class="label-txt"> Bukti Transfer</label><br>
-                            <br><img src="../../img/<?= $beasiswa["file_trf"]; ?>" class="edit-img popup " alt="Preview Image Not Available">
-                            <div class="file-form">
-                                <br><input type="file" id="buktiTransfer_Baru" name="buktiTransfer_Baru" class="form-control ">
-                            </div>
-                        </div>
-                    <?php } ?>
+       
                     <div class="form-group mb-5">
                         <br><label for="Jumlah_Approve" class="font-weight-bold"><span class="label-form-span">Jumlah Approve : <?= $jumlah_diterima ?> </span></label><br>
                         <table>
                             <?php foreach ($cariNamaApprove as $row) : ?>
                                 <tr>
-                                    <td> - <?= $row["nama"]; ?></td>
+                                    <td> 
+                                    - 
+                                    <?php 
+                                    echo $row["nama"]; 
+                                    echo ' : '; 
+                                    if($row["keterangan"])
+                                    {
+                                        echo $row["keterangan"];
+                                    } else {
+                                        echo '-';
+                                    }
+                                     ?> </td>
                                 </tr>
                             <?php endforeach; ?>
                         </table>
@@ -282,7 +292,7 @@ if (isset($_POST["submit"])) {
                         </div>
 
                         <?php
-                        if ($jumlah_diterima == 6) {
+                        if ($jumlah_diterima == 2) {
                             echo
                             '<div class="radio-wrapper mt-1 bg-white">
                                 <div class="form-check form-check-inline">
@@ -307,21 +317,91 @@ if (isset($_POST["submit"])) {
                 </button>
             </form>
         </div>
-        <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel"> Preview Image </h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <img src="" id="popup-img" alt="image" class="w-100">
-                    </div>
-                </div>
-            </div>
-        </div>
+        <script>
+            // Declare Variables
+            var jenjang1 = document.getElementById("tb_jenjang_pendidikan1");
+            var jenjang2 = document.getElementById("tb_jenjang_pendidikan2");
+            var jenjang3 = document.getElementById("tb_jenjang_pendidikan3");
+            var nominal1 = document.getElementById("tb_nominal1");
+            var nominal2 = document.getElementById("tb_nominal2");
+            var nominal3 = document.getElementById("tb_nominal3");
+            
+            function handleJenjang() {
+
+            // console.log('jen', jenjang1.value)
+            
+            if(jenjang1.value == 'SD / Sederajat'){
+                var value1 = parseInt(600000);
+            }else if(jenjang1.value == 'SMP / Sederajat'){
+                var value1 = parseInt(1200000);
+            }else if(jenjang1.value == 'SMA / Sederajat'){
+                var value1 = parseInt(1800000);
+            }else if(jenjang1.value == 'Kuliah'){
+                var value1 = parseInt(2400000);
+            }else{
+                var value1 = parseInt(0);
+            }
+
+            if(jenjang2.value == 'SD / Sederajat'){
+                var value2 = parseInt(600000);
+            }else if(jenjang2.value == 'SMP / Sederajat'){
+                var value2 = parseInt(1200000);
+            }else if(jenjang2.value == 'SMA / Sederajat'){
+                var value2 = parseInt(1800000);
+            }else if(jenjang2.value == 'Kuliah'){
+                var value2 = parseInt(2400000);
+            }else{
+                var value2 = parseInt(0);
+            }
+
+            if(jenjang3.value == 'SD / Sederajat'){
+                var value3 = parseInt(600000);
+            }else if(jenjang3.value == 'SMP / Sederajat'){
+                var value3 = parseInt(1200000);
+            }else if(jenjang3.value == 'SMA / Sederajat'){
+                var value3 = parseInt(1800000);
+            }else if(jenjang3.value == 'Kuliah'){
+                var value3 = parseInt(2400000);
+            }else{
+                var value3 = parseInt(0);
+            }
+            
+            let total1 = value1 ? value1 : 0;
+            let total2 = value2 ? value2 : 0;
+            let total3 = value3 ? value3 : 0;
+            document.querySelector('input[name="tb_nominal1"]').value = value1;
+            document.querySelector('input[name="tb_nominal2"]').value = value2;
+            document.querySelector('input[name="tb_nominal3"]').value = value3;
+            document.querySelector('input[name="tb_total"]').value = total1+total2+total3;  
+            document.querySelector('input[name="tb_total_nominal"]').value = total1+total2+total3;  
+
+            }  
+        
+            function handleNominal(){
+            let value1 = parseInt(nominal1.value);
+            let value2 = parseInt(nominal2.value);
+            let value3 = parseInt(nominal3.value);
+            let total1 = value1 ? value1 : 0;
+            let total2 = value2 ? value2 : 0;
+            let total3 = value3 ? value3 : 0;
+            document.querySelector('input[name="tb_nominal1"]').value = value1;
+            document.querySelector('input[name="tb_nominal2"]').value = value2;
+            document.querySelector('input[name="tb_nominal3"]').value = value3;
+            document.querySelector('input[name="tb_total"]').value = total1+total2+total3;  
+            document.querySelector('input[name="tb_total_nominal"]').value = total1+total2+total3;  
+            }
+
+            // function removeField2(){
+            // var element = document.getElementById("appendForm2");
+            // element.classList.add("d-none");    
+            // }
+
+            // function removeField3(){
+            // var element = document.getElementById("appendForm3");
+            // element.classList.add("d-none");    
+            // }
+        </script>
+       
     </main>
 </div>
 <!-- /.container-fluid -->

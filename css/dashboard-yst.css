@@ -674,6 +674,10 @@ max-width: 40px;
   padding: 10px 10px;
 }
 
+.cs-modal-footer{
+
+}
+
 @media only screen and (max-width: 1200px) {
 }
 
