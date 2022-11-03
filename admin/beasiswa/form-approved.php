@@ -26,7 +26,19 @@ function query($query)
     }
     return $rows;
 }
-
+function queryPlafon($query)
+{
+    global $conn;
+    $result = mysqli_query($conn, $query);
+    $rows = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $rows[] = $row;
+    }
+    return $rows;
+}
+$plafonBeasiswa = queryPlafon("SELECT * FROM t_plafon_beasiswa
+                    ORDER BY id
+                    ");
 $queryApproved = mysqli_query($conn, "SELECT *
                     FROM t_approval_beasiswa
                     WHERE user_id = '$_SESSION[id_user]'
