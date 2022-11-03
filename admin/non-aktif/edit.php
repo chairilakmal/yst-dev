@@ -71,8 +71,9 @@ function query($query)
     return $rows;
 }
 
+$currentWilayah = $_SESSION["wilayah_id"];
 $selectNIK = query("SELECT * FROM t_user
-                WHERE is_die = 'n' AND status_aktif = 'y' 
+                WHERE is_die = 'y' AND status_aktif = 'n'
                 ORDER BY nik ASC ");
 
 $dataKematian = query(" SELECT * FROM t_meninggal
@@ -99,22 +100,7 @@ if (isset($_POST["submit"])) {
 
     $status_meninggal           = $_POST["tb_status_meninggal"];
 
-    //$suratKematian              = upload("image_uploads1");
-    //$KartuKeluarga              = upload("image_uploads2");
-
-    //$nama = $_SESSION['nama'];
-
-    //$updated_by                 = $_POST[$nama];
-
-    $kartuKeluarga_Lama                 = $_POST["kartuKeluarga_Lama"];
     $suratKematian_Lama                 = $_POST["suratKematian_Lama"];
-
-
-    if ($_FILES['kartuKeluarga_Baru']['error'] === 4) {
-        $kartuKeluarga_Baru = $kartuKeluarga_Lama;
-    } else {
-        $kartuKeluarga_Baru = upload("kartuKeluarga_Baru");
-    }
 
     if ($_FILES['suratKematian_Baru']['error'] === 4) {
         $suratKematian_Baru = $suratKematian_Lama;
@@ -138,7 +124,6 @@ if (isset($_POST["submit"])) {
                             tempat_pemakaman            = '$tempat_pemakaman',
                             penyebab_kematian           = '$penyebab_kematian',
                             is_approve                  = '$status_meninggal',
-                            file_kk                     = '$kartuKeluarga_Baru',
                             file_surat_kematian         = '$suratKematian_Baru'
                            
                             WHERE id_meninggal          = $id_meninggal
@@ -204,15 +189,23 @@ if (isset($_POST["submit"])) {
             </div>
             <form action="" enctype="multipart/form-data" method="POST">
                 <input type="hidden" name="id_meninggal" value="<?= $dataKematian["id_meninggal"]; ?>">
-                <input type="hidden" name="kartuKeluarga_Lama" value="<?= $dataKematian["file_kk"]; ?>">
                 <input type="hidden" name="suratKematian_Lama" value="<?= $dataKematian["file_surat_kematian"]; ?>">
                 <div class="form-group label-txt">
                     <div class="form-group mt-4 mb-3">
                         <label for="tb_nik">NIK<span class="red-star">*</span></label></label>
-                        <select class="form-control" id="tb_nik" name="tb_nik">
-                            <option value="<?= $dataKematian["id_user"]; ?>"><?= $dataKematian["nik"]; ?></option>;
+                        <select class="form-control" id="tb_nik" name="tb_nik" disabled>
+                            <option value="" >Pilih NIK</option>       
                             <?php foreach ($selectNIK as $row) : ?>
-                                <option value="<?= $row["id_user"]; ?>"><?= $row["nik"]; ?></option>';
+                                <option value="<?= $row["id_user"]; ?>"
+                                <?php 
+                                if ($row["id_user"] == $dataKematian["id_user"]){
+                                    echo 'selected="selected"' ;
+                                }  
+                                ?> 
+                                >
+                                <?= $row["nik"]; ?> -
+                                <?php echo $row['nama'] ?>                
+                                </option>';
                             <?php endforeach; ?>
                         </select>
                     </div>
@@ -237,13 +230,7 @@ if (isset($_POST["submit"])) {
                         <label for="tb_penyebab_kematian" class="label-txt">Penyebab Kematian</label>
                         <textarea class="form-control" id="tb_penyebab_kematian" name="tb_penyebab_kematian" rows="6" placeholder="Penyebab Kematian"><?php echo $dataKematian["penyebab_kematian"]; ?></textarea>
                     </div>
-                    <div class="form-group">
-                        <label for="kartuKeluarga_Baru" class="label-txt"> Kartu Keluarga </label><br>
-                        <img src="../../img/<?= $dataKematian["file_kk"]; ?>" class="edit-img popup " alt="">
-                        <div class="file-form">
-                            <br><input type="file" id="kartuKeluarga_Baru" name="kartuKeluarga_Baru" class="form-control ">
-                        </div>
-                    </div>
+           
                     <div class="form-group">
                         <label for="suratKematian_Baru" class="label-txt"> Surat Keterangan Kematian </label><br>
                         <img src="../../img/<?= $dataKematian["file_surat_kematian"]; ?>" class="edit-img popup " alt="">
@@ -284,14 +271,14 @@ if (isset($_POST["submit"])) {
         </form>
 </div>
 
-<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="staticBackdropLabel"> Preview Image </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                </button>
+                </button> -->
             </div>
             <div class="modal-body">
                 <img src="" id="popup-img" alt="image" class="w-100">

@@ -13,9 +13,6 @@ if ($_SESSION["level_user"] == 4) {
     exit;
 }
 
-
-
-
 function upload($image_upload)
 {
     //upload gambar
@@ -24,14 +21,6 @@ function upload($image_upload)
     $error = $_FILES[$image_upload]['error'];
     $tmpName = $_FILES[$image_upload]['tmp_name'];
 
-    //  if($error === 4){
-    //      echo "
-    //          <script>
-    //              alert('gambar tidak ditemukan !');
-    //          </script>
-    //      ";
-    //      return false;
-    //  }
 
     //cek ekstensi gambar
     $ekstensiGambarValid = ['jpg', 'jpeg', 'png'];
@@ -70,8 +59,9 @@ function queryNIK($query)
     return $rows;
 }
 
+$currentWilayah = $_SESSION["wilayah_id"];
 $selectNIK = queryNIK("SELECT * FROM t_user
-                WHERE is_die = 'y' AND status_aktif = 'n' 
+                WHERE is_die = 'n' AND status_aktif = 'y' AND wilayah_id = $currentWilayah
                 ORDER BY nik ASC 
                 ");
 
@@ -87,8 +77,7 @@ if (isset($_POST["submit"])) {
     $penyebab_kematian          = $_POST["tb_penyebab_kematian"];
     $penyebab_kematian          = htmlspecialchars($penyebab_kematian);
 
-    $suratKematian              = upload("image_uploads1");
-    $KartuKeluarga              = upload("image_uploads2");
+    $suratKematian              = upload("image_uploads");
 
     $nama = $_SESSION['nama'];
 
@@ -165,7 +154,10 @@ if (isset($_POST["submit"])) {
                         <select class="form-control" id="tb_nik" name="tb_nik" required>
                             <option value="" selected disabled>Pilih NIK</option>;
                             <?php foreach ($selectNIK as $row) : ?>
-                                <option value="<?= $row["id_user"]; ?>"><?= $row["nik"]; ?></option>';
+                                <option value="<?= $row["id_user"]; ?>">
+                                <?= $row["nik"]; ?> - 
+                                <?php echo $row['nama'] ?>  
+                                </option>';
                             <?php endforeach; ?>
                         </select>
                     </div>
@@ -189,18 +181,12 @@ if (isset($_POST["submit"])) {
                         <label for="tb_penyebab_kematian" class="label-txt">Penyebab Kematian</label>
                         <textarea class="form-control" id="tb_penyebab_kematian" name="tb_penyebab_kematian" rows="6" placeholder="Penyebab Kematian"></textarea>
                     </div>
+ 
                     <div class="form-group">
-                        <label for="image_uploads1" class="label-txt"> Kartu Keluarga </label><br>
+                        <label for="image_uploads" class="label-txt"> Surat Keterangan Kematian </label><br>
                         <!-- <img src="img/" class="edit-img popup " alt=""> -->
                         <div class="file-form">
-                            <input type="file" id="image_uploads1" name="image_uploads1" class="form-control ">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="image_uploads2" class="label-txt"> Surat Keterangan Kematian </label><br>
-                        <!-- <img src="img/" class="edit-img popup " alt=""> -->
-                        <div class="file-form">
-                            <input type="file" id="image_uploads2" name="image_uploads2" class="form-control ">
+                            <input type="file" id="image_uploads" name="image_uploads" class="form-control ">
                         </div>
                     </div>
                 </div>

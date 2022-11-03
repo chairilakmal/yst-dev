@@ -2,11 +2,13 @@
 session_start();
 include '../../config/connection.php';
 
+// var_dump($_SESSION["wilayah_id"]);die;
 
 if (!isset($_SESSION["username"])) {
     header('Location: ../../login.php?status=restrictedaccess');
     exit;
 }
+
 
 if ($_SESSION["level_user"] == 4) {
     header('Location: ../../user/dashboard-donasi/dashboard-user.php');
@@ -25,13 +27,24 @@ function query($query)
     return $rows;
 }
 
-$getBeasiswa = query("SELECT * FROM t_beasiswa
-                        LEFT JOIN t_user
-                        ON t_beasiswa.user_id = t_user.id_user               
-                        -- GROUP BY t_beasiswa.user_id 
-                        ORDER BY t_beasiswa.user_id DESC     
-                        ");
+$currentWilayah = $_SESSION["wilayah_id"];
+$selectNIK = query("SELECT * FROM t_user WHERE wilayah_id = $currentWilayah ");
 
+
+if ($_SESSION["level_user"] == '2a' || $_SESSION["level_user"] == '2b') {   
+    $getBeasiswa = query("SELECT * FROM t_beasiswa
+                   LEFT JOIN t_user ON t_beasiswa.user_id = t_user.id_user      
+                   ORDER BY t_beasiswa.user_id DESC     
+                    ");
+} else{
+    $getBeasiswa = query("SELECT * FROM t_beasiswa
+                   LEFT JOIN t_user ON t_beasiswa.user_id = t_user.id_user      
+                   WHERE wilayah_id = $currentWilayah    
+                   ORDER BY t_beasiswa.user_id DESC     
+                    ");
+}
+
+// var_dump($_SESSION["level_user"]);die;
 // $getBeasiswa = query("SELECT * FROM t_beasiswa");
 
 

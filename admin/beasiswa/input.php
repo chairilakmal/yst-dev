@@ -39,14 +39,28 @@ function query($query)
     return $rows;
 }
 
-$selectNIK = query("SELECT * FROM t_meninggal WHERE is_approve = 'y' ");
+$currentWilayah = $_SESSION["wilayah_id"];
+$selectNIK = query("SELECT * FROM t_meninggal 
+            WHERE is_approve = 'y' 
+            AND wilayah_id = $currentWilayah");
 
-$userQuery = query("SELECT * FROM t_meninggal
-                    LEFT JOIN t_user 
-                    ON t_meninggal.id_user = t_user.id_user               
-                    -- GROUP BY t_meninggal.id_user 
-                    ORDER BY t_meninggal.id_user DESC                
-                    ");
+if ($_SESSION["level_user"] == '2a' || $_SESSION["level_user"] == '2b') {   
+    $userQuery = query("SELECT * FROM t_meninggal
+                LEFT JOIN t_user 
+                ON t_meninggal.id_user = t_user.id_user   
+                -- GROUP BY t_meninggal.id_user 
+                ORDER BY t_meninggal.id_user DESC                
+                ");
+} else {
+    $userQuery = query("SELECT * FROM t_meninggal
+                LEFT JOIN t_user 
+                ON t_meninggal.id_user = t_user.id_user   
+                WHERE wilayah_id = $currentWilayah    
+                -- GROUP BY t_meninggal.id_user 
+                ORDER BY t_meninggal.id_user DESC                
+                ");
+}
+
 
 if (isset($_POST["submit"])) {
 
