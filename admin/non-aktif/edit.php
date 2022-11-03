@@ -249,17 +249,17 @@ if (isset($_POST["submit"])) {
                                 </div>
                             </div> -->
                     <div class="form-group mb-5">
-                        <label for="tb_status_meninggal" class="font-weight-bold"><span class="label-form-span">Status Meninggal </span></label><br>
+                        <label for="tb_status_meninggal" class="font-weight-bold"><span class="label-form-span">Status Approval </span></label><br>
                         <div class="radio-wrapper mt-1 bg-white">
                             <div class="form-check form-check-inline">
                                 <input type="radio" id="tb_status_meninggal" name="tb_status_meninggal" class="form-check-input" value="y" <?php if ($dataKematian['is_approve'] == 'y') echo 'checked' ?>>
-                                <label class="form-check-label" for="tb_status_meninggal">Terverifikasi </label>
+                                <label class="form-check-label" for="tb_status_meninggal">Approved </label>
                             </div>
                         </div>
                         <div class="radio-wrapper2 mt-1 bg-white">
                             <div class="form-check form-check-inline">
                                 <input type="radio" id="tb_status_meninggal" name="tb_status_meninggal" class="form-check-input" value="n" <?php if ($dataKematian['is_approve'] == 'n') echo 'checked' ?>>
-                                <label class="form-check-label" for="tb_status_meninggal">Belum Terverifikasi</label>
+                                <label class="form-check-label" for="tb_status_meninggal">Menunggu Approval</label>
                             </div>
                         </div>
                     </div>

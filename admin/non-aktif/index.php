@@ -83,9 +83,9 @@ $userQuery = query("SELECT * FROM t_meninggal
                                             <td>
                                                 <?php
                                                 if ($row['is_approve'] == 'y') {
-                                                    echo 'Terverifikasi';
+                                                    echo 'Approved';
                                                 } else {
-                                                    echo 'Pending';
+                                                    echo 'Menunggu Approval';
                                                 } ?></td>
                                             </td>
 

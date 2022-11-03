@@ -34,13 +34,13 @@ $selectNIK = query("SELECT * FROM t_user WHERE wilayah_id = $currentWilayah ");
 if ($_SESSION["level_user"] == '2a' || $_SESSION["level_user"] == '2b') {   
     $getBeasiswa = query("SELECT * FROM t_beasiswa
                    LEFT JOIN t_user ON t_beasiswa.user_id = t_user.id_user      
-                   ORDER BY t_beasiswa.user_id DESC     
+                   ORDER BY t_beasiswa.is_approve ASC     
                     ");
 } else{
     $getBeasiswa = query("SELECT * FROM t_beasiswa
                    LEFT JOIN t_user ON t_beasiswa.user_id = t_user.id_user      
                    WHERE wilayah_id = $currentWilayah    
-                   ORDER BY t_beasiswa.user_id DESC     
+                   ORDER BY t_beasiswa.is_approve ASC        
                     ");
 }
 
@@ -86,7 +86,7 @@ if ($_SESSION["level_user"] == '2a' || $_SESSION["level_user"] == '2b') {
                             <table width="100%">
                                 <thead>
                                     <tr>
-                                        <td class="text-center">ID <br> Beasiswa</td>
+                                        <td class="text-center">No</td>
                                         <td>Penerima</td>
                                         <td>Tanggal Pengajuan</td>
                                         <td>Nominal</td>
@@ -96,18 +96,20 @@ if ($_SESSION["level_user"] == '2a' || $_SESSION["level_user"] == '2b') {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($getBeasiswa as $row) : ?>
+                                    <?php 
+                                    $i = 1;
+                                    foreach ($getBeasiswa as $row) : ?>
                                         <tr>
-                                            <td class="text-center"><?= $row["id_beasiswa"]; ?></td>
+                                            <td class="text-center"><?= $i++ ?></td>
                                             <td class="table-snipet1"><?= $row["nama"]; ?></td>
                                             <td><?= $row["tgl"]; ?></td>
                                             <td><?= $row["total_nominal"]; ?></td>
                                             <td>
                                                 <?php
                                                 if ($row['is_approve'] == 1) {
-                                                    echo 'Terverifikasi';
+                                                    echo 'Approved';
                                                 } else {
-                                                    echo 'Pending';
+                                                    echo 'Menunggu Approval';
                                                 } ?></td>
                                             </td>
 

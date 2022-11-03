@@ -175,7 +175,6 @@ if (isset($_POST["submit"])) {
                     <div class="form-group mb-5">
                         <label for="status_program_donasi" class="font-weight-bold"><span class="label-form-span">Status Beasiswa</span></label><br>
 
-
                         <?php if ($approved != NULL) { ?>
                             <div class="radio-wrapper mt-1 bg-white">
                                 <div class="form-check form-check-inline">
