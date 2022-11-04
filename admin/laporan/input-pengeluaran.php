@@ -12,15 +12,11 @@ if ($_SESSION["level_user"] == 4) {
     exit;
 }
 
-
-
 function rupiah($angka)
 {
     $hasil_rupiah = "Rp. " . number_format($angka, 0, '.', '.');
     return $hasil_rupiah;
 }
-
-
 
 function query($query)
 {
@@ -33,29 +29,57 @@ function query($query)
     return $rows;
 }
 
+$beasiswaQuery = query("SELECT * FROM t_beasiswa 
+                LEFT JOIN t_user 
+                ON t_beasiswa.user_id = t_user.id_user
+                LEFT JOIN t_wilayah 
+                ON t_user.wilayah_id = t_wilayah.id_wilayah
+                WHERE is_approve = 1 ");
+
+
+// die;
+
 
 if (isset($_POST["submit"])) {
 
-
-    $bulan            = $_POST['tb_bulan'];
-    $tahun            = $_POST['tb_tahun'];
     $tanggal          = $_POST['tb_tanggal'];
-    $nominal          = $_POST['tb_nominal'];
+    $tipe             = $_POST['tb_tipe_pengeluaran'];
+
+    if ($tipe == 1) {
+        $nominal      = $_POST['tb_nominal'];
+    } else {
+        $nominal      = $_POST['tb_nominal_beasiswa'];
+    }
+
+    // var_dump($nominal);
+    // die;
+
     $sumber           = $_POST['tb_sumber'];
     $keterangan       = $_POST['tb_keterangan'];
     $status           = 1;
 
+    $beasiswa_id      = $_POST['tb_beasiswa'];
+
 
     // GLOBAL UPDATE
-    $query = "INSERT INTO t_lap_keuangan (bulan,tahun,tanggal,nominal,sumber,keterangan,status)
-                VALUES ('$bulan', '$tahun', '$tanggal', '$nominal','$sumber','$keterangan','$status')";
-
-
-
-
+    $query = "INSERT INTO t_lap_keuangan (
+        tanggal,
+        nominal,
+        sumber,
+        keterangan,
+        beasiswa_id,
+        status)
+            VALUES (
+                '$tanggal', 
+                '$nominal',
+                '$sumber',
+                '$keterangan',
+                '$beasiswa_id',
+                '$status')";
 
     mysqli_query($conn, $query);
-    // var_dump($query);die;
+    // var_dump($query);
+    // die;
 
     //cek keberhasilan
     if (mysqli_affected_rows($conn) > 0) {
@@ -103,9 +127,13 @@ if (isset($_POST["submit"])) {
                 </div>
                 <div id="field_beasiswa" class="form-group mt-4 mb-3 d-none">
                     <label for="tb_beasiswa">Pilih Beasiswa<span class="red-star">*</span></label></label>
-                    <select class="form-control" id="tb_beasiswa" name="tb_beasiswa" required>
-                        <option value="1" selected>Beasiswa 1</option>
-                        <option value="2">Beasiswa 2</option>
+                    <select class="form-control" id="tb_beasiswa" name="tb_beasiswa" onchange="handleBeasiswa()">
+                        <option value="" selected>Pilih Beasiswa</option>;
+                        <?php foreach ($beasiswaQuery as $row) : ?>
+                            <option value="<?= $row["id_beasiswa"]; ?>" data-nominal="<?= $row["total_nominal"]; ?>">
+                                Beasiswa Pendidikan Keluarga <?php echo $row['nama']; ?> <?php echo $row['kode_wilayah']; ?>
+                            </option>';
+                        <?php endforeach; ?>
                     </select>
                 </div>
                 <div class="form-group mt-4 mb-3" id="tgl_selesai_form">
@@ -113,11 +141,17 @@ if (isset($_POST["submit"])) {
                     <input type="date" id="tb_tanggal" name="tb_tanggal" class="form-control" value="<?php echo date("Y-m-d"); ?>">
                 </div>
 
-
-                <div class="form-group mt-4 mb-3">
+                <!-- Nominal Umum -->
+                <div id="nominal_umum" class="form-group mt-4 mb-3">
                     <label for="tb_nominal" class="label-num">Nominal<span class="red-star">*</span></label>
-                    <input type="number" id="tb_nominal" name="tb_nominal" class="form-control" placeholder="Masukan nominal pemasukan" Required>
+                    <input type="number" id="tb_nominal" name="tb_nominal" class="form-control" placeholder="Masukan nominal pengeluaran" value="">
                 </div>
+                <!-- Nominal Beasiswa -->
+                <div id="nominal_beasiswa" class="form-group mt-4 mb-3 d-none">
+                    <label for="tb_nominal_beasiswa" class="label-num">Nominal Beasiswa<span class="red-star">*</span></label>
+                    <input type="number" id="tb_nominal_beasiswa" name="tb_nominal_beasiswa" class="form-control" placeholder="Masukan nominal pengeluaran" value="">
+                </div>
+
                 <div class="form-group">
                     <label for="tb_sumber" class="label-txt">Sumber Dana<span class="red-star">*</label>
                     <input type="text" class="form-control" id="tb_sumber" name="tb_sumber" placeholder="Masukkan sumber dana" Required></input>
@@ -141,14 +175,27 @@ if (isset($_POST["submit"])) {
 
 <script>
     var fieldType = document.getElementById("tb_tipe_pengeluaran");
+    var selectBeasiswa = document.getElementById("tb_beasiswa");
     var fieldBeasiswa = document.getElementById("field_beasiswa");
+    var nominalUmum = document.getElementById("nominal_umum");
+    var nominalBeasiswa = document.getElementById("nominal_beasiswa");
 
     function handleType() {
         if (fieldType.value == 2) {
             fieldBeasiswa.classList.remove("d-none");
+            nominalUmum.classList.add("d-none");
+            nominalBeasiswa.classList.remove("d-none");
         } else {
             fieldBeasiswa.classList.add("d-none");
+            nominalUmum.classList.remove("d-none");
+            nominalBeasiswa.classList.add("d-none");
         }
+    }
+
+    function handleBeasiswa() {
+        var _this = selectBeasiswa.options[selectBeasiswa.selectedIndex].dataset["nominal"];
+        document.querySelector('input[name="tb_nominal_beasiswa"]').value = _this;
+        // console.log(_this)
     }
 </script>
 
