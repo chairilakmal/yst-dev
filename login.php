@@ -59,8 +59,8 @@ if (isset($_POST["login"])) {
 </head>
 
 <body>
-  <div class="text-center ">
-    <div class="mt-5 yst-login-box ">
+  <div class="text-center login-container">
+    <div class="yst-login-box ">
 
       <?php if (isset($error)) : ?>
         <script>
