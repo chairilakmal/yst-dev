@@ -85,7 +85,7 @@ if (isset($_POST["login"])) {
         </div>
       </form>
 
-      <div class="text-center mt-4">
+      <div class="text-center mt-4 pt-3">
         <span class="txt1">
           Belum punya akun ?
         </span>
@@ -93,11 +93,11 @@ if (isset($_POST["login"])) {
           Daftar Sekarang
         </a><br><br>
       </div>
-      <div class="text-center">
+      <!-- <div class="text-center">
         <a href="register-pengurus-kegiatan.php" class="txt2 hov1">
           Daftar Pengurus Kegiatan
         </a><br><br>
-      </div>
+      </div> -->
 
 
     </div>

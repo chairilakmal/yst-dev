@@ -175,6 +175,11 @@ body {
 .btn.btn-link-slide a {
   color: red;
 }
+.yst-login-btn{
+  background: rgb(147,16,23);
+  background: linear-gradient(45deg, rgba(147,16,23,1) 0%, rgba(229,19,29,1) 100%);  
+  font-family: 'Quicksand', sans-serif; 
+}
 .carousel-item {
   height: 500px;
 }

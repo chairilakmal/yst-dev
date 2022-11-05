@@ -12,7 +12,7 @@
         <!-- Sidebar Menu -->
         <nav class="mt-4">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-            <?php if (
+                <?php if (
                     $backUrl == "/yst-dev-restructured/admin/dashboard-statistik/" ||
                     $backUrl == "/yst-dev-restructured/admin/dashboard-statistik/input.php" ||
                     $backUrl == "/yst-dev-restructured/admin/dashboard-statistik//edit.php"
@@ -36,8 +36,8 @@
                 </li>';
                 }
                 ?>
-                
-                
+
+
                 <?php if (
                     $backUrl == "/yst-dev-restructured/admin/berita/" ||
                     $backUrl == "/yst-dev-restructured/admin/berita/input.php" ||
@@ -168,9 +168,19 @@
                                         Data Wafat
                                     </p>
                                 </a>
+                            </div>';
+                    if ($_SESSION['level_user'] == 1) {
+                        echo '<div class="row py-2 ml-2">
+                                <a href="../../register-admin.php" class="nav-link side-icon">
+                                    <i class="nav-icon fa fa-user-plus"></i>
+                                    <p>
+                                        Tambah Pengurus
+                                    </p>
+                                </a>
                             </div>
                         </div>
                     </li>';
+                    }
                 } else {
                     echo '<li class="nav-item nav-item-sidebar">
                         <a class="nav-link side-icon dropdown-toggle" data-toggle="collapse" href="#menu-user" role="button" aria-controls="menu-user">
@@ -194,9 +204,19 @@
                                         Data Wafat
                                     </p>
                                 </a>
-                            </div>
-                        </div>
-                    </li>';
+                            </div>';
+                    if ($_SESSION['level_user'] == 1) {
+                        echo '<div class="row py-2 ml-2">
+                                        <a href="../../register-admin.php" class="nav-link side-icon">
+                                            <i class="nav-icon fa fa-user-plus"></i>
+                                            <p>
+                                                Tambah Pengurus
+                                            </p>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>';
+                    }
                 }
                 ?>
 

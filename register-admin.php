@@ -74,7 +74,7 @@ if (isset($_POST["register"])) {
     <div>
         <div class="mt-4 yst-regis-box ">
             <div class="yst-regis-width">
-                <div class="mt-3"> <a href="login.php" class="txt2">
+                <div class="mt-3"> <a href="admin/kelola-user/" class="txt2">
                         < Kembali </a>
                 </div>
                 <div class="mt-4 regis-title">

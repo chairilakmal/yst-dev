@@ -446,7 +446,7 @@ $programRelawan = queryRelawan("SELECT *, SUM(t_relawan.relawan_jadi) AS jumlah_
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <a href="view-info-donasi.php" class="btn btn-primary active" role="button" aria-pressed="true">Cek Info Selengkapnya !</a>
+                    <a href="view-info-donasi.php" class="btn btn-primary border-0 yst-login-btn" role="button" aria-pressed="true">Lihat Info</a>
                 </div>
             </div>
         </div>
