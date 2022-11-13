@@ -150,16 +150,28 @@ if (isset($_POST["submit"])) {
             <form action="" enctype="multipart/form-data" method="POST">
                 <div class="form-group label-txt">
                     <div class="form-group mt-4 mb-3">
-                        <label for="tb_nik">NIK<span class="red-star">*</span></label></label>
-                        <select class="form-control" id="tb_nik" name="tb_nik" required>
-                            <option value="" selected disabled>Pilih NIK</option>;
-                            <?php foreach ($selectNIK as $row) : ?>
-                                <option value="<?= $row["id_user"]; ?>">
-                                <?= $row["nik"]; ?> - 
-                                <?php echo $row['nama'] ?>  
-                                </option>';
-                            <?php endforeach; ?>
-                        </select>
+                        <div class="row">
+                            <div class="col">
+                                <label for="tb_nik">NIK<span class="red-star">*</span></label></label>
+                                <input type="text" name="tb_nik" class="form-control" placeholder="Masukan NIK">
+                            </div>
+                            <div class="col">
+                                <label for="tb_nama">Nama Lengkap<span class="red-star">*</span></label></label>
+                                <input type="text" name="tb_nama" class="form-control" placeholder="Masukan nama lengkap">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mt-4 mb-3">
+                        <div class="row">
+                            <div class="col">
+                                <label for="tb_no_kontak">Nomor Kontak Perwakilan<span class="red-star">*</span></label></label>
+                                <input type="text" name="tb_no_kontak" class="form-control" placeholder=" Nomor kontak yang dapat dihubungi">
+                            </div>
+                            <div class="col">
+                                <label for="tb_nama_kontak">Nama Kontak Perwakilan<span class="red-star">*</span></label></label>
+                                <input type="text" name="tb_nama_kontak" class="form-control" placeholder="Nama kontak yang dapat dihubungi">
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group mt-4 mb-3">
                         <label for="tb_tgl_kematian" class="label-txt">Tanggal<span class="red-star">*</span></label>
@@ -171,17 +183,17 @@ if (isset($_POST["submit"])) {
                     </div>
                     <div class="form-group mt-4 mb-3">
                         <label for="tb_tempat_kematian" class="label-txt">Tempat<span class="red-star">*</span></label>
-                        <input type="text" id="tb_tempat_kematian" name="tb_tempat_kematian" class="form-control" placeholder="Tempat Meninggal" Required>
+                        <input type="text" id="tb_tempat_kematian" name="tb_tempat_kematian" class="form-control" placeholder="Tempat meninggal" Required>
                     </div>
                     <div class="form-group mt-4 mb-3">
                         <label for="tb_tempat_pemakaman" class="label-txt">Tempat Pemakaman<span class="red-star">*</span></label>
-                        <input type="text" id="tb_tempat_pemakaman" name="tb_tempat_pemakaman" class="form-control" placeholder="Tempat Pemakaman" Required>
+                        <input type="text" id="tb_tempat_pemakaman" name="tb_tempat_pemakaman" class="form-control" placeholder="Tempat pemakaman" Required>
                     </div>
                     <div class="form-group">
                         <label for="tb_penyebab_kematian" class="label-txt">Penyebab Kematian</label>
-                        <textarea class="form-control" id="tb_penyebab_kematian" name="tb_penyebab_kematian" rows="6" placeholder="Penyebab Kematian"></textarea>
+                        <textarea class="form-control" id="tb_penyebab_kematian" name="tb_penyebab_kematian" rows="6" placeholder="Penyebab kematian"></textarea>
                     </div>
- 
+
                     <div class="form-group">
                         <label for="image_uploads" class="label-txt"> Surat Keterangan Kematian </label><br>
                         <!-- <img src="img/" class="edit-img popup " alt=""> -->

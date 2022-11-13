@@ -36,6 +36,48 @@ $beasiswaQuery = query("SELECT * FROM t_beasiswa
                 ON t_user.wilayah_id = t_wilayah.id_wilayah
                 WHERE is_approve = 1 ");
 
+function upload()
+{
+    //upload gambar
+    $namaFile = $_FILES['image_uploads']['name'];
+    $ukuranFile = $_FILES['image_uploads']['size'];
+    $error = $_FILES['image_uploads']['error'];
+    $tmpName = $_FILES['image_uploads']['tmp_name'];
+
+    //  if($error === 4){
+    //      echo "
+    //          <script>
+    //              alert('gambar tidak ditemukan !');
+    //          </script>
+    //      ";
+    //      return false;
+    //  }
+
+    //cek ekstensi gambar
+    $ekstensiGambarValid = ['jpg', 'jpeg', 'png'];
+    $ekstensiGambar = explode('.', $namaFile);
+    $ekstensiGambar = strtolower(end($ekstensiGambar));
+
+    // if (!in_array($ekstensiGambar, $ekstensiGambarValid)) {
+    //     echo "
+    //                  <script>
+    //                      alert('kesalahan pada format gambar !');
+    //                  </script>
+    //              ";
+    //     return false;
+    // }
+
+    //generate nama baru
+    $namaFileBaru = uniqid();
+    $namaFileBaru .= '.';
+    $namaFileBaru .= $ekstensiGambar;
+
+
+    //lolos pengecekan
+    move_uploaded_file($tmpName, '../../img/' . $namaFileBaru);
+
+    return $namaFileBaru;
+}
 
 // die;
 
@@ -51,15 +93,20 @@ if (isset($_POST["submit"])) {
         $nominal      = $_POST['tb_nominal_beasiswa'];
     }
 
-    // var_dump($nominal);
-    // die;
-
     $sumber           = $_POST['tb_sumber'];
     $keterangan       = $_POST['tb_keterangan'];
     $status           = 1;
 
-    $beasiswa_id      = $_POST['tb_beasiswa'];
+    $beasiswa_id      = $_POST['tb_beasiswa'] ? $_POST['tb_beasiswa'] : 0;
 
+    // $bukti_transfer   =  isset($_FILES["image_uploads"]) ? 'tru' :  'fals';
+    if ($_FILES['image_uploads']['name'] !== "") {
+        $bukti_transfer   = upload();
+    } else {
+        $bukti_transfer   = null;
+    }
+    // var_dump($_POST['tb_nominal_beasiswa']);
+    // die;
 
     // GLOBAL UPDATE
     $query = "INSERT INTO t_lap_keuangan (
@@ -68,14 +115,16 @@ if (isset($_POST["submit"])) {
         sumber,
         keterangan,
         beasiswa_id,
-        status)
+        status,
+        bukti_transfer)
             VALUES (
                 '$tanggal', 
                 '$nominal',
                 '$sumber',
                 '$keterangan',
                 '$beasiswa_id',
-                '$status')";
+                '$status',
+                '$bukti_transfer')";
 
     mysqli_query($conn, $query);
     // var_dump($query);
@@ -149,7 +198,7 @@ if (isset($_POST["submit"])) {
                 <!-- Nominal Beasiswa -->
                 <div id="nominal_beasiswa" class="form-group mt-4 mb-3 d-none">
                     <label for="tb_nominal_beasiswa" class="label-num">Nominal Beasiswa<span class="red-star">*</span></label>
-                    <input type="number" id="tb_nominal_beasiswa" name="tb_nominal_beasiswa" class="form-control" placeholder="Masukan nominal pengeluaran" value="">
+                    <input type="number" id="tb_nominal_beasiswa" name="tb_nominal_beasiswa" class="form-control" placeholder="Masukan nominal pengeluaran" readonly>
                 </div>
 
                 <div class="form-group">
@@ -193,9 +242,9 @@ if (isset($_POST["submit"])) {
     }
 
     function handleBeasiswa() {
-        var _this = selectBeasiswa.options[selectBeasiswa.selectedIndex].dataset["nominal"];
+        let _this = parseInt(selectBeasiswa.options[selectBeasiswa.selectedIndex].dataset["nominal"]);
         document.querySelector('input[name="tb_nominal_beasiswa"]').value = _this;
-        // console.log(_this)
+        console.log(_this)
     }
 </script>
 

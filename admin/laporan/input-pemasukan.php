@@ -31,19 +31,16 @@ function query($query)
 
 if (isset($_POST["submit"])) {
 
-    $bulan            = $_POST['tb_bulan'];
-    $tahun            = $_POST['tb_tahun'];
     $tanggal          = $_POST['tb_tanggal'];
     $nomorReferensi   = $_POST['tb_nomor_referensi'];
     $nominal          = $_POST['tb_nominal'];
     $sumber           = $_POST['tb_sumber'];
     $keterangan       = $_POST['tb_keterangan'];
     $status           = 0;
-    
-    
-    $query = "INSERT INTO  t_lap_keuangan(bulan,tahun,tanggal,nomor_referensi,nominal,sumber,keterangan,status)
-                VALUES ('$bulan','$tahun','$tanggal','$nomorReferensi','$nominal','$sumber','$keterangan','$status')";
 
+
+    $query = "INSERT INTO  t_lap_keuangan(tanggal,nomor_referensi,nominal,sumber,keterangan,status)
+                VALUES ('$tanggal','$nomorReferensi','$nominal','$sumber','$keterangan','$status')";
 
     mysqli_query($conn, $query);
     // var_dump($query);die;
@@ -79,7 +76,7 @@ if (isset($_POST["submit"])) {
             <a href="laporan-bulanan.php">
                 <i class="nav-icon fas fa-donate mr-1"></i>Laporan bulanan</a> >
             <a href="input-pemasukan.php">
-                <i class="nav-icon fas fa-cog mr-1"></i>Input pemasukan</a> 
+                <i class="nav-icon fas fa-cog mr-1"></i>Input pemasukan</a>
         </div>
         <div class="form-profil">
             <div class="mt-2 regis-title">
@@ -87,42 +84,13 @@ if (isset($_POST["submit"])) {
             </div>
             <form action="" enctype="multipart/form-data" method="POST">
                 <div class="form-group label-txt">
-                <div class="form-group mt-4 mb-3">
-                        <label for="tb_bulan" class="label-txt">Bulan<span class="red-star">*</span></label>
-                        <select id="tb_bulan"name="tb_bulan">
-                        <option selected disabled="selected">Bulan</option>
-                            <option> Januari </option>
-                            <option> Februari </option>
-                            <option> Maret </option>
-                            <option> April </option>
-                            <option> Mei </option>
-                            <option> Juni </option>
-                            <option> Juli </option>
-                            <option> Agustus </option>
-                            <option> September </option>
-                            <option> Oktober </option>
-                            <option> November </option>
-                            <option> Desember </option>
-                        </select>
-                        <div class="form-group mt-4 mb-3">
-                            <label for="tb_tahun" class="label-txt">Tahun<span class="red-star">*</span></label>
-                            <?php
-                            $now=date("Y");
-                            echo "<select name=tb_tahun>
-                            <option value=$now selected>$now</option>";
-                            for($thn=2012; $thn<=$now; $thn++){
-                            echo "<option value=$thn>$thn</option>";}
-                            echo "</select>";
-                            ?>
-                        </div>
-                        </div>
                     <div class="form-group mt-4 mb-3" id="tb_tanggal">
                         <label for="tb_tanggal" class="label-txt">Tanggal<span class="red-star">*</span></label>
                         <input type="date" id="tb_tanggal" name="tb_tanggal" Required>
-                    </div> 
+                    </div>
                     <div class="form-group mt-4 mb-3">
                         <label for="tb_nomor_referensi" class="label-num">Nomor Referensi</label>
-                        <input type="number" id="tb_nomor_referensi" name="tb_nomor_referensi" class="form-control" placeholder="Masukan nomor referensi" >
+                        <input type="number" id="tb_nomor_referensi" name="tb_nomor_referensi" class="form-control" placeholder="Masukan nomor referensi">
                     </div>
                     <div class="form-group mt-4 mb-3">
                         <label for="tb_nominal" class="label-num">Nominal<span class="red-star">*</span></label>
@@ -137,14 +105,14 @@ if (isset($_POST["submit"])) {
                         <textarea class="form-control" id="tb_keterangan" name="tb_keterangan" placeholder="Keterangan"></textarea>
                     </div>
 
-                    </div>
                 </div>
-                <button type="submit" name="submit" value="Simpan" class="btn btn-lg btn-primary w-100 yst-login-btn border-0 mt-4 mb-4">
-                    <span class="yst-login-btn-fs">Simpan</span>
-                </button>
-            </form>
         </div>
-    </main>
+        <button type="submit" name="submit" value="Simpan" class="btn btn-lg btn-primary w-100 yst-login-btn border-0 mt-4 mb-4">
+            <span class="yst-login-btn-fs">Simpan</span>
+        </button>
+        </form>
+</div>
+</main>
 </div>
 <!-- /.container-fluid -->
 <!-- /.content -->

@@ -8,7 +8,7 @@ if (!isset($_SESSION["username"])) {
     exit;
 }
 
-if ($_SESSION["level_user"] == 4){
+if ($_SESSION["level_user"] == 4) {
     header('Location: ../../user/dashboard-donasi/dashboard-user.php');
     exit;
 }
@@ -38,7 +38,8 @@ $programDonasi = query("SELECT *, SUM(t_donasi.nominal_donasi) AS dana_terkumpul
                     FROM t_donasi 
                     RIGHT JOIN t_program_donasi 
                     ON t_program_donasi.id_program_donasi = t_donasi.id_program_donasi                 
-                    GROUP BY t_program_donasi.id_program_donasi ORDER BY t_program_donasi.id_program_donasi DESC
+                    GROUP BY t_program_donasi.id_program_donasi, t_donasi.id_donasi, t_donasi.id_program_donasi
+                     ORDER BY t_program_donasi.id_program_donasi DESC
                     ");
 
 ?>
@@ -102,7 +103,7 @@ $programDonasi = query("SELECT *, SUM(t_donasi.nominal_donasi) AS dana_terkumpul
                                                     echo 'Tetap';
                                                 } ?></td>
                                             </td>
-                                            <td><?= rupiah($row['dana_terkumpul_total']) == 0 ? '0' : rupiah($row['dana_terkumpul_total']); ?></td>
+                                            <td><?= rupiah($row['dana_terkumpul_total']) ?></td>
                                             <td><?= rupiah($row["target_dana"]); ?></td>
                                             <td class="text-center"><?= $row["jumlah_donatur"]; ?></td>
 

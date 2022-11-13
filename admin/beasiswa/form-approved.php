@@ -128,48 +128,42 @@ if (isset($_POST["submit"])) {
                             </div>
 
                             <?php for ($x = 1; $x <= 3; $x++) : ?>
-                            <div class="row mb-2" id="appendForm<?=$x?>">
-                                <div class="col num-col d-flex align-items-center justify-content-center">
-                                <?= $x ?>
-                                </div>
-                                <div class="col">
-                                    <input type="text" id="tb_nama_anak<?=$x?>" name="tb_nama_anak<?=$x?>" class="form-control" value="<?= $beasiswa["nama_anak$x"]; ?>" disabled>
-                                </div>
-                                <div class="col">
-                                <select class="form-control" id="tb_jenjang_pendidikan<?=$x?>" name="tb_jenjang_pendidikan<?=$x?>" onchange="handleJenjang()" disabled>
-                                <option value="" >Pilih Jenjang</option>     
+                                <div class="row mb-2" id="appendForm<?= $x ?>">
+                                    <div class="col num-col d-flex align-items-center justify-content-center">
+                                        <?= $x ?>
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" id="tb_nama_anak<?= $x ?>" name="tb_nama_anak<?= $x ?>" class="form-control" value="<?= $beasiswa["nama_anak$x"]; ?>" disabled>
+                                    </div>
+                                    <div class="col">
+                                        <select class="form-control" id="tb_jenjang_pendidikan<?= $x ?>" name="tb_jenjang_pendidikan<?= $x ?>" onchange="handleJenjang()" disabled>
+                                            <option value="">Pilih Jenjang</option>
 
-                                <?php foreach ($plafonBeasiswa as $row) : ?>       
-                                <option 
-                                value="<?= $row["jenjang"]; ?>"
-                                <?php 
-                                if ($row["jenjang"] == $beasiswa["jenjang_pendidikan$x"]){
-                                    echo 'selected="selected"' ;
-                                }  
-                                ?> 
-                                >
-                                <?= $row["jenjang"]; ?>
-                                </option>
+                                            <?php foreach ($plafonBeasiswa as $row) : ?>
+                                                <option value="<?= $row["jenjang"]; ?>" <?php
+                                                                                        if ($row["jenjang"] == $beasiswa["jenjang_pendidikan$x"]) {
+                                                                                            echo 'selected="selected"';
+                                                                                        }
+                                                                                        ?>>
+                                                    <?= $row["jenjang"]; ?>
+                                                </option>
 
-                                <?php endforeach; ?>
-                                </select>
-                                </div>
-                                <div class="col">
-                                    <input type="number" id="tb_nominal<?=$x?>" name="tb_nominal<?=$x?>" class="form-control" 
-                                    value="<?= $beasiswa["nominal_$x"]; ?>"
-                                    onchange="handleNominal()" disabled>
-                                </div>
-                                <!-- <div class="append-action">                        
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <input type="number" id="tb_nominal<?= $x ?>" name="tb_nominal<?= $x ?>" class="form-control" value="<?= $beasiswa["nominal_$x"]; ?>" onchange="handleNominal()" disabled>
+                                    </div>
+                                    <!-- <div class="append-action">                        
                                     <button type="button" onclick="removeField?=$x?>()">-</button>                       
                                 </div> -->
-                            </div>
+                                </div>
                             <?php endfor; ?>
-                            
+
                             <div class="row justify-content-end align-items-center  font-weight-bold">
                                 <div class="col-auto ">Total</div>
                                 <div class="col-auto ">
-                                <input type="text" id="tb_total" name="tb_total" class="input-total" 
-                                value="<?= $beasiswa["total_nominal"]; ?>" disabled>
+                                    <input type="text" id="tb_total" name="tb_total" class="input-total" value="<?= $beasiswa["total_nominal"]; ?>" disabled>
                                 </div>
                             </div>
                         </div>
@@ -178,7 +172,7 @@ if (isset($_POST["submit"])) {
                         <label for="tb_nominal" class="label-txt">Nominal<span class="red-star">*</span></label>
                         <input type="number" id="tb_nominal" name="tb_nominal" class="form-control" placeholder="Masukan Nominal beasiswa" value="<?= $beasiswa["total_nominal"]; ?>" readonly>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="tb_ket_beasiswa" class="label-txt">Keterangan</label>
                         <textarea readonly class="form-control" id="tb_ket_beasiswa" name="tb_ket_beasiswa" rows="6" placeholder="Keterangan"><?= $beasiswa["keterangan"]; ?></textarea>
@@ -229,7 +223,7 @@ if (isset($_POST["submit"])) {
                         <span class="yst-login-btn-fs">Proses</span>
                     </button>';
                 } ?>
-            <?php include '../../component/admin/modalKeterangan.php'; ?>
+                <?php include '../../component/admin/modalKeterangan.php'; ?>
             </form>
         </div>
         <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -247,6 +241,11 @@ if (isset($_POST["submit"])) {
                 </div>
             </div>
         </div>
+        <!-- <script>
+            $('#modalApproval').on('shown.bs.modal', function() {
+                $('#tb_ket_approval').focus();
+            });
+        </script> -->
     </main>
 </div>
 <!-- /.container-fluid -->
