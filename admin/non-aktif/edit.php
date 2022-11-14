@@ -77,8 +77,6 @@ $selectNIK = query("SELECT * FROM t_user
                 ORDER BY nik ASC ");
 
 $dataKematian = query(" SELECT * FROM t_meninggal
-                        LEFT JOIN t_user
-                        ON t_meninggal.id_user = t_user.id_user 
                         WHERE id_meninggal = $id_meninggal")[0];
 
 // var_dump($berita);
@@ -89,7 +87,11 @@ if (isset($_POST["submit"])) {
 
     $id_meninggal               = $_POST["id_meninggal"];
 
-    $id_user                    = $_POST["tb_nik"];
+    $nik                        = $_POST["tb_nik"];
+    $nama                       = $_POST["tb_nama"];
+    $no_kontak                  = $_POST["tb_no_kontak"];
+    $nama_kontak                = $_POST["tb_nama_kontak"];
+
     $tgl_kematian               = $_POST["tb_tgl_kematian"];
     $waktu                      = $_POST["tb_waktu_kematian"];
     $tempat_meninggal           = $_POST["tb_tempat_kematian"];
@@ -117,13 +119,16 @@ if (isset($_POST["submit"])) {
 
     // GLOBAL UPDATE
     $queryDataKematian = "UPDATE t_meninggal SET
-                            id_user                     = '$id_user',
+                            nik                         = '$nik',
+                            nama                        = '$nama',
+                            no_kontak                   = '$no_kontak',
+                            nama_kontak                 = '$nama_kontak',
                             tgl                         = '$tgl_kematian',
                             waktu                       = '$waktu',
                             tempat                      = '$tempat_meninggal',
                             tempat_pemakaman            = '$tempat_pemakaman',
                             penyebab_kematian           = '$penyebab_kematian',
-                            is_approve                  = '$status_meninggal',
+                            is_valid                    = '$status_meninggal',
                             file_surat_kematian         = '$suratKematian_Baru'
                            
                             WHERE id_meninggal          = $id_meninggal
@@ -136,16 +141,16 @@ if (isset($_POST["submit"])) {
     }
 
 
-    $queryDataUser = "UPDATE t_user SET 
-                        status_aktif    = '$statusAktif',
-                        is_die          = '$status_meninggal'
+    // $queryDataUser = "UPDATE t_user SET 
+    //                     status_aktif    = '$statusAktif',
+    //                     is_die          = '$status_meninggal'
 
-                        WHERE id_user   = $id_user
-                        ";
+    //                     WHERE id_user   = $id_user
+    //                     ";
     // var_dump($query);
     // die();
 
-    mysqli_query($conn, $queryDataUser);
+    // mysqli_query($conn, $queryDataUser);
     mysqli_query($conn, $queryDataKematian);
 
 
@@ -192,22 +197,28 @@ if (isset($_POST["submit"])) {
                 <input type="hidden" name="suratKematian_Lama" value="<?= $dataKematian["file_surat_kematian"]; ?>">
                 <div class="form-group label-txt">
                     <div class="form-group mt-4 mb-3">
-                        <label for="tb_nik">NIK<span class="red-star">*</span></label></label>
-                        <select class="form-control" id="tb_nik" name="tb_nik" disabled>
-                            <option value="" >Pilih NIK</option>       
-                            <?php foreach ($selectNIK as $row) : ?>
-                                <option value="<?= $row["id_user"]; ?>"
-                                <?php 
-                                if ($row["id_user"] == $dataKematian["id_user"]){
-                                    echo 'selected="selected"' ;
-                                }  
-                                ?> 
-                                >
-                                <?= $row["nik"]; ?> -
-                                <?php echo $row['nama'] ?>                
-                                </option>';
-                            <?php endforeach; ?>
-                        </select>
+                        <div class="row">
+                            <div class="col">
+                                <label for="tb_nik">NIK<span class="red-star">*</span></label></label>
+                                <input type="text" name="tb_nik" class="form-control" placeholder="Masukan NIK" value="<?= $dataKematian["nik"]; ?>">
+                            </div>
+                            <div class="col">
+                                <label for="tb_nama">Nama Lengkap<span class="red-star">*</span></label></label>
+                                <input type="text" name="tb_nama" class="form-control" placeholder="Masukan nama lengkap" value="<?= $dataKematian["nama"]; ?>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mt-4 mb-3">
+                        <div class="row">
+                            <div class="col">
+                                <label for="tb_no_kontak">Nomor Kontak Perwakilan<span class="red-star">*</span></label></label>
+                                <input type="number" name="tb_no_kontak" class="form-control" placeholder=" Nomor kontak yang dapat dihubungi" value="<?= $dataKematian["no_kontak"]; ?>">
+                            </div>
+                            <div class="col">
+                                <label for="tb_nama_kontak">Nama Kontak Perwakilan<span class="red-star">*</span></label></label>
+                                <input type="text" name="tb_nama_kontak" class="form-control" placeholder="Nama kontak yang dapat dihubungi" value="<?= $dataKematian["nama_kontak"]; ?>">
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group mt-4 mb-3" id="tgl_selesai_form">
                         <label for="tb_tgl_kematian" class="label-txt">Tanggal<span class="red-star">*</span></label>
@@ -230,7 +241,7 @@ if (isset($_POST["submit"])) {
                         <label for="tb_penyebab_kematian" class="label-txt">Penyebab Kematian</label>
                         <textarea class="form-control" id="tb_penyebab_kematian" name="tb_penyebab_kematian" rows="6" placeholder="Penyebab Kematian"><?php echo $dataKematian["penyebab_kematian"]; ?></textarea>
                     </div>
-           
+
                     <div class="form-group">
                         <label for="suratKematian_Baru" class="label-txt"> Surat Keterangan Kematian </label><br>
                         <img src="../../img/<?= $dataKematian["file_surat_kematian"]; ?>" class="edit-img popup " alt="">
@@ -252,13 +263,13 @@ if (isset($_POST["submit"])) {
                         <label for="tb_status_meninggal" class="font-weight-bold"><span class="label-form-span">Status Approval </span></label><br>
                         <div class="radio-wrapper mt-1 bg-white">
                             <div class="form-check form-check-inline">
-                                <input type="radio" id="tb_status_meninggal" name="tb_status_meninggal" class="form-check-input" value="y" <?php if ($dataKematian['is_approve'] == 'y') echo 'checked' ?>>
+                                <input type="radio" id="tb_status_meninggal" name="tb_status_meninggal" class="form-check-input" value="y" <?php if ($dataKematian['is_valid'] == 'y') echo 'checked' ?>>
                                 <label class="form-check-label" for="tb_status_meninggal">Approved </label>
                             </div>
                         </div>
                         <div class="radio-wrapper2 mt-1 bg-white">
                             <div class="form-check form-check-inline">
-                                <input type="radio" id="tb_status_meninggal" name="tb_status_meninggal" class="form-check-input" value="n" <?php if ($dataKematian['is_approve'] == 'n') echo 'checked' ?>>
+                                <input type="radio" id="tb_status_meninggal" name="tb_status_meninggal" class="form-check-input" value="n" <?php if ($dataKematian['is_valid'] == 'n') echo 'checked' ?>>
                                 <label class="form-check-label" for="tb_status_meninggal">Menunggu Approval</label>
                             </div>
                         </div>

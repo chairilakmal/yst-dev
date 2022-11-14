@@ -47,8 +47,8 @@ $queryApproved = mysqli_query($conn, "SELECT *
 $approved = mysqli_fetch_array($queryApproved);
 
 $beasiswa = query("SELECT * FROM t_beasiswa
-                        LEFT JOIN t_user
-                        ON t_beasiswa.user_id = t_user.id_user               
+                        LEFT JOIN t_meninggal
+                        ON t_beasiswa.user_nik = t_meninggal.nik               
                         WHERE id_beasiswa = $id_beasiswa 
                         ")[0];
 
@@ -67,7 +67,8 @@ if (isset($_POST["submit"])) {
 
 
     mysqli_query($conn, $query);
-    // var_dump($query);die;
+    // var_dump($query);
+    // die;
 
     //cek keberhasilan
     if (mysqli_affected_rows($conn) > 0) {

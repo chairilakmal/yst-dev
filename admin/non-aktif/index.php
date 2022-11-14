@@ -26,10 +26,8 @@ function query($query)
 }
 
 $userQuery = query("SELECT * FROM t_meninggal
-                    LEFT JOIN t_user 
-                    ON t_meninggal.id_user = t_user.id_user               
-                    -- GROUP BY t_meninggal.id_user 
-                    ORDER BY t_meninggal.id_user DESC                
+                   
+                    ORDER BY id_meninggal DESC                
                     ");
 
 // $userQuery = query("SELECT * FROM t_meninggal          ");
@@ -82,7 +80,7 @@ $userQuery = query("SELECT * FROM t_meninggal
                                             </td>
                                             <td>
                                                 <?php
-                                                if ($row['is_approve'] == 'y') {
+                                                if ($row['is_valid'] == 'y') {
                                                     echo 'Approved';
                                                 } else {
                                                     echo 'Menunggu Approval';

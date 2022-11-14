@@ -27,15 +27,6 @@ function upload($image_upload)
     $ekstensiGambar = explode('.', $namaFile);
     $ekstensiGambar = strtolower(end($ekstensiGambar));
 
-    if (!in_array($ekstensiGambar, $ekstensiGambarValid)) {
-        echo "
-                     <script>
-                         alert('kesalahan pada format gambar !');
-                     </script>
-                 ";
-        return false;
-    }
-
     //generate nama baru
     $namaFileBaru = uniqid();
     $namaFileBaru .= '.';
@@ -68,7 +59,11 @@ $selectNIK = queryNIK("SELECT * FROM t_user
 
 if (isset($_POST["submit"])) {
 
-    $id_user                    = $_POST["tb_nik"];
+    $nik                        = $_POST["tb_nik"];
+    $nama                       = $_POST["tb_nama"];
+    $wilayah                    = $_SESSION["wilayah_id"];
+    $no_kontak                  = $_POST["tb_no_kontak"];
+    $nama_kontak                = $_POST["tb_nama_kontak"];
     $tgl_kematian               = $_POST["tb_tgl_kematian"];
     $waktu                      = $_POST["tb_waktu_kematian"];
     $tempat_meninggal           = $_POST["tb_tempat_kematian"];
@@ -79,32 +74,38 @@ if (isset($_POST["submit"])) {
 
     $suratKematian              = upload("image_uploads");
 
-    $nama = $_SESSION['nama'];
+    $creator                    = $_SESSION['nama'];
 
-    $created_by                 = $nama;
-    $updated_by                 = $nama;
+    $created_by                 = $creator;
+    $updated_by                 = $creator;
 
 
     $query = "INSERT INTO t_meninggal 
         (
-            id_user, 
+            nik,
+            nama,
+            wilayah_id,
+            no_kontak,
+            nama_kontak, 
             tgl, 
             waktu, 
             tempat, 
             tempat_pemakaman, 
             penyebab_kematian, 
-            file_kk, 
             file_surat_kematian, 
             created_by, 
             updated_by)
             VALUES (
-                '$id_user', 
+                '$nik',
+                '$nama',
+                '$wilayah',
+                '$no_kontak',
+                '$nama_kontak',
                 '$tgl_kematian',
                 '$waktu',
                 '$tempat_meninggal',
                 '$tempat_pemakaman',
                 '$penyebab_kematian', 
-                '$KartuKeluarga', 
                 '$suratKematian', 
                 '$created_by', 
                 '$updated_by')";
@@ -118,6 +119,7 @@ if (isset($_POST["submit"])) {
         echo "
             <script>
                 alert('Data berhasil ditambahkan!');
+                window.location.href = '../non-aktif';
             </script>
             ";
     } else {
@@ -165,7 +167,7 @@ if (isset($_POST["submit"])) {
                         <div class="row">
                             <div class="col">
                                 <label for="tb_no_kontak">Nomor Kontak Perwakilan<span class="red-star">*</span></label></label>
-                                <input type="text" name="tb_no_kontak" class="form-control" placeholder=" Nomor kontak yang dapat dihubungi">
+                                <input type="number" name="tb_no_kontak" class="form-control" placeholder=" Nomor kontak yang dapat dihubungi">
                             </div>
                             <div class="col">
                                 <label for="tb_nama_kontak">Nama Kontak Perwakilan<span class="red-star">*</span></label></label>

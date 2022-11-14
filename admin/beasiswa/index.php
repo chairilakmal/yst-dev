@@ -28,23 +28,22 @@ function query($query)
 }
 
 $currentWilayah = $_SESSION["wilayah_id"];
-$selectNIK = query("SELECT * FROM t_user WHERE wilayah_id = $currentWilayah ");
 
-
-if ($_SESSION["level_user"] == '2a' || $_SESSION["level_user"] == '2b') {   
+if ($_SESSION["level_user"] == '2a' || $_SESSION["level_user"] == '2b') {
     $getBeasiswa = query("SELECT * FROM t_beasiswa
-                   LEFT JOIN t_user ON t_beasiswa.user_id = t_user.id_user      
+                   LEFT JOIN t_meninggal ON t_beasiswa.user_nik = t_meninggal.nik      
                    ORDER BY t_beasiswa.is_approve ASC     
                     ");
-} else{
+} else {
     $getBeasiswa = query("SELECT * FROM t_beasiswa
-                   LEFT JOIN t_user ON t_beasiswa.user_id = t_user.id_user      
+                   LEFT JOIN t_meninggal ON t_beasiswa.user_nik = t_meninggal.nik        
                    WHERE wilayah_id = $currentWilayah    
                    ORDER BY t_beasiswa.is_approve ASC        
                     ");
 }
 
-// var_dump($_SESSION["level_user"]);die;
+// var_dump($getBeasiswa);
+// die;
 // $getBeasiswa = query("SELECT * FROM t_beasiswa");
 
 
@@ -96,7 +95,7 @@ if ($_SESSION["level_user"] == '2a' || $_SESSION["level_user"] == '2b') {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php 
+                                    <?php
                                     $i = 1;
                                     foreach ($getBeasiswa as $row) : ?>
                                         <tr>

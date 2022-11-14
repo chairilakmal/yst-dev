@@ -54,8 +54,8 @@ $cariNamaReject = query("SELECT * FROM t_approval_beasiswa
                         ");
 
 $beasiswa = query("SELECT * FROM t_beasiswa
-                        LEFT JOIN t_user
-                        ON t_beasiswa.user_id = t_user.id_user               
+                        LEFT JOIN t_meninggal
+                        ON t_beasiswa.user_nik = t_meninggal.nik               
                         WHERE id_beasiswa = $id_beasiswa 
                         ")[0];
 
@@ -87,7 +87,7 @@ if (isset($_POST["submit"])) {
     $jenjang2          = $_POST["tb_jenjang_pendidikan2"];
     $jenjang3          = $_POST["tb_jenjang_pendidikan3"];
 
-    $nominal1          = $_POST["tb_nominal1"] ? $_POST["tb_nominal1"] : 0 ;
+    $nominal1          = $_POST["tb_nominal1"] ? $_POST["tb_nominal1"] : 0;
     $nominal2          = $_POST["tb_nominal2"] ? $_POST["tb_nominal2"] : 0;
     $nominal3          = $_POST["tb_nominal3"] ? $_POST["tb_nominal3"] : 0;
 
@@ -181,7 +181,7 @@ if (isset($_POST["submit"])) {
                 <div class="form-group label-txt">
                     <div class="form-group mt-4 mb-3" id="tgl_selesai_form">
                         <label for="tb_tgl_beasiswa" class="label-txt">Tanggal Pengajuan Beasiswa<span class="red-star">*</span></label>
-                        <input type="date" id="tb_tgl_beasiswa" name="tb_tgl_beasiswa" class="form-control" value="<?= $beasiswa["tgl"]; ?>">
+                        <input type="date" id="tb_tgl_beasiswa" name="tb_tgl_beasiswa" class="form-control" value="<?= $beasiswa["tgl"]; ?>" readonly>
                     </div>
                     <div class="form-group mt-4 mb-3">
                         <label for="tb_penerima" class="label-txt">Penerima<span class="red-star">*</span></label>
@@ -198,78 +198,70 @@ if (isset($_POST["submit"])) {
                                 <div class="col">Nominal/6 bln</div>
                             </div>
                             <?php for ($x = 1; $x <= 3; $x++) : ?>
-                            <div class="row mb-2" id="appendForm<?=$x?>">
-                                <div class="col num-col d-flex align-items-center justify-content-center">
-                                <?= $x ?>
-                                </div>
-                                <div class="col"><input type="text" id="tb_nama_anak<?=$x?>" name="tb_nama_anak<?=$x?>" class="form-control" value="<?= $beasiswa["nama_anak$x"]; ?>" ></div>
-                                <div class="col">
-                                <select class="form-control" id="tb_jenjang_pendidikan<?=$x?>" name="tb_jenjang_pendidikan<?=$x?>" onchange="handleJenjang()">
-                                <option value="" >Pilih Jenjang</option>     
+                                <div class="row mb-2" id="appendForm<?= $x ?>">
+                                    <div class="col num-col d-flex align-items-center justify-content-center">
+                                        <?= $x ?>
+                                    </div>
+                                    <div class="col"><input type="text" id="tb_nama_anak<?= $x ?>" name="tb_nama_anak<?= $x ?>" class="form-control" value="<?= $beasiswa["nama_anak$x"]; ?>" readonly></div>
+                                    <div class="col">
+                                        <select class="form-control" id="tb_jenjang_pendidikan<?= $x ?>" name="tb_jenjang_pendidikan<?= $x ?>" onchange="handleJenjang()" disabled>
+                                            <option value="">Pilih Jenjang</option>
+                                            <?php foreach ($plafonBeasiswa as $row) : ?>
+                                                <option value="<?= $row["jenjang"]; ?>" <?php
+                                                                                        if ($row["jenjang"] == $beasiswa["jenjang_pendidikan$x"]) {
+                                                                                            echo 'selected="selected"';
+                                                                                        }
+                                                                                        ?>>
+                                                    <?= $row["jenjang"]; ?>
+                                                </option>
 
-                                <?php foreach ($plafonBeasiswa as $row) : ?>       
-                                <option 
-                                value="<?= $row["jenjang"]; ?>"
-                                <?php 
-                                if ($row["jenjang"] == $beasiswa["jenjang_pendidikan$x"]){
-                                    echo 'selected="selected"' ;
-                                }  
-                                ?> 
-                                >
-                                <?= $row["jenjang"]; ?>
-                                </option>
-
-                                <?php endforeach; ?>
-                                </select>
-                                </div>
-                                <div class="col">
-                                    <input type="number" id="tb_nominal<?=$x?>" name="tb_nominal<?=$x?>" class="form-control" 
-                                    value="<?= $beasiswa["nominal_$x"]; ?>"
-                                    onchange="handleNominal()">
-                                </div>
-                                <!-- <div class="append-action">                        
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <input type="number" id="tb_nominal<?= $x ?>" name="tb_nominal<?= $x ?>" class="form-control" value="<?= $beasiswa["nominal_$x"]; ?>" onchange="handleNominal()" readonly>
+                                    </div>
+                                    <!-- <div class="append-action">                        
                                     <button type="button" onclick="removeField?=$x?>()">-</button>                       
                                 </div> -->
-                            </div>
+                                </div>
                             <?php endfor; ?>
-                            
+
                             <div class="row justify-content-end align-items-center  font-weight-bold">
                                 <div class="col-auto ">Total</div>
                                 <div class="col-auto ">
-                                <input type="text" id="tb_total" name="tb_total" class="input-total" 
-                                value="<?= $beasiswa["total_nominal"]; ?>">
+                                    <input type="text" id="tb_total" name="tb_total" class="input-total" value="<?= $beasiswa["total_nominal"]; ?>">
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="form-group mt-4 mb-3">
                         <label for="tb_total_nominal" class="label-txt">Total Nominal<span class="red-star">*</span></label>
-                        <input type="number" id="tb_total_nominal" name="tb_total_nominal" class="form-control" placeholder="Masukan Nominal beasiswa" value="<?= $beasiswa["total_nominal"]; ?>" Required>
+                        <input type="number" id="tb_total_nominal" name="tb_total_nominal" class="form-control" placeholder="Masukan Nominal beasiswa" value="<?= $beasiswa["total_nominal"]; ?>" Required readonly>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="tb_ket_beasiswa" class="label-txt">Keterangan</label>
                         <textarea class="form-control" id="tb_ket_beasiswa" name="tb_ket_beasiswa" rows="6" placeholder="Keterangan"><?= $beasiswa["keterangan"]; ?></textarea>
                     </div>
-       
+
                     <div class="form-group mb-5">
                         <br><label for="Jumlah_Approve" class="font-weight-bold"><span class="label-form-span">Jumlah Approve : <?= $jumlah_diterima ?> </span></label><br>
                         <table>
                             <?php foreach ($cariNamaApprove as $row) : ?>
                                 <tr>
-                                    <td> 
-                                    - 
-                                    <?php 
-                                    echo $row["nama"]; 
-                                    echo ' : '; 
-                                    if($row["keterangan"])
-                                    {
-                                        echo $row["keterangan"];
-                                    } else {
-                                        echo '-';
-                                    }
-                                     ?> </td>
+                                    <td>
+                                        -
+                                        <?php
+                                        echo $row["nama"];
+                                        echo ' : ';
+                                        if ($row["keterangan"]) {
+                                            echo $row["keterangan"];
+                                        } else {
+                                            echo '-';
+                                        }
+                                        ?> </td>
                                 </tr>
                             <?php endforeach; ?>
                         </table>
@@ -325,70 +317,70 @@ if (isset($_POST["submit"])) {
             var nominal1 = document.getElementById("tb_nominal1");
             var nominal2 = document.getElementById("tb_nominal2");
             var nominal3 = document.getElementById("tb_nominal3");
-            
+
             function handleJenjang() {
 
-            // console.log('jen', jenjang1.value)
-            
-            if(jenjang1.value == 'SD / Sederajat'){
-                var value1 = parseInt(600000);
-            }else if(jenjang1.value == 'SMP / Sederajat'){
-                var value1 = parseInt(1200000);
-            }else if(jenjang1.value == 'SMA / Sederajat'){
-                var value1 = parseInt(1800000);
-            }else if(jenjang1.value == 'Kuliah'){
-                var value1 = parseInt(2400000);
-            }else{
-                var value1 = parseInt(0);
+                // console.log('jen', jenjang1.value)
+
+                if (jenjang1.value == 'SD / Sederajat') {
+                    var value1 = parseInt(600000);
+                } else if (jenjang1.value == 'SMP / Sederajat') {
+                    var value1 = parseInt(1200000);
+                } else if (jenjang1.value == 'SMA / Sederajat') {
+                    var value1 = parseInt(1800000);
+                } else if (jenjang1.value == 'Kuliah') {
+                    var value1 = parseInt(2400000);
+                } else {
+                    var value1 = parseInt(0);
+                }
+
+                if (jenjang2.value == 'SD / Sederajat') {
+                    var value2 = parseInt(600000);
+                } else if (jenjang2.value == 'SMP / Sederajat') {
+                    var value2 = parseInt(1200000);
+                } else if (jenjang2.value == 'SMA / Sederajat') {
+                    var value2 = parseInt(1800000);
+                } else if (jenjang2.value == 'Kuliah') {
+                    var value2 = parseInt(2400000);
+                } else {
+                    var value2 = parseInt(0);
+                }
+
+                if (jenjang3.value == 'SD / Sederajat') {
+                    var value3 = parseInt(600000);
+                } else if (jenjang3.value == 'SMP / Sederajat') {
+                    var value3 = parseInt(1200000);
+                } else if (jenjang3.value == 'SMA / Sederajat') {
+                    var value3 = parseInt(1800000);
+                } else if (jenjang3.value == 'Kuliah') {
+                    var value3 = parseInt(2400000);
+                } else {
+                    var value3 = parseInt(0);
+                }
+
+                let total1 = value1 ? value1 : 0;
+                let total2 = value2 ? value2 : 0;
+                let total3 = value3 ? value3 : 0;
+                document.querySelector('input[name="tb_nominal1"]').value = value1;
+                document.querySelector('input[name="tb_nominal2"]').value = value2;
+                document.querySelector('input[name="tb_nominal3"]').value = value3;
+                document.querySelector('input[name="tb_total"]').value = total1 + total2 + total3;
+                document.querySelector('input[name="tb_total_nominal"]').value = total1 + total2 + total3;
+
             }
 
-            if(jenjang2.value == 'SD / Sederajat'){
-                var value2 = parseInt(600000);
-            }else if(jenjang2.value == 'SMP / Sederajat'){
-                var value2 = parseInt(1200000);
-            }else if(jenjang2.value == 'SMA / Sederajat'){
-                var value2 = parseInt(1800000);
-            }else if(jenjang2.value == 'Kuliah'){
-                var value2 = parseInt(2400000);
-            }else{
-                var value2 = parseInt(0);
-            }
-
-            if(jenjang3.value == 'SD / Sederajat'){
-                var value3 = parseInt(600000);
-            }else if(jenjang3.value == 'SMP / Sederajat'){
-                var value3 = parseInt(1200000);
-            }else if(jenjang3.value == 'SMA / Sederajat'){
-                var value3 = parseInt(1800000);
-            }else if(jenjang3.value == 'Kuliah'){
-                var value3 = parseInt(2400000);
-            }else{
-                var value3 = parseInt(0);
-            }
-            
-            let total1 = value1 ? value1 : 0;
-            let total2 = value2 ? value2 : 0;
-            let total3 = value3 ? value3 : 0;
-            document.querySelector('input[name="tb_nominal1"]').value = value1;
-            document.querySelector('input[name="tb_nominal2"]').value = value2;
-            document.querySelector('input[name="tb_nominal3"]').value = value3;
-            document.querySelector('input[name="tb_total"]').value = total1+total2+total3;  
-            document.querySelector('input[name="tb_total_nominal"]').value = total1+total2+total3;  
-
-            }  
-        
-            function handleNominal(){
-            let value1 = parseInt(nominal1.value);
-            let value2 = parseInt(nominal2.value);
-            let value3 = parseInt(nominal3.value);
-            let total1 = value1 ? value1 : 0;
-            let total2 = value2 ? value2 : 0;
-            let total3 = value3 ? value3 : 0;
-            document.querySelector('input[name="tb_nominal1"]').value = value1;
-            document.querySelector('input[name="tb_nominal2"]').value = value2;
-            document.querySelector('input[name="tb_nominal3"]').value = value3;
-            document.querySelector('input[name="tb_total"]').value = total1+total2+total3;  
-            document.querySelector('input[name="tb_total_nominal"]').value = total1+total2+total3;  
+            function handleNominal() {
+                let value1 = parseInt(nominal1.value);
+                let value2 = parseInt(nominal2.value);
+                let value3 = parseInt(nominal3.value);
+                let total1 = value1 ? value1 : 0;
+                let total2 = value2 ? value2 : 0;
+                let total3 = value3 ? value3 : 0;
+                document.querySelector('input[name="tb_nominal1"]').value = value1;
+                document.querySelector('input[name="tb_nominal2"]').value = value2;
+                document.querySelector('input[name="tb_nominal3"]').value = value3;
+                document.querySelector('input[name="tb_total"]').value = total1 + total2 + total3;
+                document.querySelector('input[name="tb_total_nominal"]').value = total1 + total2 + total3;
             }
 
             // function removeField2(){
@@ -401,7 +393,7 @@ if (isset($_POST["submit"])) {
             // element.classList.add("d-none");    
             // }
         </script>
-       
+
     </main>
 </div>
 <!-- /.container-fluid -->

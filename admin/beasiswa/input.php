@@ -40,24 +40,17 @@ function query($query)
 }
 
 $currentWilayah = $_SESSION["wilayah_id"];
-$selectNIK = query("SELECT * FROM t_meninggal 
-            WHERE is_approve = 'y' 
-            AND wilayah_id = $currentWilayah");
 
 if ($_SESSION["level_user"] == '2a' || $_SESSION["level_user"] == '2b') {
-    $userQuery = query("SELECT * FROM t_meninggal
-                LEFT JOIN t_user 
-                ON t_meninggal.id_user = t_user.id_user   
-                -- GROUP BY t_meninggal.id_user 
-                ORDER BY t_meninggal.id_user DESC                
+    $userQuery = query("SELECT * FROM t_meninggal 
+                WHERE is_valid = 'y'
+                ORDER BY id_meninggal DESC                
                 ");
 } else {
     $userQuery = query("SELECT * FROM t_meninggal
-                LEFT JOIN t_user 
-                ON t_meninggal.id_user = t_user.id_user   
-                WHERE wilayah_id = $currentWilayah    
-                -- GROUP BY t_meninggal.id_user 
-                ORDER BY t_meninggal.id_user DESC                
+                WHERE wilayah_id = $currentWilayah
+                AND is_valid = 'y'
+                ORDER BY id_meninggal DESC                
                 ");
 }
 
@@ -92,7 +85,7 @@ if (isset($_POST["submit"])) {
 
     $query = "INSERT INTO t_beasiswa (
                 tgl,
-                user_id, 
+                user_nik, 
                 nama_anak1,
                 nama_anak2,
                 nama_anak3,
@@ -122,7 +115,8 @@ if (isset($_POST["submit"])) {
 
 
     mysqli_query($conn, $query);
-    // var_dump($query);die;
+    // var_dump($query);
+    // die;
 
     //cek keberhasilan
     if (mysqli_affected_rows($conn) > 0) {
@@ -172,7 +166,7 @@ if (isset($_POST["submit"])) {
                         <select class="form-control" id="tb_penerima" name="tb_penerima" required>
                             <option value="" selected disabled>Pilih NIK</option>;
                             <?php foreach ($userQuery as $row) : ?>
-                                <option value="<?= $row["id_user"]; ?>">
+                                <option value="<?= $row["nik"]; ?>">
                                     <?php echo $row['nik']; ?> -
                                     <?php echo $row['nama'] ?>
                                 </option>';
