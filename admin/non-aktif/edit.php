@@ -123,7 +123,7 @@ if (isset($_POST["submit"])) {
                             nama                        = '$nama',
                             no_kontak                   = '$no_kontak',
                             nama_kontak                 = '$nama_kontak',
-                            tgl                         = '$tgl_kematian',
+                            tgl_meninggal               = '$tgl_kematian',
                             waktu                       = '$waktu',
                             tempat                      = '$tempat_meninggal',
                             tempat_pemakaman            = '$tempat_pemakaman',
@@ -222,7 +222,7 @@ if (isset($_POST["submit"])) {
                     </div>
                     <div class="form-group mt-4 mb-3" id="tgl_selesai_form">
                         <label for="tb_tgl_kematian" class="label-txt">Tanggal<span class="red-star">*</span></label>
-                        <input type="date" id="tb_tgl_kematian" name="tb_tgl_kematian" class="form-control" value="<?= $dataKematian["tgl"]; ?>">
+                        <input type="date" id="tb_tgl_kematian" name="tb_tgl_kematian" class="form-control" value="<?= $dataKematian["tgl_meninggal"]; ?>">
                     </div>
                     <div class="form-group mt-4 mb-3" id="tgl_selesai_form">
                         <label for="tb_waktu_kematian" class="label-txt">Waktu<span class="red-star">*</span></label>

@@ -76,7 +76,7 @@ $userQuery = query("SELECT * FROM t_meninggal
                                             <td class=""><?= $row["nama"]; ?></td>
                                             <td>
                                                 <?php echo $row['tempat']; ?>,
-                                                <?php echo date("d-m-Y", strtotime($row['tgl'])) ?>
+                                                <?php echo date("d-m-Y", strtotime($row['tgl_meninggal'])) ?>
                                             </td>
                                             <td>
                                                 <?php

@@ -87,7 +87,7 @@ if (isset($_POST["submit"])) {
             wilayah_id,
             no_kontak,
             nama_kontak, 
-            tgl, 
+            tgl_meninggal, 
             waktu, 
             tempat, 
             tempat_pemakaman, 

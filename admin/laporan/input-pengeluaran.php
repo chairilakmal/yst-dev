@@ -30,10 +30,10 @@ function query($query)
 }
 
 $beasiswaQuery = query("SELECT * FROM t_beasiswa 
-                LEFT JOIN t_user 
-                ON t_beasiswa.user_id = t_user.id_user
+                LEFT JOIN t_meninggal 
+                ON t_beasiswa.user_nik = t_meninggal.nik
                 LEFT JOIN t_wilayah 
-                ON t_user.wilayah_id = t_wilayah.id_wilayah
+                ON t_meninggal.wilayah_id = t_wilayah.id_wilayah
                 WHERE is_approve = 1 ");
 
 function upload()
@@ -180,7 +180,7 @@ if (isset($_POST["submit"])) {
                         <option value="" selected>Pilih Beasiswa</option>;
                         <?php foreach ($beasiswaQuery as $row) : ?>
                             <option value="<?= $row["id_beasiswa"]; ?>" data-nominal="<?= $row["total_nominal"]; ?>">
-                                Beasiswa Pendidikan Keluarga <?php echo $row['nama']; ?> <?php echo $row['kode_wilayah']; ?>
+                                Beasiswa Pendidikan Keluarga <?php echo $row['nama']; ?> <?php echo $row['kode_wilayah']; ?> ( <?php echo date("d-m-Y", strtotime($row['tgl'])); ?> )
                             </option>';
                         <?php endforeach; ?>
                     </select>
