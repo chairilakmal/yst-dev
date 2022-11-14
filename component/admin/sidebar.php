@@ -377,6 +377,12 @@
                         </a>
                         <div class="collapse" id="menu-master">
                             <div class="row py-2 ml-2">
+                                <a class="nav-item side-icon ml-3" href="../kelola-plafon/">
+                                    <i class="nav-icon fa fa-plus" aria-hidden="true"></i>
+                                    Plafon Beasiswa
+                                </a>
+                            </div>
+                            <div class="row py-2 ml-2">
                                 <a class="nav-item side-icon ml-3" href="../kategori-donasi/">
                                     <i class="nav-icon fa fa-plus" aria-hidden="true"></i>
                                     Kategori Donasi
@@ -397,6 +403,12 @@
                             <p>Menu Master</p>
                         </a>
                         <div class="collapse" id="menu-master">
+                            <div class="row py-2 ml-2">
+                                <a class="nav-item side-icon ml-3" href="../kelola-plafon/">
+                                    <i class="nav-icon fa fa-plus" aria-hidden="true"></i>
+                                    Plafon Beasiswa
+                                </a>
+                            </div>
                             <div class="row py-2 ml-2">
                                 <a class="nav-item side-icon ml-3" href="../kategori-donasi/">
                                     <i class="nav-icon fa fa-plus" aria-hidden="true"></i>
