@@ -8,7 +8,7 @@ if (!isset($_SESSION["username"])) {
     exit;
 }
 
-if ($_SESSION["level_user"] == 4){
+if ($_SESSION["level_user"] == 4) {
     header('Location: ../../user/dashboard-donasi/dashboard-user.php');
     exit;
 }
@@ -153,12 +153,6 @@ if (isset($_POST["submit"])) {
             <form action="" enctype="multipart/form-data" method="POST">
                 <div class="form-group label-txt">
                     <div class="form-group mt-4 mb-3">
-                        <label for="tb_nama_program_donasi" class="label-txt">Nama Program<span class="red-star">*</span></label>
-                        <input type="text" id="tb_nama_program_donasi" name="tb_nama_program_donasi" class="form-control" placeholder="Nama program donasi" Required>
-                    </div>
-
-
-                    <div class="form-group mt-4 mb-3">
                         <label for="tb_kategori">Kategori Donasi<span class="red-star">*</span></label></label>
                         <select class="form-control" id="tb_kategori" name="tb_kategori" required>
                             <?php foreach ($kategoriDonasi as $row) : ?>
@@ -166,8 +160,10 @@ if (isset($_POST["submit"])) {
                             <?php endforeach; ?>
                         </select>
                     </div>
-
-
+                    <div class="form-group mt-4 mb-3">
+                        <label for="tb_nama_program_donasi" class="label-txt">Nama Program<span class="red-star">*</span></label>
+                        <input type="text" id="tb_nama_program_donasi" name="tb_nama_program_donasi" class="form-control" placeholder="Nama program donasi" Required>
+                    </div>
                     <div class="form-group mt-4 mb-3">
                         <label for="tb_penanggung_jawab" class="label-txt">Penanggung Jawab<span class="red-star">*</span></label>
                         <input type="text" id="tb_penanggung_jawab" name="tb_penanggung_jawab" class="form-control" placeholder="Nama penanggung jawab" Required>

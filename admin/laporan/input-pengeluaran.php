@@ -93,8 +93,9 @@ if (isset($_POST["submit"])) {
         $nominal      = $_POST['tb_nominal_beasiswa'];
     }
 
-    $sumber           = $_POST['tb_sumber'];
-    $keterangan       = $_POST['tb_keterangan'];
+    $sumber           = $_POST['tb_sumber'] ? $_POST['tb_sumber'] : 'Kas';
+
+    $keterangan       = $_POST['tb_keterangan'] ? $_POST['tb_keterangan'] : '-';
     $status           = 1;
 
     $beasiswa_id      = $_POST['tb_beasiswa'] ? $_POST['tb_beasiswa'] : 0;
@@ -202,8 +203,8 @@ if (isset($_POST["submit"])) {
                 </div>
 
                 <div class="form-group">
-                    <label for="tb_sumber" class="label-txt">Sumber Dana<span class="red-star">*</label>
-                    <input type="text" class="form-control" id="tb_sumber" name="tb_sumber" placeholder="Masukkan sumber dana" Required></input>
+                    <label for="tb_sumber" class="label-txt">Sumber Dana</label>
+                    <input type="text" class="form-control" id="tb_sumber" name="tb_sumber" placeholder="Masukkan sumber dana"></input>
                 </div>
                 <div class="form-group">
                     <label for="tb_keterangan" class="label-txt">Keterangan</label>

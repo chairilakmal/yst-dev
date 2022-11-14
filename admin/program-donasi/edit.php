@@ -7,7 +7,7 @@ if (!isset($_SESSION["username"])) {
     exit;
 }
 
-if ($_SESSION["level_user"] == 4){
+if ($_SESSION["level_user"] == 4) {
     header('Location: ../../user/dashboard-donasi/dashboard-user.php');
     exit;
 }
@@ -237,12 +237,12 @@ if (isset($_POST["submit"])) {
 
                 <div class="form-group label-txt">
                     <div class="form-group mt-4 mb-3">
-                        <label for="tb_nama_program_donasi" class="label-txt">Nama Program</label>
-                        <input type="text" id="tb_nama_program_donasi" name="tb_nama_program_donasi" class="form-control" placeholder="Nama program donasi" value="<?= $programDonasi["nama_program_donasi"]; ?>">
-                    </div>
-                    <div class="form-group mt-4 mb-3">
                         <label for="tb_kategori" class="label-txt">Kategori Program</label>
                         <input type="text" id="tb_kategori" name="tb_kategori" class="form-control" placeholder="Kategori program donasi" value="<?= $programDonasi["kategori_donasi"]; ?>" readonly>
+                    </div>
+                    <div class="form-group mt-4 mb-3">
+                        <label for="tb_nama_program_donasi" class="label-txt">Nama Program</label>
+                        <input type="text" id="tb_nama_program_donasi" name="tb_nama_program_donasi" class="form-control" placeholder="Nama program donasi" value="<?= $programDonasi["nama_program_donasi"]; ?>">
                     </div>
                     <div class="form-group mt-4 mb-3">
                         <label for="tb_penanggung_jawab" class="label-txt">Penanggung Jawab</label>
