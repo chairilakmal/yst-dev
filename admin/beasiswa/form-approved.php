@@ -16,6 +16,11 @@ if ($_SESSION["level_user"] == 4) {
 //ambil id program di URL
 $id_beasiswa = $_GET["id_beasiswa"];
 
+function rupiah($angka)
+{
+    $hasil_rupiah = "Rp. " . number_format($angka, 0, '.', '.');
+    return $hasil_rupiah;
+}
 function query($query)
 {
     global $conn;
@@ -161,7 +166,7 @@ if (isset($_POST["submit"])) {
                                         </select>
                                     </div>
                                     <div class="col">
-                                        <input type="number" id="tb_nominal<?= $x ?>" name="tb_nominal<?= $x ?>" class="form-control" value="<?= $beasiswa["nominal_$x"]; ?>" onchange="handleNominal()" disabled>
+                                        <input type="text" id="tb_nominal<?= $x ?>" name="tb_nominal<?= $x ?>" class="form-control" value="<?= rupiah($beasiswa["nominal_$x"]); ?>" onchange="handleNominal()" disabled>
                                     </div>
                                     <!-- <div class="append-action">                        
                                     <button type="button" onclick="removeField?=$x?>()">-</button>                       
@@ -172,14 +177,14 @@ if (isset($_POST["submit"])) {
                             <div class="row justify-content-end align-items-center  font-weight-bold">
                                 <div class="col-auto ">Total</div>
                                 <div class="col-auto ">
-                                    <input type="text" id="tb_total" name="tb_total" class="input-total" value="<?= $beasiswa["total_nominal"]; ?>" disabled>
+                                    <input type="text" id="tb_total" name="tb_total" class="input-total" value="<?= rupiah($beasiswa["total_nominal"]); ?>" disabled>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="form-group mt-4 mb-3">
                         <label for="tb_nominal" class="label-txt">Nominal<span class="red-star">*</span></label>
-                        <input type="number" id="tb_nominal" name="tb_nominal" class="form-control" placeholder="Masukan Nominal beasiswa" value="<?= $beasiswa["total_nominal"]; ?>" readonly>
+                        <input type="text" id="tb_nominal" name="tb_nominal" class="form-control" placeholder="Masukan Nominal beasiswa" value="<?= rupiah($beasiswa["total_nominal"]); ?>" readonly>
                     </div>
 
                     <div class="form-group">

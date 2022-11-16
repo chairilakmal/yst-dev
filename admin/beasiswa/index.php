@@ -26,6 +26,11 @@ function query($query)
     }
     return $rows;
 }
+function rupiah($angka)
+{
+    $hasil_rupiah = "Rp. " . number_format($angka, 0, '.', '.');
+    return $hasil_rupiah;
+}
 
 $currentWilayah = $_SESSION["wilayah_id"];
 
@@ -102,7 +107,7 @@ if ($_SESSION["level_user"] == '2a' || $_SESSION["level_user"] == '2b') {
                                             <td class="text-center"><?= $i++ ?></td>
                                             <td class="table-snipet1"><?= $row["nama"]; ?></td>
                                             <td><?= $row["tgl"]; ?></td>
-                                            <td><?= $row["total_nominal"]; ?></td>
+                                            <td><?= rupiah($row["total_nominal"]); ?></td>
                                             <td>
                                                 <?php
                                                 if ($row['is_approve'] == 1) {

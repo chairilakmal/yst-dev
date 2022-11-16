@@ -16,6 +16,12 @@ if ($_SESSION["level_user"] == 4) {
 //ambil id program di URL
 $id_beasiswa = $_GET["id_beasiswa"];
 
+function rupiah($angka)
+{
+    $hasil_rupiah = "Rp. " . number_format($angka, 0, '.', '.');
+    return $hasil_rupiah;
+}
+
 function queryPlafon($query)
 {
     global $conn;
@@ -76,69 +82,26 @@ $jumlah_ditolak = intval($rejected[0]);
 
 if (isset($_POST["submit"])) {
 
-    $tanggal           = $_POST["tb_tgl_beasiswa"];
-    $penerima          = $_POST["tb_penerima"];
-
-    $namaAnak1         = $_POST["tb_nama_anak1"];
-    $namaAnak2         = $_POST["tb_nama_anak2"];
-    $namaAnak3         = $_POST["tb_nama_anak3"];
-
-    $jenjang1          = $_POST["tb_jenjang_pendidikan1"];
-    $jenjang2          = $_POST["tb_jenjang_pendidikan2"];
-    $jenjang3          = $_POST["tb_jenjang_pendidikan3"];
-
-    $nominal1          = $_POST["tb_nominal1"] ? $_POST["tb_nominal1"] : 0;
-    $nominal2          = $_POST["tb_nominal2"] ? $_POST["tb_nominal2"] : 0;
-    $nominal3          = $_POST["tb_nominal3"] ? $_POST["tb_nominal3"] : 0;
-
-    $totalNominal      = $_POST["tb_total_nominal"];
-
-
     $keterangan        = $_POST["tb_ket_beasiswa"];
     $keterangan        = htmlspecialchars($keterangan);
 
     $status_beasiswa   = $_POST["status_beasiswa"];
 
     if ($beasiswa['is_approve'] == 1) {
-        $query = "UPDATE t_beasiswa SET
-        tgl                 = '$tanggal',
-        nama_anak1          = '$namaAnak1',
-        nama_anak2          = '$namaAnak2',
-        nama_anak3          = '$namaAnak1',
-        jenjang_pendidikan1 = '$jenjang1',
-        jenjang_pendidikan2 = '$jenjang2', 
-        jenjang_pendidikan3 = '$jenjang3',
-        nominal_1           = '$nominal1',
-        nominal_2           = '$nominal2',
-        nominal_3           = '$nominal3',      
-        total_nominal       = '$totalNominal',
-        keterangan          = '$keterangan',
-        
-        is_approve          = '$status_beasiswa' 
-               
+        $query = "UPDATE t_beasiswa SET 
+        is_approve          = '$status_beasiswa'            
         WHERE id_beasiswa     = $id_beasiswa
         ";
     } else {
         $query = "UPDATE t_beasiswa SET
-        tgl                 = '$tanggal',
-        nama_anak1          = '$namaAnak1',
-        nama_anak2          = '$namaAnak2',
-        nama_anak3          = '$namaAnak3',
-        jenjang_pendidikan1 = '$jenjang1',
-        jenjang_pendidikan2 = '$jenjang2', 
-        jenjang_pendidikan3 = '$jenjang3',
-        nominal_1           = '$nominal1',
-        nominal_2           = '$nominal2',
-        nominal_3           = '$nominal3',      
-        total_nominal       = '$totalNominal',
-        keterangan          = '$keterangan',
         is_approve          = '$status_beasiswa'           
         WHERE id_beasiswa   = $id_beasiswa
         ";
     }
 
     mysqli_query($conn, $query);
-    // var_dump($query);die;
+    // var_dump($query);
+    // die;
 
     //cek keberhasilan
     if (mysqli_affected_rows($conn) > 0) {
@@ -219,7 +182,7 @@ if (isset($_POST["submit"])) {
                                         </select>
                                     </div>
                                     <div class="col">
-                                        <input type="number" id="tb_nominal<?= $x ?>" name="tb_nominal<?= $x ?>" class="form-control" value="<?= $beasiswa["nominal_$x"]; ?>" onchange="handleNominal()" readonly>
+                                        <input type="text" id="tb_nominal<?= $x ?>" name="tb_nominal<?= $x ?>" class="form-control" value="<?= rupiah($beasiswa["nominal_$x"]); ?>" onchange="handleNominal()" readonly>
                                     </div>
                                     <!-- <div class="append-action">                        
                                     <button type="button" onclick="removeField?=$x?>()">-</button>                       
@@ -230,7 +193,7 @@ if (isset($_POST["submit"])) {
                             <div class="row justify-content-end align-items-center  font-weight-bold">
                                 <div class="col-auto ">Total</div>
                                 <div class="col-auto ">
-                                    <input type="text" id="tb_total" name="tb_total" class="input-total" value="<?= $beasiswa["total_nominal"]; ?>">
+                                    <input type="text" id="tb_total" name="tb_total" class="input-total" value="<?= rupiah($beasiswa["total_nominal"]); ?>">
                                 </div>
                             </div>
                         </div>
@@ -238,7 +201,7 @@ if (isset($_POST["submit"])) {
 
                     <div class="form-group mt-4 mb-3">
                         <label for="tb_total_nominal" class="label-txt">Total Nominal<span class="red-star">*</span></label>
-                        <input type="number" id="tb_total_nominal" name="tb_total_nominal" class="form-control" placeholder="Masukan Nominal beasiswa" value="<?= $beasiswa["total_nominal"]; ?>" Required readonly>
+                        <input type="text" id="tb_total_nominal" name="tb_total_nominal" class="form-control" placeholder="Masukan Nominal beasiswa" value="<?= rupiah($beasiswa["total_nominal"]); ?>" Required readonly>
                     </div>
 
                     <div class="form-group">

@@ -26,8 +26,6 @@ $plafonBeasiswa = queryPlafon("SELECT * FROM t_plafon_beasiswa
                     ORDER BY id
                     ");
 
-
-
 function query($query)
 {
     global $conn;
@@ -69,18 +67,24 @@ if (isset($_POST["submit"])) {
     $jenjang3          = $_POST["tb_jenjang_pendidikan3"];
 
     $nominal1          = $_POST["tb_nominal1"] ? $_POST["tb_nominal1"] : 0;
+    $unmaskedNom1      = preg_replace('/[^0-9\-]/', '', $nominal1);
+
     $nominal2          = $_POST["tb_nominal2"] ? $_POST["tb_nominal2"] : 0;
+    $unmaskedNom2      = preg_replace('/[^0-9\-]/', '', $nominal2);
+
     $nominal3          = $_POST["tb_nominal3"] ? $_POST["tb_nominal3"] : 0;
+    $unmaskedNom3      = preg_replace('/[^0-9\-]/', '', $nominal3);
 
     $totalNominal      = $_POST["tb_total_nominal"];
-
+    $unmaskedTotal     = preg_replace('/[^0-9\-]/', '', $totalNominal);
 
     $keterangan        = $_POST["tb_ket_beasiswa"];
     $keterangan        = htmlspecialchars($keterangan);
 
-    // $formData = [$Penerima, $Tanggal, $Nominal, $Keterangan];
-
-    // var_dump($formData);die;
+    // $formData = [$nominal1, $nominal2, $nominal3, $totalNominal];
+    // var_dump('nilai asli', $unmaskedTotal);
+    // var_dump('exploded', preg_replace('/[^0-9\-]/', '', $nominal1));
+    // die;
 
 
     $query = "INSERT INTO t_beasiswa (
@@ -106,10 +110,10 @@ if (isset($_POST["submit"])) {
                 '$jenjang1',
                 '$jenjang2',
                 '$jenjang3',
-                $nominal1,
-                $nominal2,
-                $nominal3,
-                $totalNominal, 
+                $unmaskedNom1,
+                $unmaskedNom2,
+                $unmaskedNom3,
+                $unmaskedTotal, 
                 '$keterangan' )  
              ";
 
@@ -198,7 +202,7 @@ if (isset($_POST["submit"])) {
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
-                                    <div class="col"><input type="number" id="tb_nominal<?= $x ?>" name="tb_nominal<?= $x ?>" class="form-control" onkeyup="handleNominal()" onchange="handleNominal()" readonly>
+                                    <div class="col"><input type="text" id="tb_nominal<?= $x ?>" name="tb_nominal<?= $x ?>" class="form-control" onkeyup="handleNominal()" onchange="handleNominal()" readonly>
                                     </div>
                                     <!-- <div class="append-action">                        
                                     <button type="button" onclick="removeField?=$x?>()">-</button>                       
@@ -217,7 +221,7 @@ if (isset($_POST["submit"])) {
 
                     <div class="form-group mt-2 mb-3" id="tgl_selesai_form">
                         <label for="tb_total_nominal" class="label-txt">Total Nominal<span class="red-star">*</span></label>
-                        <input type="number" id="tb_total_nominal" name="tb_total_nominal" class="form-control" readonly>
+                        <input type="text" id="tb_total_nominal" name="tb_total_nominal" class="form-control" readonly>
                     </div>
 
                     <div class="form-group">
@@ -230,7 +234,7 @@ if (isset($_POST["submit"])) {
                 </button>
             </form>
         </div>
-        <script>
+        <script type="text/javascript">
             // Declare Variables
             var jenjang1 = document.getElementById("tb_jenjang_pendidikan1");
             var jenjang2 = document.getElementById("tb_jenjang_pendidikan2");
@@ -238,6 +242,21 @@ if (isset($_POST["submit"])) {
             var nominal1 = document.getElementById("tb_nominal1");
             var nominal2 = document.getElementById("tb_nominal2");
             var nominal3 = document.getElementById("tb_nominal3");
+
+            function formatRupiah(angka, prefix) {
+                var number_string = angka.toString().replace(/[^,\d]/g, ''),
+                    split = number_string.split(','),
+                    sisa = split[0].length % 3,
+                    rupiah = split[0].substr(0, sisa),
+                    ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+                if (ribuan) {
+                    separator = sisa ? '.' : '';
+                    rupiah += separator + ribuan.join('.');
+                }
+                rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+                return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+            }
 
             function handleJenjang() {
                 var value1 = parseInt(jenjang1.options[jenjang1.selectedIndex].dataset["nominal"]);
@@ -252,11 +271,11 @@ if (isset($_POST["submit"])) {
                 let total1 = value1 ? value1 : 0;
                 let total2 = value2 ? value2 : 0;
                 let total3 = value3 ? value3 : 0;
-                document.querySelector('input[name="tb_nominal1"]').value = value1;
-                document.querySelector('input[name="tb_nominal2"]').value = value2;
-                document.querySelector('input[name="tb_nominal3"]').value = value3;
-                document.querySelector('input[name="tb_total"]').value = total1 + total2 + total3;
-                document.querySelector('input[name="tb_total_nominal"]').value = total1 + total2 + total3;
+                document.querySelector('input[name="tb_nominal1"]').value = formatRupiah(value1, 'Rp. ');
+                document.querySelector('input[name="tb_nominal2"]').value = formatRupiah(value2, 'Rp. ');
+                document.querySelector('input[name="tb_nominal3"]').value = formatRupiah(value3, 'Rp. ');
+                document.querySelector('input[name="tb_total"]').value = formatRupiah(total1 + total2 + total3, 'Rp. ');
+                document.querySelector('input[name="tb_total_nominal"]').value = formatRupiah(total1 + total2 + total3, 'Rp. ');
 
             }
 
@@ -274,15 +293,13 @@ if (isset($_POST["submit"])) {
                 document.querySelector('input[name="tb_total_nominal"]').value = total1 + total2 + total3;
             }
 
-            // function removeField2(){
-            // var element = document.getElementById("appendForm2");
-            // element.classList.add("d-none");    
-            // }
-
-            // function removeField3(){
-            // var element = document.getElementById("appendForm3");
-            // element.classList.add("d-none");    
-            // }
+            // $(document).ready(function() {
+            //     /* Dengan Rupiah */
+            //     var tb_nominal1 = document.getElementById('tb_nominal1');
+            //     tb_nominal1.addEventListener('keyup', function(e) {
+            //         tb_nominal1.value = formatRupiah(this.value, 'Rp. ');
+            //     });
+            // })
         </script>
     </main>
 </div>
