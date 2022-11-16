@@ -25,18 +25,20 @@ function query($query)
     return $rows;
 }
 
-// $userQuery = query("SELECT * FROM t_user
-//                     ORDER BY level_user                   
-//                     ");
 
-$wilayahQuery = query("SELECT * FROM t_wilayah  
-                    RIGHT JOIN t_user ON t_user.wilayah_id = t_wilayah.id_wilayah ORDER BY t_user.level_user");
+$wilayahQuery = query("SELECT
+                tu.*,tw.nama_wilayah,torg.nama_jabatan
+                FROM
+                t_user tu
+                LEFT JOIN t_wilayah tw ON tu.wilayah_id = tw.id_wilayah
+                LEFT JOIN t_organigram torg ON tu.id_user = torg.user_id
+                WHERE tu.level_user != 1
+                ORDER BY
+                tu.id_user");
+
+// print_r($wilayahQuery);exit;
 
 // var_dump($wilayahQuery);die;
-
-$organigram = query("SELECT * FROM t_organigram
-                    ORDER BY user_id
-                    ");
 
 
 ?>
@@ -86,21 +88,9 @@ $organigram = query("SELECT * FROM t_organigram
                                         <tr>
                                             <td class="text-center"><?= $i++ ?></td>
                                             <td class="table-snipet1"><?= $row["nama"]; ?></td>
-                                            <td>
-                                                <?php
-                                                if ($row['level_user'] == 1) {
-                                                    echo 'Super Admin';
-                                                } else if ($row['level_user'] == '2a') {
-                                                    echo 'YST';
-                                                } else if ($row['level_user'] == '2b') {
-                                                    echo 'DPP';
-                                                } else if ($row['level_user'] == '3') {
-                                                    echo 'DPW';
-                                                } else {
-                                                    echo '-';
-                                                }
-                                                ?></td>
-                                            <td><?= $row["kode_wilayah"]; ?></td>
+                                            <td><?= 
+                                            $row["nama_jabatan"] ? $row["nama_jabatan"] : '-' ?></td>
+                                            <td><?= $row["nama_wilayah"]; ?></td>
 
                                             <td class="justify-content-center">
                                                 <button type="button" class="btn btn-edit">

@@ -155,7 +155,7 @@ if (isset($_POST["submit"])) {
                         <div class="row">
                             <div class="col">
                                 <label for="tb_nik">NIK<span class="red-star">*</span></label></label>
-                                <input type="text" name="tb_nik" class="form-control" placeholder="Masukan NIK">
+                                <input type="number" name="tb_nik" class="form-control" placeholder="Masukan NIK">
                             </div>
                             <div class="col">
                                 <label for="tb_nama">Nama Lengkap<span class="red-star">*</span></label></label>
@@ -176,19 +176,19 @@ if (isset($_POST["submit"])) {
                         </div>
                     </div>
                     <div class="form-group mt-4 mb-3">
-                        <label for="tb_tgl_kematian" class="label-txt">Tanggal<span class="red-star">*</span></label>
+                        <label for="tb_tgl_kematian" class="label-txt">Tanggal Wafat<span class="red-star">*</span></label>
                         <input type="date" id="tb_tgl_kematian" name="tb_tgl_kematian" class="form-control">
                     </div>
                     <div class="form-group mt-4 mb-3">
-                        <label for="tb_waktu_kematian" class="label-txt">Waktu<span class="red-star">*</span></label>
+                        <label for="tb_waktu_kematian" class="label-txt">Waktu Wafat<span class="red-star">*</span></label>
                         <input type="time" id="tb_waktu_kematian" name="tb_waktu_kematian" class="form-control">
                     </div>
                     <div class="form-group mt-4 mb-3">
-                        <label for="tb_tempat_kematian" class="label-txt">Tempat<span class="red-star">*</span></label>
+                        <label for="tb_tempat_kematian" class="label-txt">Tempat Wafat<span class="red-star">*</span></label>
                         <input type="text" id="tb_tempat_kematian" name="tb_tempat_kematian" class="form-control" placeholder="Tempat meninggal" Required>
                     </div>
                     <div class="form-group mt-4 mb-3">
-                        <label for="tb_tempat_pemakaman" class="label-txt">Tempat Pemakaman<span class="red-star">*</span></label>
+                        <label for="tb_tempat_pemakaman" class="label-txt">Lokasi Pemakaman<span class="red-star">*</span></label>
                         <input type="text" id="tb_tempat_pemakaman" name="tb_tempat_pemakaman" class="form-control" placeholder="Tempat pemakaman" Required>
                     </div>
                     <div class="form-group">

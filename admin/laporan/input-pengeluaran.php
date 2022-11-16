@@ -204,7 +204,7 @@ if (isset($_POST["submit"])) {
 
                 <div class="form-group">
                     <label for="tb_sumber" class="label-txt">Sumber Dana</label>
-                    <input type="text" class="form-control" id="tb_sumber" name="tb_sumber" placeholder="Masukkan sumber dana"></input>
+                    <input type="text" class="form-control" id="tb_sumber" name="tb_sumber" value="Kas" placeholder="Masukkan sumber dana"></input>
                 </div>
                 <div class="form-group">
                     <label for="tb_keterangan" class="label-txt">Keterangan</label>

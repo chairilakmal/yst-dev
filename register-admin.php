@@ -92,7 +92,7 @@ if (isset($_POST["register"])) {
                             <select class="form-control select-color" id="tb_wilayah" name="tb_wilayah" required>
                                 <option selected disabled>Wilayah Regional</option>
                                 <?php foreach ($dataWilayah as $row) : ?>
-                                    <option value="<?= $row["id_wilayah"]; ?>"><?= $row["nama_wilayah"]; ?></option>
+                                    <option value="<?= $row["id_wilayah"]; ?>"><?= $row["kode_wilayah"]; ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>

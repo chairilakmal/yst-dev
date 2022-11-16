@@ -63,7 +63,11 @@ $plafonBeasiswa = query("SELECT * FROM t_plafon_beasiswa
                                         <td class="text-center">No</td>
                                         <td>Jenjang</td>
                                         <td>Nominal</td>
+                                        <?php 
+                                            if($_SESSION["level_user"] == '1' || $_SESSION["level_user"] == '2a' )
+                                            { ?>
                                         <td class="justify-content-center">Aksi</td>
+                                        <?php } ?>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -72,11 +76,16 @@ $plafonBeasiswa = query("SELECT * FROM t_plafon_beasiswa
                                             <td class="text-center"><?= $row["id"]; ?></td>
                                             <td class="table-snipet1"><?= $row["jenjang"]; ?></td>
                                             <td><?= $row["nominal"]; ?></td>
+                                            <?php 
+                                            if($_SESSION["level_user"] == '1' || $_SESSION["level_user"] == '2a' )
+                                            { ?>
                                             <td class="justify-content-center">
-                                                <button type="button" class="btn btn-edit">
-                                                    <a href="edit.php?id=<?= $row["id"]; ?>" class="fas fa-edit"></a>
-                                                </button>
-                                            </td>
+                                            <button type="button" class="btn btn-edit">
+                                                <a href="edit.php?id=<?= $row["id"]; ?>" class="fas fa-edit"></a>
+                                            </button>
+                                            </td>"
+                                            <?php } ?>
+ 
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>

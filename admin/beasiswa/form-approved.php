@@ -46,6 +46,14 @@ $queryApproved = mysqli_query($conn, "SELECT *
 
 $approved = mysqli_fetch_array($queryApproved);
 
+
+$queryApproveLimit = query("SELECT *
+                    FROM t_approval_beasiswa
+                    WHERE beasiswa_id = $id_beasiswa
+                    AND is_approve = 1");
+$approveLimit = count($queryApproveLimit);
+
+
 $beasiswa = query("SELECT * FROM t_beasiswa
                         LEFT JOIN t_meninggal
                         ON t_beasiswa.user_nik = t_meninggal.nik               
@@ -215,7 +223,7 @@ if (isset($_POST["submit"])) {
 
                 </div>
                 <?php
-                if ($approved == NULL) {
+                if ($approveLimit < 2 && $approved == NULL) {
                     echo '<button type="button" 
                     class="btn btn-lg btn-primary w-100 yst-login-btn border-0 mt-4 mb-4" 
                     data-toggle="modal" data-target="#exampleModalCenter"
@@ -242,12 +250,8 @@ if (isset($_POST["submit"])) {
                 </div>
             </div>
         </div>
-        <!-- <script>
-            $('#modalApproval').on('shown.bs.modal', function() {
-                $('#tb_ket_approval').focus();
-            });
-        </script> -->
     </main>
+
 </div>
 <!-- /.container-fluid -->
 <!-- /.content -->
