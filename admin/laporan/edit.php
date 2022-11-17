@@ -48,28 +48,20 @@ if (isset($_POST["submit"])) {
     $nominal          = $_POST['tb_nominal'];
     $sumber           = $_POST['tb_sumber'];
     $keterangan       = $_POST['tb_keterangan'];
-    $status           = $_POST['tb_status'];
+    $updated_by       = $_SESSION["nama"];
+    $updated_at       = date('Y-m-d H:i:s');
+
 
     $query = "UPDATE t_lap_keuangan SET
-        bulan           = '$bulan',
-        tahun           = '$tahun',
         tanggal         = '$tanggal',
         nomor_referensi = '$nomorReferensi',
         nominal         = '$nominal',
         sumber          = '$sumber',
         keterangan      = '$keterangan',
-        status          = '$status'
-               
+        updated_by      = '$updated_by',
+        updated_at      = '$updated_at' 
         WHERE id_lap_keuangan     = $id_lap_keuangan
         ";
-
-
-
-
-
-
-
-
 
 
     mysqli_query($conn, $query);
@@ -79,14 +71,14 @@ if (isset($_POST["submit"])) {
     if (mysqli_affected_rows($conn) > 0) {
         echo "
             <script>
-                alert('Data berhasil ditambahkan!');
+                alert('Data berhasil diubah !');
                 window.location.href = 'laporan-bulanan.php';
             </script>
             ";
     } else {
         echo "
                 <script>
-                    alert('Data gagal ditambahkan!');
+                    alert('Data gagal diubah !');
                 </script>
             ";
     }
@@ -140,21 +132,6 @@ if (isset($_POST["submit"])) {
                         <div class="form-group">
                             <label for="tb_keterangan" class="label-txt">Keterangan</label>
                             <textarea class="form-control" id="tb_keterangan" name="tb_keterangan" placeholder="Keterangan"><?= $lapKeuangan["keterangan"]; ?></textarea>
-                        </div>
-                        <div class="form-group mb-5 ">
-                            <label for="tb_status" class="font-weight-bold"><span class="label-form-span">Status</span></label><br>
-                            <div class="radio-wrapper mt-1">
-                                <div class="form-check form-check-inline">
-                                    <input type="radio" id="tb_status" name="tb_status" class="form-check-input" value="0" <?php if ($lapKeuangan['status'] == '0') echo 'checked' ?>>
-                                    <label class="form-check-label" for="tb_status">Pemasukan</label>
-                                </div>
-                            </div>
-                            <div class="radio-wrapper2 mt-1">
-                                <div class="form-check form-check-inline">
-                                    <input type="radio" id="tb_status" name="tb_status" class="form-check-input" value="1" <?php if ($lapKeuangan['status'] == '1') echo 'checked' ?>>
-                                    <label class="form-check-label" for="tb_status">Pengeluaran</label>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>

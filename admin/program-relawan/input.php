@@ -109,9 +109,12 @@ if (isset($_POST["submit"])) {
 
     $kategori_relawan            = $_POST["tb_kategori"];
 
+    $created_by = $_SESSION["nama"];
 
-    $query = "INSERT INTO t_program_relawan (nama_program_relawan,deskripsi_singkat_relawan,target_relawan,tgl_pelaksanaan,lokasi_program,deskripsi_lengkap_relawan,foto_p_relawan,status_program_relawan,tgl_prelawan,lokasi_awal,penanggung_jawab,tenggat_waktu,kategori_relawan)
-VALUES ('$nama_program_relawan','$deskripsi_singkat_relawan','$target_relawan','$tgl_pelaksanaan','$lokasi_program',' $deskripsi_lengkap_relawan','$gambar','$status_program_relawan','$tgl_prelawan','$lokasi_awal','$penanggung_jawab','$tenggat_waktu','$kategori_relawan')  
+
+
+    $query = "INSERT INTO t_program_relawan (nama_program_relawan,deskripsi_singkat_relawan,target_relawan,tgl_pelaksanaan,lokasi_program,deskripsi_lengkap_relawan,foto_p_relawan,status_program_relawan,tgl_prelawan,lokasi_awal,penanggung_jawab,tenggat_waktu,kategori_relawan, created_by)
+VALUES ('$nama_program_relawan','$deskripsi_singkat_relawan','$target_relawan','$tgl_pelaksanaan','$lokasi_program',' $deskripsi_lengkap_relawan','$gambar','$status_program_relawan','$tgl_prelawan','$lokasi_awal','$penanggung_jawab','$tenggat_waktu','$kategori_relawan', '$created_by')  
      ";
 
     mysqli_query($conn, $query);
@@ -123,6 +126,7 @@ VALUES ('$nama_program_relawan','$deskripsi_singkat_relawan','$target_relawan','
         echo "
             <script>
                 alert('Data berhasil ditambahkan!');
+                window.location.href = '../program-relawan'; 
             </script>
             ";
     } else {

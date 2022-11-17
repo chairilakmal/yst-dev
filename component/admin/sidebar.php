@@ -165,7 +165,7 @@
                                 <a href="../non-aktif/" class="nav-link side-icon">
                                     <i class="nav-icon fas fa-user-slash"></i>
                                     <p>
-                                        Data Wafat
+                                        Data Meninggal
                                     </p>
                                 </a>
                             </div>';
@@ -201,7 +201,7 @@
                                 <a href="../non-aktif/" class=" nav-link side-icon">
                                     <i class="nav-icon fas fa-user-slash"></i>
                                     <p>
-                                        Data Wafat
+                                        Data Meninggal
                                     </p>
                                 </a>
                             </div>';

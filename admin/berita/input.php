@@ -75,9 +75,11 @@ if (isset($_POST["submit"])) {
 
     $status_berita              = 1;
 
+    $created_by                 = $_SESSION["nama"];
 
-    $query = "INSERT INTO t_berita (judul_berita, tgl_kejadian, isi_berita,gambar_berita,tgl_penulisan,kategori_berita,status_berita)
-                VALUES ('$judul_berita', '$tgl_kejadian', '$isi_berita','$gambar','$tgl_penulisan','$kategori_berita','$status_berita')";
+
+    $query = "INSERT INTO t_berita (judul_berita, tgl_kejadian, isi_berita,gambar_berita,tgl_penulisan,kategori_berita,status_berita, created_by)
+                VALUES ('$judul_berita', '$tgl_kejadian', '$isi_berita','$gambar','$tgl_penulisan','$kategori_berita','$status_berita','$created_by')";
 
 
     mysqli_query($conn, $query);
@@ -89,6 +91,7 @@ if (isset($_POST["submit"])) {
         echo "
             <script>
                 alert('Data berhasil ditambahkan!');
+                window.location.href = '../berita';
             </script>
             ";
     } else {

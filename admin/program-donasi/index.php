@@ -32,7 +32,7 @@ function query($query)
 // WHERE status_donasi = 'Diterima'
 
 // var_dump($programDonasi);die;
-$programDonasi = query("SELECT *, SUM(t_donasi.nominal_donasi) AS dana_terkumpul_total, 
+$programDonasi = query("SELECT t_program_donasi.* , SUM(t_donasi.nominal_donasi) AS dana_terkumpul_total, 
                     COUNT(id_user) 
                     AS jumlah_donatur 
                     FROM t_donasi 

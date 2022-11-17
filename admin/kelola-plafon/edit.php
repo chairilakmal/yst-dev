@@ -40,13 +40,17 @@ $plafonBeasiswa = query("SELECT * FROM t_plafon_beasiswa
 //UPDATE
 if (isset($_POST["submit"])) {
 
-    $jenjang                  = $_POST["tb_jenjang"];
-    $nominal                  = $_POST["tb_nominal"];
+    $jenjang    = $_POST["tb_jenjang"];
+    $nominal    = $_POST["tb_nominal"];
+    $updated_by = $_SESSION["nama"];
+    $updated_at = date("Y-m-d H:i:s");
 
     // GLOBAL UPDATE
     $query = "UPDATE t_plafon_beasiswa SET
                     jenjang                 = '$jenjang',
-                    nominal                 = '$nominal'
+                    nominal                 = '$nominal',
+                    updated_by               = '$updated_by',
+                    updated_at               = '$updated_at'
                   WHERE id                  = $id
                 ";
 
@@ -59,7 +63,7 @@ if (isset($_POST["submit"])) {
         echo "
             <script>
                 alert('Data berhasil diubah!');
-                window.location.href = 'index.php'; 
+                window.location.href = '../kelola-plafon'; 
             </script>
         ";
     } else {
@@ -100,7 +104,7 @@ if (isset($_POST["submit"])) {
                     </div>
                 </div>
                 <button type="submit" name="submit" value="Simpan" class="btn btn-lg btn-primary w-100 yst-login-btn border-0 mt-4 mb-4">
-                    <span class="yst-login-btn-fs">Edit Kategori</span>
+                    <span class="yst-login-btn-fs">Simpan</span>
                 </button>
             </form>
         </div>

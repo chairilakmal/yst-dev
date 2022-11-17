@@ -45,7 +45,7 @@ $userQuery = query("SELECT * FROM t_meninggal
                     <a href="../berita/index.php">
                         <i class="nav-icon fas fa-home mr-1"></i>Dashboard admin</a> >
                     <a href="index.php">
-                        <i class="nav-icon fas fa-cog mr-1"></i>Kelola Data Wafat</a>
+                        <i class="nav-icon fas fa-cog mr-1"></i>Kelola Data Meninggal</a>
                 </div>
 
                 <div class="card card-request-data">
@@ -63,7 +63,7 @@ $userQuery = query("SELECT * FROM t_meninggal
                                     <tr>
                                         <td>NIK</td>
                                         <td>Nama User</td>
-                                        <td>Tempat/Tanggal Wafat</td>
+                                        <td>Tempat/Tanggal Meninggal</td>
                                         <!-- <td>Penyebab</td> -->
                                         <td>Status Data</td>
                                         <td class="justify-content-center">Aksi</td>

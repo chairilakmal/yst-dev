@@ -35,12 +35,16 @@ $kategoriDonasi = query("SELECT * FROM t_kat_donasi WHERE id_kat_donasi = $id_ka
 if (isset($_POST["submit"])) {
 
     $kategori_donasi      = $_POST["tb_kategori_donasi"];
-    $ket_kategori_donasi      = $_POST["tb_ket_kategori_donasi"];
+    $ket_kategori_donasi  = $_POST["tb_ket_kategori_donasi"];
+    $updated_by = $_SESSION["nama"];
+    $updated_at = date("Y-m-d H:i:s");
 
     // GLOBAL UPDATE
     $query = "UPDATE t_kat_donasi SET
                     kategori_donasi         = '$kategori_donasi',
-                    ket_kategori_donasi     = '$ket_kategori_donasi'
+                    ket_kategori_donasi     = '$ket_kategori_donasi',
+                    updated_by              = '$updated_by',
+                    updated_at              = '$updated_at'
                   WHERE id_kat_donasi       = $id_kat_donasi
                 ";
 
@@ -53,7 +57,7 @@ if (isset($_POST["submit"])) {
         echo "
             <script>
                 alert('Data berhasil diubah!');
-                window.location.href = 'index.php'; 
+                window.location.href = '../kategori-donasi'; 
             </script>
         ";
     } else {

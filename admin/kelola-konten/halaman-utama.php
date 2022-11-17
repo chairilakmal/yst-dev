@@ -21,15 +21,6 @@ function upload()
     $error = $_FILES['image_uploads']['error'];
     $tmpName = $_FILES['image_uploads']['tmp_name'];
 
-    //  if($error === 4){
-    //      echo "
-    //          <script>
-    //              alert('gambar tidak ditemukan !');
-    //          </script>
-    //      ";
-    //      return false;
-    //  }
-
     //cek ekstensi gambar
     $ekstensiGambarValid = ['jpg', 'jpeg', 'png'];
     $ekstensiGambar = explode('.', $namaFile);
@@ -72,6 +63,9 @@ if (isset($_POST["submit"])) {
 
     $gambarLama                 = $_POST["gambarLama"];
 
+    $updated_by = $_SESSION["nama"];
+    $updated_at = date("Y-m-d H:i:s");
+
     if ($_FILES['image_uploads']['error'] === 4) {
         $gambar = $gambarLama;
     } else {
@@ -79,11 +73,13 @@ if (isset($_POST["submit"])) {
     }
 
 
-    $query = "UPDATE t_konten_beranda SET
+    $query               = "UPDATE t_konten_beranda SET
     Judul                = '$judul_halaman_utama',
     Deskripsi            = '$deskripsi',
     buttonText           = '$buttonText',
-    Gambar               = '$gambar'
+    Gambar               = '$gambar',
+    updated_by           = '$updated_by',
+    updated_at           = '$updated_at'
            
     WHERE id_banner      = $id_banner
 ";

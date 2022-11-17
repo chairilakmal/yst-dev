@@ -81,6 +81,9 @@ if (isset($_POST["submit"])) {
     $keterangan        = $_POST["tb_ket_beasiswa"];
     $keterangan        = htmlspecialchars($keterangan);
 
+    $created_by                 = $_SESSION["nama"];
+
+
     // $formData = [$nominal1, $nominal2, $nominal3, $totalNominal];
     // var_dump('nilai asli', $unmaskedTotal);
     // var_dump('exploded', preg_replace('/[^0-9\-]/', '', $nominal1));
@@ -100,7 +103,8 @@ if (isset($_POST["submit"])) {
                 nominal_2,
                 nominal_3,
                 total_nominal, 
-                keterangan )
+                keterangan,
+                created_by )
               VALUES (
                 '$tanggal',
                 '$penerima',
@@ -114,7 +118,8 @@ if (isset($_POST["submit"])) {
                 $unmaskedNom2,
                 $unmaskedNom3,
                 $unmaskedTotal, 
-                '$keterangan' )  
+                '$keterangan',
+                '$created_by' )  
              ";
 
 

@@ -129,6 +129,9 @@ if (isset($_POST["submit"])) {
 
     $jangka_waktu               = $_POST["tb_jangka_waktu"];
 
+    $updated_by = $_SESSION["nama"];
+    $updated_at = date("Y-m-d H:i:s");
+
     if ($jangka_waktu != 1) {
         $tgl_selesai                = $_POST["tb_tgl_selesai"];
     }
@@ -146,12 +149,6 @@ if (isset($_POST["submit"])) {
         $gambar2 = upload2();
     }
 
-    // if (isset($_FILES['image_uploads2'], $_POST['tb_tgl_penyaluran'])) {//do the fields exist
-    //     if($_FILES['image_uploads2'] && $_POST['tb_tgl_penyaluran']){ //do the fields contain data
-    //         $status_program_donasi      = 'Selesai';
-    //     }
-    // }
-
     // GLOBAL UPDATE
     $query = "UPDATE t_program_donasi SET
                     nama_program_donasi         = '$nama_program_donasi',
@@ -162,7 +159,9 @@ if (isset($_POST["submit"])) {
                     foto_p_donasi               = '$gambar',
                     penerima_donasi             = '$penerima_donasi',
                     bukti_penyaluran            = '$gambar2',
-                    tgl_penyaluran              = '$tgl_penyaluran'
+                    tgl_penyaluran              = '$tgl_penyaluran',
+                    updated_by                  = '$updated_by',
+                    updated_at                  = '$updated_at'
                   WHERE id_program_donasi       = $id_program_donasi
                 ";
 
@@ -180,7 +179,9 @@ if (isset($_POST["submit"])) {
                     foto_p_donasi               = '$gambar',
                     penerima_donasi             = '$penerima_donasi',
                     bukti_penyaluran            = '$gambar2',
-                    tgl_penyaluran              = '$tgl_penyaluran'
+                    tgl_penyaluran              = '$tgl_penyaluran',
+                    updated_by                  = '$updated_by',
+                    updated_at                  = '$updated_at'
                   WHERE id_program_donasi       = $id_program_donasi
                 ";
     }
@@ -195,7 +196,7 @@ if (isset($_POST["submit"])) {
         echo "
             <script>
                 alert('Data berhasil diubah!');
-                window.location.href = '../berita/index.php'; 
+                window.location.href = '../program-donasi'; 
             </script>
         ";
     } else {

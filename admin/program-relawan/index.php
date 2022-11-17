@@ -24,29 +24,14 @@ function query($query)
     return $rows;
 }
 
-// WHERE status_donasi = 'Diterima'
-//    COUNT(id_user) AS jumlah_relawan
-// var_dump($programDonasi);die;
-$programRelawan = query("SELECT *, SUM(t_relawan.relawan_jadi) AS jumlah_relawan
+$programRelawan = query("SELECT t_program_relawan.*, SUM(t_relawan.relawan_jadi) AS jumlah_relawan
                     FROM t_relawan
                     RIGHT JOIN t_program_relawan
                     ON t_program_relawan.id_program_relawan = t_relawan.id_program_relawan                 
-                    GROUP BY t_program_relawan.id_program_relawan ORDER BY t_program_relawan.id_program_relawan DESC
+                    GROUP BY t_program_relawan.id_program_relawan 
+                    ORDER BY t_program_relawan.id_program_relawan DESC
                     ");
-
-//    function query($query){
-//        global $conn;
-//         $result = mysqli_query($conn, "SELECT * FROM t_program_relawan"); 
-//         $rows = [];
-//         while($row = mysqli_fetch_assoc($result)){
-//             $rows[] = $row;
-//         }
-//         return $rows;
-//    }
-
-
-
-//    $programRelawan = query("SELECT * FROM t_program_relawan");
+// var_dump($programRelawan);die;
 
 ?>
 <?php include '../../component/admin/header.php'; ?>

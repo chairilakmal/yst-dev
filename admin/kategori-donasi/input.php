@@ -18,12 +18,13 @@ if (isset($_POST["submit"])) {
 
     $kategori_donasi      = $_POST["tb_kategori_donasi"];
     $kategori_donasi        = htmlspecialchars($kategori_donasi);
-
     $ket_kategori_donasi      = $_POST["tb_ket_kategori_donasi"];
+    $created_by            = $_SESSION["nama"];
 
 
-    $query = "INSERT INTO t_kat_donasi (kategori_donasi,ket_kategori_donasi)
-                VALUES ('$kategori_donasi','$ket_kategori_donasi')  
+
+    $query = "INSERT INTO t_kat_donasi (kategori_donasi,ket_kategori_donasi, created_by)
+                VALUES ('$kategori_donasi','$ket_kategori_donasi','$created_by')  
                      ";
 
 
@@ -36,6 +37,7 @@ if (isset($_POST["submit"])) {
         echo "
             <script>
                 alert('Data berhasil ditambahkan!');
+                window.location.href = '../kategori-donasi'; 
             </script>
             ";
     } else {

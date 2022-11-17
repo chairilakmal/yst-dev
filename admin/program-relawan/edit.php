@@ -25,14 +25,6 @@ function upload()
     $error = $_FILES['image_uploads']['error'];
     $tmpName = $_FILES['image_uploads']['tmp_name'];
 
-    // if($error === 4){
-    //     echo "
-    //         <script>
-    //             alert('gambar tidak ditemukan !');
-    //         </script>
-    //     ";
-    //     return false;
-    // }
 
     //cek ekstensi gambar
     $ekstensiGambarValid = ['jpg', 'jpeg', 'png'];
@@ -131,6 +123,9 @@ if (isset($_POST["submit"])) {
 
     $tenggat_waktu               = $_POST["tb_tenggat_waktu"];
 
+    $updated_by = $_SESSION["nama"];
+    $updated_at = date("Y-m-d H:i:s");
+
     if ($_FILES['image_uploads']['error'] === 4) {
         $gambar = $gambarLama;
     } else {
@@ -154,7 +149,9 @@ if (isset($_POST["submit"])) {
                 penanggung_jawab             = '$penanggung_jawab ',
                 tenggat_waktu                = '$tenggat_waktu',
                 bukti_pelaksanaan            = '$gambar2',
-                foto_p_relawan               = '$gambar'
+                foto_p_relawan               = '$gambar',
+                updated_by                  = '$updated_by',
+                    updated_at                  = '$updated_at'
                 WHERE id_program_relawan      = $id_program_relawan
                 ";
 
@@ -173,7 +170,9 @@ if (isset($_POST["submit"])) {
                     penanggung_jawab             = '$penanggung_jawab ',
                     tenggat_waktu                = '$tenggat_waktu',
                     bukti_pelaksanaan            = '$gambar2',
-                    foto_p_relawan               = '$gambar'
+                    foto_p_relawan               = '$gambar',
+                    updated_by                  = '$updated_by',
+                    updated_at                  = '$updated_at'
                     WHERE id_program_relawan      = $id_program_relawan
                     ";
     }
@@ -188,7 +187,7 @@ if (isset($_POST["submit"])) {
         echo "
             <script>
                 alert('Data berhasil diubah!');
-                window.location.href = 'index.php'; 
+                window.location.href = '../program-relawan'; 
             </script>
         ";
     } else {

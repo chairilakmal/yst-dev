@@ -37,11 +37,15 @@ if (isset($_POST["submit"])) {
 
     $kategori_relawan      = $_POST["tb_kategori_relawan"];
     $ket_kategori_relawan      = $_POST["tb_ket_kategori_relawan"];
+    $updated_by = $_SESSION["nama"];
+    $updated_at = date("Y-m-d H:i:s");
 
     // GLOBAL UPDATE
     $query = "UPDATE t_kat_relawan SET
                     kategori_relawan         = '$kategori_relawan',
-                    ket_kategori_relawan     = '$ket_kategori_relawan'
+                    ket_kategori_relawan     = '$ket_kategori_relawan',
+                    updated_by               = '$updated_by',
+                    updated_at               = '$updated_at'
                   WHERE id_kat_relawan       = $id_kat_relawan
                 ";
 
@@ -54,7 +58,7 @@ if (isset($_POST["submit"])) {
         echo "
             <script>
                 alert('Data berhasil diubah!');
-                window.location.href = 'index.php'; 
+                window.location.href = '../kategori-relawan'; 
             </script>
         ";
     } else {

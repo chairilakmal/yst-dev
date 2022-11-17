@@ -20,10 +20,11 @@ if (isset($_POST["submit"])) {
     $kategori_relawan        = htmlspecialchars($kategori_relawan);
 
     $ket_kategori_relawan      = $_POST["tb_ket_kategori_relawan"];
+    $created_by     = $_SESSION["nama"];
 
 
-    $query = "INSERT INTO t_kat_relawan (kategori_relawan,ket_kategori_relawan)
-                VALUES ('$kategori_relawan','$ket_kategori_relawan')  
+    $query = "INSERT INTO t_kat_relawan (kategori_relawan,ket_kategori_relawan, created_by)
+                VALUES ('$kategori_relawan','$ket_kategori_relawan','$created_by')  
                      ";
 
 
@@ -36,6 +37,7 @@ if (isset($_POST["submit"])) {
         echo "
             <script>
                 alert('Data berhasil ditambahkan!');
+                window.location.href = '../kategori-relawan'; 
             </script>
             ";
     } else {

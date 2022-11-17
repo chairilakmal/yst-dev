@@ -79,7 +79,7 @@ $plafonBeasiswa = query("SELECT * FROM t_plafon_beasiswa
                                             if ($_SESSION["level_user"] == '1' || $_SESSION["level_user"] == '2a') { ?>
                                                 <td class="justify-content-center">
                                                     <button type="button" class="btn btn-edit">
-                                                        <a href="edit.php?id=<?= $row["id"]; ?> class=" fas fa-edit"></a>
+                                                        <a href="edit.php?id=<?= $row["id"]; ?>" class=" fas fa-edit"></a>
                                                     </button>
                                                 </td>
                                             <?php } ?>

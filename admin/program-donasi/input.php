@@ -100,13 +100,15 @@ if (isset($_POST["submit"])) {
 
     $kategori_donasi            = $_POST["tb_kategori"];
 
+    $created_by = $_SESSION["nama"];
+
     if ($jangka_waktu == 1) {
         $tgl_selesai = "2040-12-12";
     }
 
 
-    $query = "INSERT INTO t_program_donasi (nama_program_donasi, deskripsi_singkat_donasi, target_dana,deskripsi_lengkap_donasi,foto_p_donasi,tgl_pdonasi,tgl_selesai,status_program_donasi,penerima_donasi,penanggung_jawab,jangka_waktu,kategori_donasi)
-                VALUES ('$nama_program_donasi','$deskripsi_singkat_donasi','$target_dana',' $deskripsi_lengkap_donasi','$gambar','$tgl_pdonasi','$tgl_selesai','$status_program_donasi','$penerima_donasi','$penanggung_jawab','$jangka_waktu','$kategori_donasi')  
+    $query = "INSERT INTO t_program_donasi (nama_program_donasi, deskripsi_singkat_donasi, target_dana,deskripsi_lengkap_donasi,foto_p_donasi,tgl_pdonasi,tgl_selesai,status_program_donasi,penerima_donasi,penanggung_jawab,jangka_waktu,kategori_donasi,created_by)
+                VALUES ('$nama_program_donasi','$deskripsi_singkat_donasi','$target_dana',' $deskripsi_lengkap_donasi','$gambar','$tgl_pdonasi','$tgl_selesai','$status_program_donasi','$penerima_donasi','$penanggung_jawab','$jangka_waktu','$kategori_donasi','$created_by')  
                      ";
 
 
@@ -119,6 +121,7 @@ if (isset($_POST["submit"])) {
         echo "
             <script>
                 alert('Data berhasil ditambahkan!');
+                window.location.href = '../program-donasi'; 
             </script>
             ";
     } else {

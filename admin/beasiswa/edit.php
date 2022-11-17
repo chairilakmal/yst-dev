@@ -87,14 +87,21 @@ if (isset($_POST["submit"])) {
 
     $status_beasiswa   = $_POST["status_beasiswa"];
 
+    $approved_at       = date('Y-m-d H:i:s');
+    $approved_by       = $_SESSION["nama"];
+
     if ($beasiswa['is_approve'] == 1) {
         $query = "UPDATE t_beasiswa SET 
-        is_approve          = '$status_beasiswa'            
+        is_approve          = '$status_beasiswa',
+        approved_at         = '$approved_at',   
+        approved_by         = '$approved_by'         
         WHERE id_beasiswa     = $id_beasiswa
         ";
     } else {
         $query = "UPDATE t_beasiswa SET
-        is_approve          = '$status_beasiswa'           
+        is_approve          = '$status_beasiswa',
+        approved_at         = '$approved_at',   
+        approved_by         = '$approved_by'             
         WHERE id_beasiswa   = $id_beasiswa
         ";
     }
@@ -107,14 +114,14 @@ if (isset($_POST["submit"])) {
     if (mysqli_affected_rows($conn) > 0) {
         echo "
             <script>
-                alert('Data berhasil diubah!');
-                window.location.href = 'index.php';
+                alert('Data berhasil diubah !');
+                window.location.href = '../beasiswa'; 
             </script>
             ";
     } else {
         echo "
                 <script>
-                    alert('Data gagal diubah!');
+                    alert('Data gagal diubah !');
                 </script>
             ";
     }

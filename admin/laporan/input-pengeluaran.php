@@ -99,6 +99,7 @@ if (isset($_POST["submit"])) {
     $status           = 1;
 
     $beasiswa_id      = $_POST['tb_beasiswa'] ? $_POST['tb_beasiswa'] : 0;
+    $created_by       = $_SESSION["nama"];
 
     // $bukti_transfer   =  isset($_FILES["image_uploads"]) ? 'tru' :  'fals';
     if ($_FILES['image_uploads']['name'] !== "") {
@@ -117,7 +118,8 @@ if (isset($_POST["submit"])) {
         keterangan,
         beasiswa_id,
         status,
-        bukti_transfer)
+        bukti_transfer,
+        created_by)
             VALUES (
                 '$tanggal', 
                 '$nominal',
@@ -125,7 +127,8 @@ if (isset($_POST["submit"])) {
                 '$keterangan',
                 '$beasiswa_id',
                 '$status',
-                '$bukti_transfer')";
+                '$bukti_transfer',
+                '$created_by')";
 
     mysqli_query($conn, $query);
     // var_dump($query);

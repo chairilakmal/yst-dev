@@ -6,7 +6,6 @@ $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https"
 $url = $actual_link;
 $backUrl = parse_url($url, PHP_URL_PATH);
 
-
 ?>
 <!DOCTYPE html>
 <html lang="en">

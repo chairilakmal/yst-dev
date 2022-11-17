@@ -26,16 +26,6 @@ function upload()
     $error = $_FILES['image_uploads']['error'];
     $tmpName = $_FILES['image_uploads']['tmp_name'];
 
-
-    // if($error === 4){
-    //     echo "
-    //         <script>
-    //             alert('gambar tidak ditemukan !');
-    //         </script>
-    //     ";
-    //     return false;
-    // }
-
     //cek ekstensi gambar
     $ekstensiGambarValid = ['jpg', 'jpeg', 'png'];
     $ekstensiGambar = explode('.', $namaFile);
@@ -99,19 +89,16 @@ if (isset($_POST["submit"])) {
 
     $gambarLama                 = $_POST["gambarLama"];
 
+    $updated_by                 = $_SESSION["nama"];
+    $updated_at                 = date('Y-m-d H:i:s');
+
 
     if ($_FILES['image_uploads']['error'] === 4) {
         $gambar = $gambarLama;
     } else {
         $gambar = upload();
     }
-
-
-    // if (isset($_FILES['image_uploads2'], $_POST['tb_tgl_penyaluran'])) {//do the fields exist
-    //     if($_FILES['image_uploads2'] && $_POST['tb_tgl_penyaluran']){ //do the fields contain data
-    //         $status_berita      = 'Selesai';
-    //     }
-    // }
+    
 
     // GLOBAL UPDATE
     $query = "UPDATE t_berita SET
@@ -120,8 +107,9 @@ if (isset($_POST["submit"])) {
                     isi_berita                  = '$isi_berita',
                     gambar_berita               = '$gambar', 
                     kategori_berita             = '$kategori_berita',
-                    status_berita               = '$status_berita'
-                           
+                    status_berita               = '$status_berita',
+                    updated_by                  = '$updated_by',
+                    updated_at                  = '$updated_at'
                     WHERE id_berita             = $id_berita
                 ";
     // var_dump($query);
@@ -135,7 +123,7 @@ if (isset($_POST["submit"])) {
         echo "
             <script>
                 alert('Data berhasil diubah!');
-                window.location.href = 'index.php'; 
+                window.location.href = '../berita';
             </script>
         ";
     } else {

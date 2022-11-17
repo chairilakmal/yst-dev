@@ -2,7 +2,6 @@
 session_start();
 include '../../config/connection.php';
 
-
 if (!isset($_SESSION["username"])) {
     header('Location: ../../login.php?status=restrictedaccess');
     exit;
@@ -23,15 +22,6 @@ function upload($image_upload)
     $ukuranFile = $_FILES[$image_upload]['size'];
     $error = $_FILES[$image_upload]['error'];
     $tmpName = $_FILES[$image_upload]['tmp_name'];
-
-    //  if($error === 4){
-    //      echo "
-    //          <script>
-    //              alert('gambar tidak ditemukan !');
-    //          </script>
-    //      ";
-    //      return false;
-    //  }
 
     //cek ekstensi gambar
     $ekstensiGambarValid = ['jpg', 'jpeg', 'png'];
@@ -102,20 +92,16 @@ if (isset($_POST["submit"])) {
 
     $status_meninggal           = $_POST["tb_status_meninggal"];
 
-    $suratKematian_Lama                 = $_POST["suratKematian_Lama"];
+    $suratKematian_Lama         = $_POST["suratKematian_Lama"];
+
+    $updated_by                 = $_SESSION["nama"];
+    $updated_at                 = date('Y-m-d H:i:s');
 
     if ($_FILES['suratKematian_Baru']['error'] === 4) {
         $suratKematian_Baru = $suratKematian_Lama;
     } else {
         $suratKematian_Baru = upload("suratKematian_Baru");
     }
-
-
-    // if (isset($_FILES['image_uploads2'], $_POST['tb_tgl_penyaluran'])) {//do the fields exist
-    //     if($_FILES['image_uploads2'] && $_POST['tb_tgl_penyaluran']){ //do the fields contain data
-    //         $status_berita      = 'Selesai';
-    //     }
-    // }
 
     // GLOBAL UPDATE
     $queryDataKematian = "UPDATE t_meninggal SET
@@ -129,8 +115,9 @@ if (isset($_POST["submit"])) {
                             tempat_pemakaman            = '$tempat_pemakaman',
                             penyebab_kematian           = '$penyebab_kematian',
                             is_valid                    = '$status_meninggal',
-                            file_surat_kematian         = '$suratKematian_Baru'
-                           
+                            file_surat_kematian         = '$suratKematian_Baru',
+                            updated_by                  = '$updated_by',
+                            updated_at                  = '$updated_at'
                             WHERE id_meninggal          = $id_meninggal
                         ";
 
@@ -139,16 +126,6 @@ if (isset($_POST["submit"])) {
     } else {
         $statusAktif = 'y';
     }
-
-
-    // $queryDataUser = "UPDATE t_user SET 
-    //                     status_aktif    = '$statusAktif',
-    //                     is_die          = '$status_meninggal'
-
-    //                     WHERE id_user   = $id_user
-    //                     ";
-    // var_dump($query);
-    // die();
 
     // mysqli_query($conn, $queryDataUser);
     mysqli_query($conn, $queryDataKematian);
@@ -184,9 +161,9 @@ if (isset($_POST["submit"])) {
             <a href="../berita/index.php">
                 <i class="nav-icon fas fa-home mr-1"></i>Dashboard admin</a> >
             <a href="index.php">
-                <i class="nav-icon fas fa-cog mr-1"></i>Kelola Data Wafat</a> >
+                <i class="nav-icon fas fa-cog mr-1"></i>Kelola Data Meninggal</a> >
             <a href="edit.php?id_meninggal=<?= $id_meninggal ?>">
-                <i class="nav-icon fas fa-cog mr-1"></i>Edit Data Wafat</a>
+                <i class="nav-icon fas fa-cog mr-1"></i>Edit Data Meninggal</a>
         </div>
         <div class="form-profil">
             <div class="mt-2 regis-title">

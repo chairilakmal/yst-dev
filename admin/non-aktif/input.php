@@ -119,7 +119,7 @@ if (isset($_POST["submit"])) {
         echo "
             <script>
                 alert('Data berhasil ditambahkan!');
-                window.location.href = '../non-aktif';
+                window.location.href = 'index.php';
             </script>
             ";
     } else {
@@ -176,15 +176,15 @@ if (isset($_POST["submit"])) {
                         </div>
                     </div>
                     <div class="form-group mt-4 mb-3">
-                        <label for="tb_tgl_kematian" class="label-txt">Tanggal Wafat<span class="red-star">*</span></label>
+                        <label for="tb_tgl_kematian" class="label-txt">Tanggal Meninggal<span class="red-star">*</span></label>
                         <input type="date" id="tb_tgl_kematian" name="tb_tgl_kematian" class="form-control">
                     </div>
                     <div class="form-group mt-4 mb-3">
-                        <label for="tb_waktu_kematian" class="label-txt">Waktu Wafat<span class="red-star">*</span></label>
+                        <label for="tb_waktu_kematian" class="label-txt">Waktu Meninggal<span class="red-star">*</span></label>
                         <input type="time" id="tb_waktu_kematian" name="tb_waktu_kematian" class="form-control">
                     </div>
                     <div class="form-group mt-4 mb-3">
-                        <label for="tb_tempat_kematian" class="label-txt">Tempat Wafat<span class="red-star">*</span></label>
+                        <label for="tb_tempat_kematian" class="label-txt">Tempat Meninggal<span class="red-star">*</span></label>
                         <input type="text" id="tb_tempat_kematian" name="tb_tempat_kematian" class="form-control" placeholder="Tempat meninggal" Required>
                     </div>
                     <div class="form-group mt-4 mb-3">

@@ -37,10 +37,11 @@ if (isset($_POST["submit"])) {
     $sumber           = $_POST['tb_sumber'];
     $keterangan       = $_POST['tb_keterangan'];
     $status           = 0;
+    $created_by       = $_SESSION["nama"];
 
 
-    $query = "INSERT INTO  t_lap_keuangan(tanggal,nomor_referensi,nominal,sumber,keterangan,status)
-                VALUES ('$tanggal','$nomorReferensi','$nominal','$sumber','$keterangan','$status')";
+    $query = "INSERT INTO  t_lap_keuangan(tanggal,nomor_referensi,nominal,sumber,keterangan,status, created_by)
+                VALUES ('$tanggal','$nomorReferensi','$nominal','$sumber','$keterangan','$status','$created_by')";
 
     mysqli_query($conn, $query);
     // var_dump($query);die;
@@ -86,7 +87,7 @@ if (isset($_POST["submit"])) {
                 <div class="form-group label-txt">
                     <div class="form-group mt-4 mb-3" id="tb_tanggal">
                         <label for="tb_tanggal" class="label-txt">Tanggal<span class="red-star">*</span></label>
-                        <input type="date" id="tb_tanggal" name="tb_tanggal" Required>
+                        <input type="date" id="tb_tanggal" name="tb_tanggal" class="form-control" value="<?php echo date("Y-m-d"); ?>">
                     </div>
                     <div class="form-group mt-4 mb-3">
                         <label for="tb_nomor_referensi" class="label-num">Nomor Referensi</label>
