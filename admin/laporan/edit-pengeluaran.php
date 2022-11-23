@@ -81,13 +81,15 @@ if (isset($_POST["submit"])) {
     $status           = 1;
 
     $beasiswa_id      = $_POST['tb_beasiswa'] ? $_POST['tb_beasiswa'] : 0;
+    $gambarLama       = $_POST["gambarLama"];
+
     $updated_by       = $_SESSION["nama"];
     $updated_at       = date('Y-m-d H:i:s');
 
-    if ($_FILES['image_uploads']['name'] !== "") {
-        $bukti_transfer   = upload();
+    if ($_FILES['image_uploads']['error'] === 4) {
+        $bukti_transfer = $gambarLama;
     } else {
-        $bukti_transfer   = null;
+        $bukti_transfer = upload();
     }
 
     $query = "UPDATE t_lap_keuangan SET
@@ -95,6 +97,7 @@ if (isset($_POST["submit"])) {
         nominal = '$unmaskedNom',
         sumber  = '$sumber',
         keterangan = '$keterangan',
+        bukti_transfer = '$bukti_transfer',
         updated_by = '$updated_by',
         updated_at = '$updated_at'
         WHERE id_lap_keuangan = $id_lap_keuangan
@@ -143,8 +146,8 @@ if (isset($_POST["submit"])) {
             </div>
             <form action="" enctype="multipart/form-data" method="POST">
                 <label for="tb_tipe_pengeluaran">Tipe Pengeluaran<span class="red-star">*</span></label></label>
+                <input type="hidden" name="gambarLama" value="<?= $lapKeuangan["bukti_transfer"]; ?>">
                 <input type="text" id="tb_tipe_pengeluaran" name="tb_tipe_pengeluaran" class="form-control" value="<?= $lapKeuangan["beasiswa_id"] != 0 ? 'Beasiswa' : 'Umum' ?>" disabled>
-
                 <?php if ($lapKeuangan["beasiswa_id"] != 0) { ?>
                     <div class="form-group mt-4 mb-3" id="tgl_selesai_form">
                         <label for="tb_tipe_pengeluaran">Nama Beasiswa<span class="red-star">*</span></label></label>
@@ -173,7 +176,8 @@ if (isset($_POST["submit"])) {
                     <textarea class="form-control" id="tb_keterangan" name="tb_keterangan" rows="4" placeholder="Keterangan"><?= $lapKeuangan["keterangan"]; ?></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="image_uploads" class="label-txt">Bukti Transfer</label>
+                    <label for="image_uploads" class="label-txt">Bukti Transfer</label><br>
+                    <img src="../../img/<?= $lapKeuangan["bukti_transfer"]; ?>" class="edit-img popup " alt="">
                     <div class="file-form">
                         <input type="file" id="image_uploads" name="image_uploads" class="form-control">
                     </div>
@@ -231,7 +235,22 @@ if (isset($_POST["submit"])) {
         document.querySelector('input[name="tb_nominal"]').value = formatRupiah(value, 'Rp. ');
     }
 </script>
-
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Bukti Transfer </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img src="" id="popup-img" alt="image" class="w-100">
+            </div>
+        </div>
+    </div>
+</div>
 </main>
 </div>
 <!-- /.container-fluid -->
