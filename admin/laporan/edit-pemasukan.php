@@ -46,7 +46,7 @@ if (isset($_POST["submit"])) {
     $tanggal          = $_POST['tb_tanggal'];
     $nomorReferensi   = $_POST['tb_nomor_referensi'];
     $nominal          = $_POST['tb_nominal'];
-    $unmaskedNom  = preg_replace('/[^0-9\-]/', '', $nominal);
+    $unmaskedNom      = preg_replace('/[^0-9\-]/', '', $nominal);
     $sumber           = $_POST['tb_sumber'];
     $keterangan       = $_POST['tb_keterangan'];
     $updated_by       = $_SESSION["nama"];
@@ -115,7 +115,7 @@ if (isset($_POST["submit"])) {
                         </div>
                         <div class="form-group mt-4 mb-3">
                             <label for="tb_nomor_referensi" class="label-num">Nomor Referensi</label>
-                            <input type="number" lang="en" id="tb_nomor_referensi" name="tb_nomor_referensi" class="form-control" placeholder="Masukan nomor referensi" value="<?= $lapKeuangan["nomor_referensi"]; ?>">
+                            <input type="text" lang="en" id="tb_nomor_referensi" name="tb_nomor_referensi" class="form-control" placeholder="Masukan nomor referensi" value="<?= $lapKeuangan["nomor_referensi"]; ?>">
                         </div>
                         <div class="form-group mt-4 mb-3">
                             <label for="tb_nominal" class="label-num">Nominal<span class="red-star">*</span></label>

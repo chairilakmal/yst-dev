@@ -87,14 +87,14 @@ if (isset($_POST["submit"])) {
     if (mysqli_affected_rows($conn) > 0) {
         echo "
             <script>
-                alert('Data berhasil diubah !');
+                alert('Beasiswa berhasil di approve !');
                 window.location.href = '../beasiswa'; 
             </script>
             ";
     } else {
         echo "
                 <script>
-                    alert('Data gagal diubah !');
+                    alert('Beasiswa gagal di approve !');
                 </script>
             ";
     }

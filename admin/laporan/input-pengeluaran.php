@@ -44,28 +44,10 @@ function upload()
     $error = $_FILES['image_uploads']['error'];
     $tmpName = $_FILES['image_uploads']['tmp_name'];
 
-    //  if($error === 4){
-    //      echo "
-    //          <script>
-    //              alert('gambar tidak ditemukan !');
-    //          </script>
-    //      ";
-    //      return false;
-    //  }
-
     //cek ekstensi gambar
     $ekstensiGambarValid = ['jpg', 'jpeg', 'png'];
     $ekstensiGambar = explode('.', $namaFile);
     $ekstensiGambar = strtolower(end($ekstensiGambar));
-
-    // if (!in_array($ekstensiGambar, $ekstensiGambarValid)) {
-    //     echo "
-    //                  <script>
-    //                      alert('kesalahan pada format gambar !');
-    //                  </script>
-    //              ";
-    //     return false;
-    // }
 
     //generate nama baru
     $namaFileBaru = uniqid();
@@ -89,8 +71,10 @@ if (isset($_POST["submit"])) {
 
     if ($tipe == 1) {
         $nominal      = $_POST['tb_nominal'];
+        $unmaskedNom  = preg_replace('/[^0-9\-]/', '', $nominal);
     } else {
         $nominal      = $_POST['tb_nominal_beasiswa'];
+        $unmaskedNom  = preg_replace('/[^0-9\-]/', '', $nominal);
     }
 
     $sumber           = $_POST['tb_sumber'] ? $_POST['tb_sumber'] : 'Kas';
@@ -122,7 +106,7 @@ if (isset($_POST["submit"])) {
         created_by)
             VALUES (
                 '$tanggal', 
-                '$nominal',
+                '$unmaskedNom',
                 '$sumber',
                 '$keterangan',
                 '$beasiswa_id',
@@ -197,12 +181,12 @@ if (isset($_POST["submit"])) {
                 <!-- Nominal Umum -->
                 <div id="nominal_umum" class="form-group mt-4 mb-3">
                     <label for="tb_nominal" class="label-num">Nominal<span class="red-star">*</span></label>
-                    <input type="number" id="tb_nominal" name="tb_nominal" class="form-control" placeholder="Masukan nominal pengeluaran" value="">
+                    <input type="text" id="tb_nominal" name="tb_nominal" class="form-control" placeholder="Masukan nominal pengeluaran" value="" onkeyup="handleNominal()">
                 </div>
                 <!-- Nominal Beasiswa -->
                 <div id="nominal_beasiswa" class="form-group mt-4 mb-3 d-none">
                     <label for="tb_nominal_beasiswa" class="label-num">Nominal Beasiswa<span class="red-star">*</span></label>
-                    <input type="number" id="tb_nominal_beasiswa" name="tb_nominal_beasiswa" class="form-control" placeholder="Masukan nominal pengeluaran" readonly>
+                    <input type="text" id="tb_nominal_beasiswa" name="tb_nominal_beasiswa" class="form-control" placeholder="Masukan nominal pengeluaran" readonly>
                 </div>
 
                 <div class="form-group">
@@ -233,7 +217,29 @@ if (isset($_POST["submit"])) {
     var nominalUmum = document.getElementById("nominal_umum");
     var nominalBeasiswa = document.getElementById("nominal_beasiswa");
 
+    function formatRupiah(angka, prefix) {
+        var number_string = angka.toString().replace(/[^,\d]/g, ''),
+            split = number_string.split(','),
+            sisa = split[0].length % 3,
+            rupiah = split[0].substr(0, sisa),
+            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+        if (ribuan) {
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+        return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+    }
+
+    function handleNominal() {
+        var value = document.getElementById("tb_nominal").value;
+        console.log(formatRupiah(value, 'Rp. '))
+        document.querySelector('input[name="tb_nominal"]').value = formatRupiah(value, 'Rp. ');
+    }
+
     function handleType() {
+        document.querySelector('input[name="tb_nominal"]').value = 0;
         if (fieldType.value == 2) {
             fieldBeasiswa.classList.remove("d-none");
             nominalUmum.classList.add("d-none");
@@ -247,8 +253,7 @@ if (isset($_POST["submit"])) {
 
     function handleBeasiswa() {
         let _this = parseInt(selectBeasiswa.options[selectBeasiswa.selectedIndex].dataset["nominal"]);
-        document.querySelector('input[name="tb_nominal_beasiswa"]').value = _this;
-        console.log(_this)
+        document.querySelector('input[name="tb_nominal_beasiswa"]').value = formatRupiah(_this, 'Rp. ');
     }
 </script>
 

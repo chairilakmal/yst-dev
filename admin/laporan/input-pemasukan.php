@@ -12,8 +12,6 @@ if ($_SESSION["level_user"] == 4) {
     exit;
 }
 
-
-
 function query($query)
 {
     global $conn;
@@ -25,15 +23,12 @@ function query($query)
     return $rows;
 }
 
-
-
-
-
 if (isset($_POST["submit"])) {
 
     $tanggal          = $_POST['tb_tanggal'];
     $nomorReferensi   = $_POST['tb_nomor_referensi'];
     $nominal          = $_POST['tb_nominal'];
+    $unmaskedNom      = preg_replace('/[^0-9\-]/', '', $nominal);
     $sumber           = $_POST['tb_sumber'];
     $keterangan       = $_POST['tb_keterangan'];
     $status           = 0;
@@ -41,7 +36,7 @@ if (isset($_POST["submit"])) {
 
 
     $query = "INSERT INTO  t_lap_keuangan(tanggal,nomor_referensi,nominal,sumber,keterangan,status, created_by)
-                VALUES ('$tanggal','$nomorReferensi','$nominal','$sumber','$keterangan','$status','$created_by')";
+                VALUES ('$tanggal','$nomorReferensi','$unmaskedNom','$sumber','$keterangan','$status','$created_by')";
 
     mysqli_query($conn, $query);
     // var_dump($query);die;
@@ -91,11 +86,11 @@ if (isset($_POST["submit"])) {
                     </div>
                     <div class="form-group mt-4 mb-3">
                         <label for="tb_nomor_referensi" class="label-num">Nomor Referensi</label>
-                        <input type="number" id="tb_nomor_referensi" name="tb_nomor_referensi" class="form-control" placeholder="Masukan nomor referensi">
+                        <input type="text" id="tb_nomor_referensi" name="tb_nomor_referensi" class="form-control" placeholder="Masukan nomor referensi">
                     </div>
                     <div class="form-group mt-4 mb-3">
                         <label for="tb_nominal" class="label-num">Nominal<span class="red-star">*</span></label>
-                        <input type="number" id="tb_nominal" name="tb_nominal" class="form-control" placeholder="Masukan nominal pemasukan" Required>
+                        <input type="text" id="tb_nominal" name="tb_nominal" class="form-control" placeholder="Masukan nominal pemasukan" onkeyup="handleNominal()" Required>
                     </div>
                     <div class="form-group">
                         <label for="tb_sumber" class="label-txt">Sumber Dana<span class="red-star">*</span></label>
@@ -113,6 +108,28 @@ if (isset($_POST["submit"])) {
         </button>
         </form>
 </div>
+<script>
+    function formatRupiah(angka, prefix) {
+        var number_string = angka.toString().replace(/[^,\d]/g, ''),
+            split = number_string.split(','),
+            sisa = split[0].length % 3,
+            rupiah = split[0].substr(0, sisa),
+            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+        if (ribuan) {
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+        return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+    }
+
+    function handleNominal() {
+        var value = document.getElementById("tb_nominal").value;
+        console.log(formatRupiah(value, 'Rp. '))
+        document.querySelector('input[name="tb_nominal"]').value = formatRupiah(value, 'Rp. ');
+    }
+</script>
 </main>
 </div>
 <!-- /.container-fluid -->
