@@ -46,6 +46,7 @@ if (isset($_POST["submit"])) {
     $tanggal          = $_POST['tb_tanggal'];
     $nomorReferensi   = $_POST['tb_nomor_referensi'];
     $nominal          = $_POST['tb_nominal'];
+    $unmaskedNom  = preg_replace('/[^0-9\-]/', '', $nominal);
     $sumber           = $_POST['tb_sumber'];
     $keterangan       = $_POST['tb_keterangan'];
     $updated_by       = $_SESSION["nama"];
@@ -55,7 +56,7 @@ if (isset($_POST["submit"])) {
     $query = "UPDATE t_lap_keuangan SET
         tanggal         = '$tanggal',
         nomor_referensi = '$nomorReferensi',
-        nominal         = '$nominal',
+        nominal         = '$unmaskedNom',
         sumber          = '$sumber',
         keterangan      = '$keterangan',
         updated_by      = '$updated_by',
@@ -101,18 +102,13 @@ if (isset($_POST["submit"])) {
         </div>
         <div class="form-profil">
             <div class="mt-2 regis-title">
-                <h3>Edit</h3>
+                <h3>Edit Pemasukan</h3>
             </div>
             <form action="" enctype="multipart/form-data" method="POST">
                 <input type="hidden" name="id_lap_keuangan" value="<?= $lapKeuangan["id_lap_keuangan"]; ?>">
                 <input type="hidden" name="status" value="<?= $lapKeuangan["status"]; ?>">
                 <div class="form-group label-txt">
                     <div class="form-group mt-4 mb-3">
-                        <!-- <div class="form-group">
-                            <label for="tb_sumber" class="label-txt">Tipe Pengeluaran<span class="red-star">*</span></label>
-                            <textarea class="form-control" id="tb_tipe_pengeluaran" name="tb_tipe_pengeluaran" rows="1" disabled Required>
-                                
-                        </div> -->
                         <div class="form-group mt-4 mb-3">
                             <label for="tb_tanggal" class="label-txt">Tanggal<span class="red-star">*</span></label>
                             <input type="date" id="tb_tanggal" name="tb_tanggal" class="form-control" value="<?= $lapKeuangan["tanggal"]; ?>" Required>
@@ -123,7 +119,7 @@ if (isset($_POST["submit"])) {
                         </div>
                         <div class="form-group mt-4 mb-3">
                             <label for="tb_nominal" class="label-num">Nominal<span class="red-star">*</span></label>
-                            <input type="number" lang="en" id="tb_nominal" name="tb_nominal" class="form-control" placeholder="Masukkan Nominal" value="<?= $lapKeuangan["nominal"]; ?>" Required>
+                            <input type="text" lang="en" id="tb_nominal" name="tb_nominal" class="form-control" placeholder="Masukkan Nominal" value="<?= rupiah($lapKeuangan["nominal"]); ?>" onkeyup="handleNominal()" Required>
                         </div>
                         <div class="form-group">
                             <label for="tb_sumber" class="label-txt">Sumber Dana<span class="red-star">*</span></label>
@@ -140,6 +136,28 @@ if (isset($_POST["submit"])) {
                 </button>
             </form>
         </div>
+        <script>
+            function formatRupiah(angka, prefix) {
+                var number_string = angka.toString().replace(/[^,\d]/g, ''),
+                    split = number_string.split(','),
+                    sisa = split[0].length % 3,
+                    rupiah = split[0].substr(0, sisa),
+                    ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+                if (ribuan) {
+                    separator = sisa ? '.' : '';
+                    rupiah += separator + ribuan.join('.');
+                }
+                rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+                return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+            }
+
+            function handleNominal() {
+                var value = document.getElementById("tb_nominal").value;
+                console.log(formatRupiah(value, 'Rp. '))
+                document.querySelector('input[name="tb_nominal"]').value = formatRupiah(value, 'Rp. ');
+            }
+        </script>
     </main>
 </div>
 <!-- /.container-fluid -->
