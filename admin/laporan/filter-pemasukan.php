@@ -163,7 +163,7 @@ $totalNominal = query("SELECT SUM(nominal) AS total_nominal FROM t_lap_keuangan 
 
                                             <td class="justify-content-center">
                                                 <button type="button" class="btn btn-edit">
-                                                    <a href="edit.php?id_lap_keuangan=<?= $row["id_lap_keuangan"]; ?>" class="fas fa-edit"></a>
+                                                    <a href="edit-pemasukan.php?id_lap_keuangan=<?= $row["id_lap_keuangan"]; ?>" class="fas fa-edit"></a>
                                                 </button>
                                                 <button type="button" class="btn btn-delete ml-1">
                                                     <a href="../../hapus.php?type=laporanbulanan&id_lap_keuangan=<?= $row["id_lap_keuangan"]; ?>" class="far fa-trash-alt" onclick="return confirm('Anda yakin ingin menghapus data ini ?');"></a>

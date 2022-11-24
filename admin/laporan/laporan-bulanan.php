@@ -42,7 +42,7 @@ $totalNominal = $totalPemasukan - $totalPengeluaran;
 if ($totalNominal < 0) {
     $totalNominal = explode('-', $totalNominal)[1];
     $totalNominal = rupiah($totalNominal);
-    $totalNominal = "mis: ( $totalNominal )";
+    $totalNominal = "( $totalNominal )";
 } else {
     $totalNominal = rupiah($totalNominal);
 }

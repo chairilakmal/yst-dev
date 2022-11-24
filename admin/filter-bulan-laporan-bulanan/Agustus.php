@@ -39,9 +39,27 @@ function query($query)
 
 $laporanKeuangan = query("SELECT * FROM t_lap_keuangan WHERE MONTHNAME(tanggal)='August' ORDER BY id_lap_keuangan DESC");
 
+$queryPemasukan = query(
+    "SELECT SUM(nominal) AS total_nominal 
+                 FROM t_lap_keuangan WHERE status = 0 AND MONTHNAME(tanggal)='August'"
+);
+$queryPengeluaran = query(
+    "SELECT SUM(nominal) AS total_nominal 
+                 FROM t_lap_keuangan WHERE status = 1 AND MONTHNAME(tanggal)='August'"
+);
 
+$totalPemasukan = intval($queryPemasukan[0]["total_nominal"]);
+$totalPengeluaran = intval($queryPengeluaran[0]["total_nominal"]);
+$totalNominal = $totalPemasukan - $totalPengeluaran;
 
-$totalNominal = query("SELECT SUM(nominal) AS total_nominal FROM t_lap_keuangan WHERE MONTHNAME(tanggal)='August'");
+if ($totalNominal < 0) {
+    $totalNominal = explode('-', $totalNominal)[1];
+    $totalNominal = rupiah($totalNominal);
+    $totalNominal = "( $totalNominal )";
+} else {
+    $totalNominal = rupiah($totalNominal);
+}
+
 
 
 
@@ -162,9 +180,16 @@ $totalNominal = query("SELECT SUM(nominal) AS total_nominal FROM t_lap_keuangan 
                                                 } ?></td>
 
                                             <td class="justify-content-center">
-                                                <button type="button" class="btn btn-edit">
-                                                    <a href="../laporan/edit.php?id_lap_keuangan=<?= $row["id_lap_keuangan"]; ?>" class="fas fa-edit"></a>
-                                                </button>
+                                                <?php if ($row["status"] == 0) { ?>
+                                                    <button type="button" class="btn btn-edit">
+                                                        <a href="../laporan/edit-pemasukan.php?id_lap_keuangan=<?= $row["id_lap_keuangan"]; ?>" class="fas fa-edit"></a>
+                                                    </button>
+                                                <?php } else { ?>
+                                                    <button type="button" class="btn btn-edit">
+                                                        <a href="../laporan/edit-pengeluaran.php?id_lap_keuangan=<?= $row["id_lap_keuangan"]; ?>" class="fas fa-edit"></a>
+                                                    </button>
+                                                <?php } ?>
+
                                                 <button type="button" class="btn btn-delete ml-1">
                                                     <a href="../../hapus.php?type=laporanbulanan&id_lap_keuangan=<?= $row["id_lap_keuangan"]; ?>" class="far fa-trash-alt" onclick="return confirm('Anda yakin ingin menghapus data ini ?');"></a>
                                                 </button>
@@ -183,16 +208,14 @@ $totalNominal = query("SELECT SUM(nominal) AS total_nominal FROM t_lap_keuangan 
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($totalNominal as $row) : ?>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td class="justify-content-center"><?= rupiah($row["total_nominal"]); ?></td>
-                                        </tr>
-                                    <?php endforeach; ?>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="justify-content-center"><?= $totalNominal ?></td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>

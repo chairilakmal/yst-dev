@@ -175,11 +175,26 @@ if (isset($_POST["submit"])) {
                     <label for="tb_keterangan" class="label-txt">Keterangan</label>
                     <textarea class="form-control" id="tb_keterangan" name="tb_keterangan" rows="4" placeholder="Keterangan"><?= $lapKeuangan["keterangan"]; ?></textarea>
                 </div>
+
                 <div class="form-group">
-                    <label for="image_uploads" class="label-txt">Bukti Transfer</label><br>
-                    <img src="../../img/<?= $lapKeuangan["bukti_transfer"]; ?>" class="edit-img popup " alt="">
-                    <div class="file-form">
-                        <input type="file" id="image_uploads" name="image_uploads" class="form-control">
+                    <div class="row" style="margin-left: 1px;"> <label for="image_uploads" class="label-txt"> Bukti Transfer </label>
+                    </div>
+                    <div class="row ml-2">
+                        <img src="../../img/<?= $lapKeuangan["bukti_transfer"]; ?>" class="edit-img popup " alt="">
+                    </div>
+                    <div class="row ml-2"><?= $lapKeuangan["bukti_transfer"]; ?></div>
+
+                    <div class="row ml-2 mt-2">
+                        <a href="../../img/<?= $lapKeuangan["bukti_transfer"]; ?>" target="_blank">
+                            <div class="handle-file-unduh"> Lihat</div>
+                        </a>
+
+                        <div class="handle-file-ubah ml-3" onclick="handleUbahFile()"> Ubah </div>
+
+                    </div>
+
+                    <div class="file-form d-none" id="file-form">
+                        <br><input type="file" id="image_uploads" name="image_uploads" class="form-control ">
                     </div>
                 </div>
         </div>
@@ -233,6 +248,12 @@ if (isset($_POST["submit"])) {
         var value = document.getElementById("tb_nominal").value;
         console.log(formatRupiah(value, 'Rp. '))
         document.querySelector('input[name="tb_nominal"]').value = formatRupiah(value, 'Rp. ');
+    }
+
+    function handleUbahFile() {
+        var uploadForm = document.getElementById("file-form");
+        uploadForm.classList.toggle("d-none");
+        // uploadForm.classList.add("d-none");
     }
 </script>
 <!-- Modal -->
