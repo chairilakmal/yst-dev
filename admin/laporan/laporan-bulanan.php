@@ -2,28 +2,19 @@
 
 session_start();
 include '../../config/connection.php';
-
 if (!isset($_SESSION["username"])) {
     header('Location: ../../login.php?status=restrictedaccess');
     exit;
 }
-
 if ($_SESSION["level_user"] == 4) {
     header('Location: ../../user/dashboard-donasi/dashboard-user.php');
     exit;
 }
-
-
-
-
 function rupiah($angka)
 {
     $hasil_rupiah = "Rp. " . number_format($angka, 0, '.', '.');
     return $hasil_rupiah;
 }
-
-
-
 function query($query)
 {
     global $conn;
@@ -34,15 +25,27 @@ function query($query)
     }
     return $rows;
 }
-
-
-
 $laporanKeuangan = query("SELECT * FROM t_lap_keuangan ORDER BY id_lap_keuangan DESC");
+$queryPemasukan = query(
+    "SELECT SUM(nominal) AS total_nominal 
+                 FROM t_lap_keuangan WHERE status = 0"
+);
+$queryPengeluaran = query(
+    "SELECT SUM(nominal) AS total_nominal 
+                 FROM t_lap_keuangan WHERE status = 1"
+);
 
-$totalNominal = query("SELECT SUM(nominal) AS total_nominal FROM t_lap_keuangan");
+$totalPemasukan = intval($queryPemasukan[0]["total_nominal"]);
+$totalPengeluaran = intval($queryPengeluaran[0]["total_nominal"]);
+$totalNominal = $totalPemasukan - $totalPengeluaran;
 
-
-
+if ($totalNominal < 0) {
+    $totalNominal = explode('-', $totalNominal)[1];
+    $totalNominal = rupiah($totalNominal);
+    $totalNominal = "mis: ( $totalNominal )";
+} else {
+    $totalNominal = rupiah($totalNominal);
+}
 
 
 ?>
@@ -68,7 +71,6 @@ $totalNominal = query("SELECT SUM(nominal) AS total_nominal FROM t_lap_keuangan"
                                     <a class="btn btn-info  filter-btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Status
                                     </a>
-
                                     <div class="dropdown-menu green-drop" aria-labelledby="dropdownMenuLink">
                                         <a class="dropdown-item" href="filter-pemasukan.php">Pemasukan</a>
                                         <a class="dropdown-item" href="filter-pengeluaran.php">Pengeluaran</a>
@@ -99,7 +101,7 @@ $totalNominal = query("SELECT SUM(nominal) AS total_nominal FROM t_lap_keuangan"
 
                                         <div class="dropdown-menu green-drop" aria-labelledby="dropdownMenuLink">
                                             <a class="dropdown-item" href="../filter-bulan-laporan-bulanan/Januari.php">Januari</a>
-                                            <a class="dropdown-item" href="../filter-bulan-laporan-bulanan/Ferbuari.php">Ferbuari</a>
+                                            <a class="dropdown-item" href="../filter-bulan-laporan-bulanan/Februari.php">Februari</a>
                                             <a class="dropdown-item" href="../filter-bulan-laporan-bulanan/Maret.php">Maret</a>
                                             <a class="dropdown-item" href="../filter-bulan-laporan-bulanan/April.php">April</a>
                                             <a class="dropdown-item" href="../filter-bulan-laporan-bulanan/Mei.php">Mei</a>
@@ -190,16 +192,16 @@ $totalNominal = query("SELECT SUM(nominal) AS total_nominal FROM t_lap_keuangan"
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($totalNominal as $row) : ?>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td class="justify-content-center"><?= rupiah($row["total_nominal"]); ?></td>
-                                        </tr>
-                                    <?php endforeach; ?>
+
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="justify-content-center"><?= $totalNominal; ?></td>
+                                    </tr>
+
                                 </tbody>
                             </table>
                         </div>

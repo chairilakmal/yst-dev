@@ -15,27 +15,19 @@ if ($_SESSION["level_user"] == 4) {
 //ambil id program di URL
 $id_meninggal = $_GET["id_meninggal"];
 
-function upload($image_upload)
+function upload($suratKematian_Baru)
 {
     //upload gambar
-    $namaFile = $_FILES[$image_upload]['name'];
-    $ukuranFile = $_FILES[$image_upload]['size'];
-    $error = $_FILES[$image_upload]['error'];
-    $tmpName = $_FILES[$image_upload]['tmp_name'];
+    $namaFile = $_FILES[$suratKematian_Baru]['name'];
+    $ukuranFile = $_FILES[$suratKematian_Baru]['size'];
+    $error = $_FILES[$suratKematian_Baru]['error'];
+    $tmpName = $_FILES[$suratKematian_Baru]['tmp_name'];
 
     //cek ekstensi gambar
     $ekstensiGambarValid = ['jpg', 'jpeg', 'png'];
     $ekstensiGambar = explode('.', $namaFile);
     $ekstensiGambar = strtolower(end($ekstensiGambar));
 
-    if (!in_array($ekstensiGambar, $ekstensiGambarValid)) {
-        echo "
-                     <script>
-                         alert('kesalahan pada format gambar !');
-                     </script>
-                 ";
-        return false;
-    }
 
     //generate nama baru
     $namaFileBaru = uniqid();
@@ -68,9 +60,6 @@ $selectNIK = query("SELECT * FROM t_user
 
 $dataKematian = query(" SELECT * FROM t_meninggal
                         WHERE id_meninggal = $id_meninggal")[0];
-
-// var_dump($berita);
-// die;
 
 //UPDATE
 if (isset($_POST["submit"])) {
@@ -220,22 +209,26 @@ if (isset($_POST["submit"])) {
                     </div>
 
                     <div class="form-group">
-                        <label for="suratKematian_Baru" class="label-txt"> Surat Keterangan Kematian </label><br>
-                        <img src="../../img/<?= $dataKematian["file_surat_kematian"]; ?>" class="edit-img popup " alt="">
-                        <div class="file-form">
+                        <div class="row" style="margin-left: 1px;"> <label for="suratKematian_Baru" class="label-txt"> Surat Keterangan Kematian </label>
+                        </div>
+                        <div class="row ml-2">
+                            <img src="../../img/<?= $dataKematian["file_surat_kematian"]; ?>" class="edit-img popup " alt="">
+                        </div>
+                        <div class="row ml-2"><?= $dataKematian["file_surat_kematian"]; ?></div>
+
+                        <div class="row ml-2 mt-2">
+                            <a href="../../img/<?= $dataKematian["file_surat_kematian"]; ?>" target="_blank">
+                                <div class="handle-file-unduh"> Lihat</div>
+                            </a>
+
+                            <div class="handle-file-ubah ml-3" onclick="handleUbahFile()"> Ubah </div>
+
+                        </div>
+
+                        <div class="file-form d-none" id="file-form">
                             <br><input type="file" id="suratKematian_Baru" name="suratKematian_Baru" class="form-control ">
                         </div>
                     </div>
-                    <!-- <div class="form-group">
-                                <div class="row">
-                                    <div class="col-lg-4">
-                                        <button type="submit" name="submit" value="Simpan" class="btn btn-lg btn-primary w-100 yst-login-btn border-0 mt-4 mb-4">
-                                            <span class="yst-login-btn-fs">Approve Data</span>
-                                        </button>
-                                    </div>
-
-                                </div>
-                            </div> -->
                     <div class="form-group mb-5">
                         <label for="tb_status_meninggal" class="font-weight-bold"><span class="label-form-span">Status Approval </span></label><br>
                         <div class="radio-wrapper mt-1 bg-white">
@@ -274,6 +267,13 @@ if (isset($_POST["submit"])) {
         </div>
     </div>
 </div>
+<script>
+    function handleUbahFile() {
+        var uploadForm = document.getElementById("file-form");
+        uploadForm.classList.toggle("d-none");
+        // uploadForm.classList.add("d-none");
+    }
+</script>
 </main>
 </div>
 <!-- /.container-fluid -->

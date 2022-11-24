@@ -14,7 +14,7 @@ $backUrl = parse_url($url, PHP_URL_PATH);
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Icon Title -->
-    <!-- <link rel="icon" href="../img/logo-only.svg"> -->
+    <link rel="icon" href="../../img/YST-title.png">
     <title>Yayasan Sekar Telkom</title>
     <!-- Font Awesome
     <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css"> -->

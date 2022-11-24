@@ -94,7 +94,7 @@ if (isset($_POST["submit"])) {
                     </div>
                     <div class="form-group">
                         <label for="tb_sumber" class="label-txt">Sumber Dana<span class="red-star">*</span></label>
-                        <textarea class="form-control" id="tb_sumber" name="tb_sumber" placeholder="Masukkan sumber dana" Required></textarea>
+                        <textarea class="form-control" id="tb_sumber" name="tb_sumber" placeholder="Masukkan sumber dana"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="tb_keterangan" class="label-txt">Keterangan</label>

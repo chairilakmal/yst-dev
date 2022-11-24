@@ -673,9 +673,26 @@ max-width: 40px;
   border-radius: 4px;
   padding: 10px 10px;
 }
-
-.cs-modal-footer{
-
+.handle-file-unduh{
+  background: rgb(147, 16, 23);
+  background: linear-gradient(45deg, rgba(147, 16, 23, 1) 0%, rgba(229, 19, 29, 1) 100%);
+  font-family: "Quicksand", sans-serif;
+  color: white;
+  padding: 4px 16px;
+  border-radius: 4px;
+}
+.handle-file-unduh a{
+  color: white;
+}
+.handle-file-ubah a{
+  color: rgb(147, 16, 23);
+}
+.handle-file-ubah{
+  border: 1px solid rgb(147, 16, 23);
+  font-family: "Quicksand", sans-serif;
+  color: rgb(147, 16, 23);
+  padding: 4px 8px;
+  border-radius: 4px;
 }
 
 @media only screen and (max-width: 1200px) {

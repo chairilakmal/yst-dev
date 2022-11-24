@@ -25,12 +25,16 @@ function query($query)
     return $rows;
 }
 
-$userQuery = query("SELECT * FROM t_meninggal
-                   
-                    ORDER BY id_meninggal DESC                
-                    ");
+$currentWilayah = $_SESSION["wilayah_id"];
 
-// $userQuery = query("SELECT * FROM t_meninggal          ");
+if ($_SESSION["level_user"] == '1' || $_SESSION["level_user"] == '2a' || $_SESSION["level_user"] == '2b') {
+    $userQuery = query("SELECT * FROM t_meninggal ORDER BY id_meninggal DESC");
+} else {
+    $userQuery = query("SELECT * FROM 
+    t_meninggal ORDER BY id_meninggal 
+    WHERE wilayah_id = $currentWilayah    
+    DESC");
+}
 
 ?>
 <?php include '../../component/admin/header.php'; ?>

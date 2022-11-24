@@ -34,7 +34,7 @@ function rupiah($angka)
 
 $currentWilayah = $_SESSION["wilayah_id"];
 
-if ($_SESSION["level_user"] == '2a' || $_SESSION["level_user"] == '2b') {
+if ($_SESSION["level_user"] == '1' || $_SESSION["level_user"] == '2a' || $_SESSION["level_user"] == '2b') {
     $getBeasiswa = query("SELECT * FROM t_beasiswa
                    LEFT JOIN t_meninggal ON t_beasiswa.user_nik = t_meninggal.nik      
                    ORDER BY t_beasiswa.is_approve ASC     
@@ -46,10 +46,6 @@ if ($_SESSION["level_user"] == '2a' || $_SESSION["level_user"] == '2b') {
                    ORDER BY t_beasiswa.is_approve ASC        
                     ");
 }
-
-// var_dump($getBeasiswa);
-// die;
-// $getBeasiswa = query("SELECT * FROM t_beasiswa");
 
 
 
