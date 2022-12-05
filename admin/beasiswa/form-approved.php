@@ -168,6 +168,8 @@ if (isset($_POST["submit"])) {
                                     <div class="col">
                                         <input type="text" id="tb_nominal<?= $x ?>" name="tb_nominal<?= $x ?>" class="form-control" value="<?= rupiah($beasiswa["nominal_$x"]); ?>" onchange="handleNominal()" disabled>
                                     </div>
+                                    <div class="col"><input type="text" id="tb_nama_bank<?= $x ?>" name="tb_nama_bank<?= $x ?>" class="form-control" value="<?= $beasiswa["nama_bank$x"]; ?>" disabled></div>
+                                    <div class="col"><input type="text" id="tb_noRekening<?= $x ?>" name="tb_noRekening<?= $x ?>" class="form-control" value="<?= $beasiswa["nomor_rekening$x"]; ?>" disabled></div>
                                     <!-- <div class="append-action">                        
                                     <button type="button" onclick="removeField?=$x?>()">-</button>                       
                                 </div> -->
@@ -185,6 +187,24 @@ if (isset($_POST["submit"])) {
                     <div class="form-group mt-4 mb-3">
                         <label for="tb_nominal" class="label-txt">Nominal<span class="red-star">*</span></label>
                         <input type="text" id="tb_nominal" name="tb_nominal" class="form-control" placeholder="Masukan Nominal beasiswa" value="<?= rupiah($beasiswa["total_nominal"]); ?>" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row" style="margin-left: 1px;"> <label for="fileKK_Baru" class="label-txt"> File Kartu Keluarga </label>
+                        </div>
+                        <div class="row ml-2">
+                            <img src="../../img/<?= $beasiswa["file_kk"]; ?>" class="edit-img popup " alt="">
+                        </div>
+                        <div class="row ml-2"><?= $beasiswa["file_kk"]; ?></div>
+
+                        <div class="row ml-2 mt-2">
+                            <a href="../../img/<?= $beasiswa["file_kk"]; ?>" target="_blank">
+                                <div class="handle-file-unduh"> Lihat</div>
+                            </a>
+                        </div>
+                        <div class="file-form d-none" id="file-form">
+                            <br><input type="file" id="fileKK_Baru" name="fileKK_Baru" class="form-control ">
+                        </div>
                     </div>
 
                     <div class="form-group">

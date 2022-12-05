@@ -16,6 +16,32 @@ if ($_SESSION["level_user"] == 4) {
 //ambil id program di URL
 $id_beasiswa = $_GET["id_beasiswa"];
 
+function upload($fileKK_Baru)
+{
+    //upload gambar
+    $namaFile = $_FILES[$fileKK_Baru]['name'];
+    $ukuranFile = $_FILES[$fileKK_Baru]['size'];
+    $error = $_FILES[$fileKK_Baru]['error'];
+    $tmpName = $_FILES[$fileKK_Baru]['tmp_name'];
+
+    //cek ekstensi gambar
+    $ekstensiGambarValid = ['jpg', 'jpeg', 'png'];
+    $ekstensiGambar = explode('.', $namaFile);
+    $ekstensiGambar = strtolower(end($ekstensiGambar));
+
+
+    //generate nama baru
+    $namaFileBaru = uniqid();
+    $namaFileBaru .= '.';
+    $namaFileBaru .= $ekstensiGambar;
+
+
+    //lolos pengecekan
+    move_uploaded_file($tmpName, '../../img/' . $namaFileBaru);
+
+    return $namaFileBaru;
+}
+
 function rupiah($angka)
 {
     $hasil_rupiah = "Rp. " . number_format($angka, 0, '.', '.');
@@ -90,21 +116,39 @@ if (isset($_POST["submit"])) {
     $approved_at       = date('Y-m-d H:i:s');
     $approved_by       = $_SESSION["nama"];
 
-    if ($beasiswa['is_approve'] == 1) {
-        $query = "UPDATE t_beasiswa SET 
-        is_approve          = '$status_beasiswa',
-        approved_at         = '$approved_at',   
-        approved_by         = '$approved_by'         
-        WHERE id_beasiswa     = $id_beasiswa
-        ";
+    $nama_bank1        = $_POST["tb_nama_bank1"];
+    $nama_bank2        = $_POST["tb_nama_bank2"];
+    $nama_bank3        = $_POST["tb_nama_bank3"];
+
+    $nomor_rekening1   = $_POST["tb_noRekening1"] ? $_POST["tb_noRekening1"] : 0;
+    $nomor_rekening2   = $_POST["tb_noRekening2"] ? $_POST["tb_noRekening2"] : 0;
+    $nomor_rekening3   = $_POST["tb_noRekening3"] ? $_POST["tb_noRekening3"] : 0;
+
+
+    $fileKK_Lama    = $_POST["fileKK_Lama"];
+
+    if ($_FILES['fileKK_Baru']['error'] === 4) {
+        $fileKK_Baru = $fileKK_Lama;
     } else {
-        $query = "UPDATE t_beasiswa SET
+        $fileKK_Baru = upload("fileKK_Baru");
+    }
+
+
+    $query = "UPDATE t_beasiswa SET
+        keterangan          = '$keterangan',
+        file_kk             = '$fileKK_Baru',
+        nama_bank1          = '$nama_bank1',        
+        nama_bank2          = '$nama_bank2',
+        nama_bank3          = '$nama_bank3',
+        nomor_rekening1     = '$nomor_rekening1',   
+        nomor_rekening2     = '$nomor_rekening2',
+        nomor_rekening3     = '$nomor_rekening3',
         is_approve          = '$status_beasiswa',
         approved_at         = '$approved_at',   
         approved_by         = '$approved_by'             
         WHERE id_beasiswa   = $id_beasiswa
         ";
-    }
+
 
     mysqli_query($conn, $query);
     // var_dump($query);
@@ -148,6 +192,7 @@ if (isset($_POST["submit"])) {
             </div>
             <form action="" enctype="multipart/form-data" method="POST">
                 <input type="hidden" name="updated_by" value="<?= $_SESSION["nama"] ?>">
+                <input type="hidden" name="fileKK_Lama" value="<?= $beasiswa["file_kk"]; ?>">
                 <div class="form-group label-txt">
                     <div class="form-group mt-4 mb-3" id="tgl_selesai_form">
                         <label for="tb_tgl_beasiswa" class="label-txt">Tanggal Pengajuan Beasiswa<span class="red-star">*</span></label>
@@ -166,6 +211,8 @@ if (isset($_POST["submit"])) {
                                 <div class="col">Nama Anak</div>
                                 <div class="col">Jenjang Pendidikan</div>
                                 <div class="col">Nominal/6 bln</div>
+                                <div class="col">Nama Bank</div>
+                                <div class="col">No. Rekening</div>
                             </div>
                             <?php for ($x = 1; $x <= 3; $x++) : ?>
                                 <div class="row mb-2" id="appendForm<?= $x ?>">
@@ -191,6 +238,9 @@ if (isset($_POST["submit"])) {
                                     <div class="col">
                                         <input type="text" id="tb_nominal<?= $x ?>" name="tb_nominal<?= $x ?>" class="form-control" value="<?= rupiah($beasiswa["nominal_$x"]); ?>" onchange="handleNominal()" readonly>
                                     </div>
+                                    <div class="col"><input type="text" id="tb_nama_bank<?= $x ?>" name="tb_nama_bank<?= $x ?>" class="form-control" value="<?= $beasiswa["nama_bank$x"]; ?>"></div>
+                                    <div class="col"><input type="text" id="tb_noRekening<?= $x ?>" name="tb_noRekening<?= $x ?>" class="form-control" value="<?= $beasiswa["nomor_rekening$x"]; ?>"></div>
+
                                     <!-- <div class="append-action">                        
                                     <button type="button" onclick="removeField?=$x?>()">-</button>                       
                                 </div> -->
@@ -209,6 +259,28 @@ if (isset($_POST["submit"])) {
                     <div class="form-group mt-4 mb-3">
                         <label for="tb_total_nominal" class="label-txt">Total Nominal<span class="red-star">*</span></label>
                         <input type="text" id="tb_total_nominal" name="tb_total_nominal" class="form-control" placeholder="Masukan Nominal beasiswa" value="<?= rupiah($beasiswa["total_nominal"]); ?>" Required readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row" style="margin-left: 1px;"> <label for="fileKK_Baru" class="label-txt"> File Kartu Keluarga </label>
+                        </div>
+                        <div class="row ml-2">
+                            <img src="../../img/<?= $beasiswa["file_kk"]; ?>" class="edit-img popup " alt="">
+                        </div>
+                        <div class="row ml-2"><?= $beasiswa["file_kk"]; ?></div>
+
+                        <div class="row ml-2 mt-2">
+                            <a href="../../img/<?= $beasiswa["file_kk"]; ?>" target="_blank">
+                                <div class="handle-file-unduh"> Lihat</div>
+                            </a>
+
+                            <div class="handle-file-ubah ml-3" onclick="handleUbahFile()"> Ubah </div>
+
+                        </div>
+
+                        <div class="file-form d-none" id="file-form">
+                            <br><input type="file" id="fileKK_Baru" name="fileKK_Baru" class="form-control ">
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -278,6 +350,22 @@ if (isset($_POST["submit"])) {
                     <span class="yst-login-btn-fs">Simpan</span>
                 </button>
             </form>
+
+            <div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel"> Preview Image </h5>
+                            <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button> -->
+                        </div>
+                        <div class="modal-body">
+                            <img src="" id="popup-img" alt="image" class="w-100">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <script>
             // Declare Variables
@@ -353,6 +441,12 @@ if (isset($_POST["submit"])) {
                 document.querySelector('input[name="tb_total_nominal"]').value = total1 + total2 + total3;
             }
 
+            function handleUbahFile() {
+                var uploadForm = document.getElementById("file-form");
+                uploadForm.classList.toggle("d-none");
+                // uploadForm.classList.add("d-none");
+            }
+
             // function removeField2(){
             // var element = document.getElementById("appendForm2");
             // element.classList.add("d-none");    
@@ -363,7 +457,6 @@ if (isset($_POST["submit"])) {
             // element.classList.add("d-none");    
             // }
         </script>
-
     </main>
 </div>
 <!-- /.container-fluid -->

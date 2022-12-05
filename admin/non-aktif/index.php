@@ -64,9 +64,8 @@ if ($_SESSION["level_user"] == '1' || $_SESSION["level_user"] == '2a' || $_SESSI
                                     <tr>
                                         <td>NIK</td>
                                         <td>Nama User</td>
-                                        <td>Tempat/Tanggal Meninggal</td>
+                                        <td>Tanggal Meninggal</td>
                                         <!-- <td>Penyebab</td> -->
-                                        <td>Status Data</td>
                                         <td class="justify-content-center">Aksi</td>
                                     </tr>
                                 </thead>
@@ -76,16 +75,7 @@ if ($_SESSION["level_user"] == '1' || $_SESSION["level_user"] == '2a' || $_SESSI
                                             <td class="table-snipet1"><?= $row["nik"]; ?></td>
                                             <td class=""><?= $row["nama"]; ?></td>
                                             <td>
-                                                <?php echo $row['tempat']; ?>,
                                                 <?php echo date("d-m-Y", strtotime($row['tgl_meninggal'])) ?>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                if ($row['is_valid'] == 'y') {
-                                                    echo 'Approved';
-                                                } else {
-                                                    echo 'Menunggu Approval';
-                                                } ?></td>
                                             </td>
 
                                             <td class="justify-content-center">

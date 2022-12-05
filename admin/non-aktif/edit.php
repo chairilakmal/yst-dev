@@ -72,14 +72,10 @@ if (isset($_POST["submit"])) {
     $nama_kontak                = $_POST["tb_nama_kontak"];
 
     $tgl_kematian               = $_POST["tb_tgl_kematian"];
-    $waktu                      = $_POST["tb_waktu_kematian"];
-    $tempat_meninggal           = $_POST["tb_tempat_kematian"];
     $tempat_pemakaman           = $_POST["tb_tempat_pemakaman"];
 
     $penyebab_kematian          = $_POST["tb_penyebab_kematian"];
     $penyebab_kematian          = htmlspecialchars($penyebab_kematian);
-
-    $status_meninggal           = $_POST["tb_status_meninggal"];
 
     $suratKematian_Lama         = $_POST["suratKematian_Lama"];
 
@@ -99,11 +95,8 @@ if (isset($_POST["submit"])) {
                             no_kontak                   = '$no_kontak',
                             nama_kontak                 = '$nama_kontak',
                             tgl_meninggal               = '$tgl_kematian',
-                            waktu                       = '$waktu',
-                            tempat                      = '$tempat_meninggal',
                             tempat_pemakaman            = '$tempat_pemakaman',
                             penyebab_kematian           = '$penyebab_kematian',
-                            is_valid                    = '$status_meninggal',
                             file_surat_kematian         = '$suratKematian_Baru',
                             updated_by                  = '$updated_by',
                             updated_at                  = '$updated_at'
@@ -143,8 +136,10 @@ if (isset($_POST["submit"])) {
 <?php include '../../component/admin/header.php'; ?>
 <?php include '../../component/admin/sidebar.php'; ?>
 
+
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
+    <script src="../../config/ckeditor/ckeditor.js"></script>
     <main>
         <div class="page-title-link ml-4 mb-4">
             <a href="../berita/index.php">
@@ -187,29 +182,20 @@ if (isset($_POST["submit"])) {
                         </div>
                     </div>
                     <div class="form-group mt-4 mb-3" id="tgl_selesai_form">
-                        <label for="tb_tgl_kematian" class="label-txt">Tanggal<span class="red-star">*</span></label>
+                        <label for="tb_tgl_kematian" class="label-txt">Tanggal Kematian<span class="red-star">*</span></label>
                         <input type="date" id="tb_tgl_kematian" name="tb_tgl_kematian" class="form-control" value="<?= $dataKematian["tgl_meninggal"]; ?>">
                     </div>
-                    <div class="form-group mt-4 mb-3" id="tgl_selesai_form">
-                        <label for="tb_waktu_kematian" class="label-txt">Waktu<span class="red-star">*</span></label>
-                        <input type="time" id="tb_waktu_kematian" name="tb_waktu_kematian" class="form-control" value="<?= $dataKematian["waktu"]; ?>">
-                    </div>
-
                     <div class="form-group mt-4 mb-3">
-                        <label for="tb_tempat_kematian" class="label-txt">Tempat<span class="red-star">*</span></label>
-                        <input type="text" id="tb_tempat_kematian" name="tb_tempat_kematian" class="form-control" placeholder="Tempat Meninggal" value="<?= $dataKematian["tempat"]; ?>" Required>
-                    </div>
-                    <div class="form-group mt-4 mb-3">
-                        <label for="tb_tempat_pemakaman" class="label-txt">Tempat Pemakaman<span class="red-star">*</span></label>
+                        <label for="tb_tempat_pemakaman" class="label-txt">Lokasi Pemakaman<span class="red-star">*</span></label>
                         <input type="text" id="tb_tempat_pemakaman" name="tb_tempat_pemakaman" class="form-control" placeholder="Tempat Pemakaman" value="<?= $dataKematian["tempat_pemakaman"]; ?>" Required>
                     </div>
                     <div class="form-group">
-                        <label for="tb_penyebab_kematian" class="label-txt">Penyebab Kematian</label>
+                        <label for="tb_penyebab_kematian" class="label-txt">Keterangan Kematian</label>
                         <textarea class="form-control" id="tb_penyebab_kematian" name="tb_penyebab_kematian" rows="6" placeholder="Penyebab Kematian"><?php echo $dataKematian["penyebab_kematian"]; ?></textarea>
                     </div>
 
                     <div class="form-group">
-                        <div class="row" style="margin-left: 1px;"> <label for="suratKematian_Baru" class="label-txt"> Surat Keterangan Kematian </label>
+                        <div class="row" style="margin-left: 1px;"> <label for="suratKematian_Baru" class="label-txt"> Evidence Kematian </label>
                         </div>
                         <div class="row ml-2">
                             <img src="../../img/<?= $dataKematian["file_surat_kematian"]; ?>" class="edit-img popup " alt="">
@@ -227,21 +213,6 @@ if (isset($_POST["submit"])) {
 
                         <div class="file-form d-none" id="file-form">
                             <br><input type="file" id="suratKematian_Baru" name="suratKematian_Baru" class="form-control ">
-                        </div>
-                    </div>
-                    <div class="form-group mb-5">
-                        <label for="tb_status_meninggal" class="font-weight-bold"><span class="label-form-span">Status Approval </span></label><br>
-                        <div class="radio-wrapper mt-1 bg-white">
-                            <div class="form-check form-check-inline">
-                                <input type="radio" id="tb_status_meninggal" name="tb_status_meninggal" class="form-check-input" value="y" <?php if ($dataKematian['is_valid'] == 'y') echo 'checked' ?>>
-                                <label class="form-check-label" for="tb_status_meninggal">Approved </label>
-                            </div>
-                        </div>
-                        <div class="radio-wrapper2 mt-1 bg-white">
-                            <div class="form-check form-check-inline">
-                                <input type="radio" id="tb_status_meninggal" name="tb_status_meninggal" class="form-check-input" value="n" <?php if ($dataKematian['is_valid'] == 'n') echo 'checked' ?>>
-                                <label class="form-check-label" for="tb_status_meninggal">Menunggu Approval</label>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -273,6 +244,8 @@ if (isset($_POST["submit"])) {
         uploadForm.classList.toggle("d-none");
         // uploadForm.classList.add("d-none");
     }
+
+    CKEDITOR.replace("tb_penyebab_kematian");
 </script>
 </main>
 </div>

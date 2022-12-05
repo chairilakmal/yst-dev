@@ -12,6 +12,32 @@ if ($_SESSION["level_user"] == 4) {
     exit;
 }
 
+function upload($image_upload)
+{
+    //upload gambar
+    $namaFile = $_FILES[$image_upload]['name'];
+    $ukuranFile = $_FILES[$image_upload]['size'];
+    $error = $_FILES[$image_upload]['error'];
+    $tmpName = $_FILES[$image_upload]['tmp_name'];
+
+
+    //cek ekstensi gambar
+    $ekstensiGambarValid = ['jpg', 'jpeg', 'png'];
+    $ekstensiGambar = explode('.', $namaFile);
+    $ekstensiGambar = strtolower(end($ekstensiGambar));
+
+    //generate nama baru
+    $namaFileBaru = uniqid();
+    $namaFileBaru .= '.';
+    $namaFileBaru .= $ekstensiGambar;
+
+
+    //lolos pengecekan
+    move_uploaded_file($tmpName, '../../img/' . $namaFileBaru);
+
+    return $namaFileBaru;
+}
+
 function queryPlafon($query)
 {
     global $conn;
@@ -41,13 +67,11 @@ $currentWilayah = $_SESSION["wilayah_id"];
 
 if ($_SESSION["level_user"] == '2a' || $_SESSION["level_user"] == '2b') {
     $userQuery = query("SELECT * FROM t_meninggal 
-                WHERE is_valid = 'y'
                 ORDER BY id_meninggal DESC                
                 ");
 } else {
     $userQuery = query("SELECT * FROM t_meninggal
                 WHERE wilayah_id = $currentWilayah
-                AND is_valid = 'y'
                 ORDER BY id_meninggal DESC                
                 ");
 }
@@ -66,6 +90,10 @@ if (isset($_POST["submit"])) {
     $jenjang2          = $_POST["tb_jenjang_pendidikan2"];
     $jenjang3          = $_POST["tb_jenjang_pendidikan3"];
 
+    $nama_bank1        = $_POST["tb_nama_bank1"];
+    $nama_bank2        = $_POST["tb_nama_bank2"];
+    $nama_bank3        = $_POST["tb_nama_bank3"];
+
     $nominal1          = $_POST["tb_nominal1"] ? $_POST["tb_nominal1"] : 0;
     $unmaskedNom1      = preg_replace('/[^0-9\-]/', '', $nominal1);
 
@@ -75,8 +103,14 @@ if (isset($_POST["submit"])) {
     $nominal3          = $_POST["tb_nominal3"] ? $_POST["tb_nominal3"] : 0;
     $unmaskedNom3      = preg_replace('/[^0-9\-]/', '', $nominal3);
 
+    $nomor_rekening1   = $_POST["tb_noRekening1"] ? $_POST["tb_noRekening1"] : 0;
+    $nomor_rekening2   = $_POST["tb_noRekening2"] ? $_POST["tb_noRekening2"] : 0;
+    $nomor_rekening3   = $_POST["tb_noRekening3"] ? $_POST["tb_noRekening3"] : 0;
+
     $totalNominal      = $_POST["tb_total_nominal"];
     $unmaskedTotal     = preg_replace('/[^0-9\-]/', '', $totalNominal);
+
+    $file_kk           = upload("image_uploads");
 
     $keterangan        = $_POST["tb_ket_beasiswa"];
     $keterangan        = htmlspecialchars($keterangan);
@@ -102,7 +136,14 @@ if (isset($_POST["submit"])) {
                 nominal_1,
                 nominal_2,
                 nominal_3,
-                total_nominal, 
+                nama_bank1,
+                nama_bank2,
+                nama_bank3,
+                nomor_rekening1,
+                nomor_rekening2,
+                nomor_rekening3,
+                total_nominal,
+                file_kk, 
                 keterangan,
                 created_by )
               VALUES (
@@ -117,7 +158,14 @@ if (isset($_POST["submit"])) {
                 $unmaskedNom1,
                 $unmaskedNom2,
                 $unmaskedNom3,
-                $unmaskedTotal, 
+                '$nama_bank1',
+                '$nama_bank2',
+                '$nama_bank3',
+                '$nomor_rekening1',
+                '$nomor_rekening2',
+                '$nomor_rekening3',
+                $unmaskedTotal,
+                '$file_kk', 
                 '$keterangan',
                 '$created_by' )  
              ";
@@ -191,6 +239,8 @@ if (isset($_POST["submit"])) {
                                 <div class="col">Nama Anak</div>
                                 <div class="col">Jenjang Pendidikan</div>
                                 <div class="col">Nominal/6 bln</div>
+                                <div class="col">Nama Bank</div>
+                                <div class="col">No. Rekening</div>
                             </div>
 
                             <?php for ($x = 1; $x <= 3; $x++) : ?>
@@ -209,6 +259,8 @@ if (isset($_POST["submit"])) {
                                     </div>
                                     <div class="col"><input type="text" id="tb_nominal<?= $x ?>" name="tb_nominal<?= $x ?>" class="form-control" onkeyup="handleNominal()" onchange="handleNominal()" readonly>
                                     </div>
+                                    <div class="col"><input type="text" id="tb_nama_bank<?= $x ?>" name="tb_nama_bank<?= $x ?>" class="form-control"></div>
+                                    <div class="col"><input type="number" id="tb_noRekening<?= $x ?>" name="tb_noRekeningk<?= $x ?>" class="form-control"></div>
                                     <!-- <div class="append-action">                        
                                     <button type="button" onclick="removeField?=$x?>()">-</button>                       
                                 </div> -->
@@ -227,6 +279,14 @@ if (isset($_POST["submit"])) {
                     <div class="form-group mt-2 mb-3" id="tgl_selesai_form">
                         <label for="tb_total_nominal" class="label-txt">Total Nominal<span class="red-star">*</span></label>
                         <input type="text" id="tb_total_nominal" name="tb_total_nominal" class="form-control" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="image_uploads" class="label-txt"> File Kartu Keluarga </label><br>
+                        <!-- <img src="img/" class="edit-img popup " alt=""> -->
+                        <div class="file-form">
+                            <input type="file" id="image_uploads" name="image_uploads" class="form-control ">
+                        </div>
                     </div>
 
                     <div class="form-group">

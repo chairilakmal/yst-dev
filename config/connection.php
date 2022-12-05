@@ -2,7 +2,7 @@
 
 $host        = "localhost"; //localhost server
 $db_user     = "root"; //database username
-$db_password = "root"; //database password
+$db_password = ""; //database password
 $db_name     = "yst1022"; //database name
 
 global $conn;
@@ -12,4 +12,3 @@ date_default_timezone_set("Asia/Jakarta");
 if (!$conn) {
     echo "tidak konek";
 }
-

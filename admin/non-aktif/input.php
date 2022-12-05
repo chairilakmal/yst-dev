@@ -65,8 +65,6 @@ if (isset($_POST["submit"])) {
     $no_kontak                  = $_POST["tb_no_kontak"];
     $nama_kontak                = $_POST["tb_nama_kontak"];
     $tgl_kematian               = $_POST["tb_tgl_kematian"];
-    $waktu                      = $_POST["tb_waktu_kematian"];
-    $tempat_meninggal           = $_POST["tb_tempat_kematian"];
     $tempat_pemakaman           = $_POST["tb_tempat_pemakaman"];
 
     $penyebab_kematian          = $_POST["tb_penyebab_kematian"];
@@ -88,8 +86,6 @@ if (isset($_POST["submit"])) {
             no_kontak,
             nama_kontak, 
             tgl_meninggal, 
-            waktu, 
-            tempat, 
             tempat_pemakaman, 
             penyebab_kematian, 
             file_surat_kematian, 
@@ -102,8 +98,6 @@ if (isset($_POST["submit"])) {
                 '$no_kontak',
                 '$nama_kontak',
                 '$tgl_kematian',
-                '$waktu',
-                '$tempat_meninggal',
                 '$tempat_pemakaman',
                 '$penyebab_kematian', 
                 '$suratKematian', 
@@ -136,8 +130,10 @@ if (isset($_POST["submit"])) {
 <?php include '../../component/admin/header.php'; ?>
 <?php include '../../component/admin/sidebar.php'; ?>
 
+
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
+    <script src="../../config/ckeditor/ckeditor.js"></script>
     <main>
         <div class="page-title-link ml-4 mb-4">
             <a href="../berita/index.php">
@@ -180,24 +176,16 @@ if (isset($_POST["submit"])) {
                         <input type="date" id="tb_tgl_kematian" name="tb_tgl_kematian" class="form-control">
                     </div>
                     <div class="form-group mt-4 mb-3">
-                        <label for="tb_waktu_kematian" class="label-txt">Waktu Meninggal<span class="red-star">*</span></label>
-                        <input type="time" id="tb_waktu_kematian" name="tb_waktu_kematian" class="form-control">
-                    </div>
-                    <div class="form-group mt-4 mb-3">
-                        <label for="tb_tempat_kematian" class="label-txt">Tempat Meninggal<span class="red-star">*</span></label>
-                        <input type="text" id="tb_tempat_kematian" name="tb_tempat_kematian" class="form-control" placeholder="Tempat meninggal" Required>
-                    </div>
-                    <div class="form-group mt-4 mb-3">
                         <label for="tb_tempat_pemakaman" class="label-txt">Lokasi Pemakaman<span class="red-star">*</span></label>
                         <input type="text" id="tb_tempat_pemakaman" name="tb_tempat_pemakaman" class="form-control" placeholder="Tempat pemakaman" Required>
                     </div>
                     <div class="form-group">
-                        <label for="tb_penyebab_kematian" class="label-txt">Penyebab Kematian</label>
-                        <textarea class="form-control" id="tb_penyebab_kematian" name="tb_penyebab_kematian" rows="6" placeholder="Penyebab kematian"></textarea>
+                        <label for="tb_penyebab_kematian" class="label-txt">Keterangan Kematian</label>
+                        <textarea class="form-control" id="tb_penyebab_kematian" name="tb_penyebab_kematian" rows="6" placeholder="Silahkan tulis informasi seperti waktu, tempat, penyebab kematian, dsb"></textarea>
                     </div>
 
                     <div class="form-group">
-                        <label for="image_uploads" class="label-txt"> Surat Keterangan Kematian </label><br>
+                        <label for="image_uploads" class="label-txt"> Evidence Kematian </label><br>
                         <!-- <img src="img/" class="edit-img popup " alt=""> -->
                         <div class="file-form">
                             <input type="file" id="image_uploads" name="image_uploads" class="form-control ">
@@ -209,6 +197,9 @@ if (isset($_POST["submit"])) {
                 </button>
             </form>
         </div>
+        <script>
+            CKEDITOR.replace("tb_penyebab_kematian");
+        </script>
     </main>
 </div>
 <!-- /.container-fluid -->
