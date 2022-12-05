@@ -114,7 +114,7 @@ if ($_SESSION["level_user"] == '1' || $_SESSION["level_user"] == '2a' || $_SESSI
                                             </td>
 
                                             <td class="justify-content-center">
-                                                <?php if ($_SESSION['level_user'] == '2a' || $_SESSION['level_user'] == '1') { ?>
+                                                <?php if ($_SESSION['level_user'] == '3' || $_SESSION['level_user'] == '2a' || $_SESSION['level_user'] == '1') { ?>
                                                     <button type="button" class="btn btn-edit">
                                                         <a href="edit.php?id_beasiswa=<?= $row["id_beasiswa"]; ?>" class="fas fa-edit"></a>
                                                     </button>

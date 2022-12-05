@@ -196,7 +196,7 @@ if (isset($_POST["submit"])) {
                 <div class="form-group label-txt">
                     <div class="form-group mt-4 mb-3" id="tgl_selesai_form">
                         <label for="tb_tgl_beasiswa" class="label-txt">Tanggal Pengajuan Beasiswa<span class="red-star">*</span></label>
-                        <input type="date" id="tb_tgl_beasiswa" name="tb_tgl_beasiswa" class="form-control" value="<?= $beasiswa["tgl"]; ?>" readonly>
+                        <input type="date" id="tb_tgl_beasiswa" name="tb_tgl_beasiswa" class="form-control" value="<?= $beasiswa["tgl"]; ?>">
                     </div>
                     <div class="form-group mt-4 mb-3">
                         <label for="tb_penerima" class="label-txt">Penerima<span class="red-star">*</span></label>
@@ -219,9 +219,9 @@ if (isset($_POST["submit"])) {
                                     <div class="col num-col d-flex align-items-center justify-content-center">
                                         <?= $x ?>
                                     </div>
-                                    <div class="col"><input type="text" id="tb_nama_anak<?= $x ?>" name="tb_nama_anak<?= $x ?>" class="form-control" value="<?= $beasiswa["nama_anak$x"]; ?>" readonly></div>
+                                    <div class="col"><input type="text" id="tb_nama_anak<?= $x ?>" name="tb_nama_anak<?= $x ?>" class="form-control" value="<?= $beasiswa["nama_anak$x"]; ?>"></div>
                                     <div class="col">
-                                        <select class="form-control" id="tb_jenjang_pendidikan<?= $x ?>" name="tb_jenjang_pendidikan<?= $x ?>" onchange="handleJenjang()" disabled>
+                                        <select class="form-control" id="tb_jenjang_pendidikan<?= $x ?>" name="tb_jenjang_pendidikan<?= $x ?>" onchange="handleJenjang()">
                                             <option value="">Pilih Jenjang</option>
                                             <?php foreach ($plafonBeasiswa as $row) : ?>
                                                 <option value="<?= $row["jenjang"]; ?>" <?php
@@ -315,40 +315,13 @@ if (isset($_POST["submit"])) {
                                 </tr>
                             <?php endforeach; ?>
                         </table>
-
-                        <br><label for="status_program_donasi" class="font-weight-bold"><span class="label-form-span">Aksi</span></label><br>
-
-                        <div class="radio-wrapper mt-1 bg-white">
-                            <div class="form-check form-check-inline">
-                                <input type="radio" id="status_beasiswa" name="status_beasiswa" class="form-check-input" value="0" <?php if ($beasiswa['is_approve'] == 0) echo 'checked' ?>>
-                                <label class="form-check-label" for="status_berita">Pending</label>
-                            </div>
-                        </div>
-
-                        <?php
-                        if ($jumlah_diterima == 2) {
-                            echo
-                            '<div class="radio-wrapper mt-1 bg-white">
-                                <div class="form-check form-check-inline">
-                                    <input type="radio" id="status_beasiswa" name="status_beasiswa" class="form-check-input" value="1" checked>
-                                <label class="form-check-label" for="status_berita">Terverifikasi</label>
-                            </div>
-                        </div>';
-                        } else {
-                            echo
-                            '<div class="radio-wrapper mt-1 bg-white">
-                                <div class="form-check form-check-inline">
-                                    <input type="radio" id="status_beasiswa" name="status_beasiswa" class="form-check-input" value="1" disabled>
-                                <label class="form-check-label" for="status_berita">Terverifikasi</label>
-                            </div>
-                        </div>';
-                        } ?>
-
                     </div>
                 </div>
+                <?php if ($jumlah_diterima < 2) { ?>
                 <button type="submit" name="submit" value="Simpan" class="btn btn-lg btn-primary w-100 yst-login-btn border-0 mt-4 mb-4">
                     <span class="yst-login-btn-fs">Simpan</span>
                 </button>
+                <?php } ?>
             </form>
 
             <div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">

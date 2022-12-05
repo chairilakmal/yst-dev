@@ -53,7 +53,7 @@ if ($_SESSION["level_user"] == '1' || $_SESSION["level_user"] == '2a' || $_SESSI
                     <div class="card-header-req">
                         <div class="row ml-1 ">
                         </div>
-                        <?php if ($_SESSION['level_user'] == 1 || $_SESSION['level_user'] == 3) { ?>
+                        <?php if ($_SESSION['level_user'] == 1 || $_SESSION['level_user'] == '2b' || $_SESSION['level_user'] == 3) { ?>
                             <button class="mr-5" onclick="location.href='input.php'">Tambah Data <span class="fas fa-plus-square"></span></button>
                         <?php } ?>
                     </div>
@@ -63,7 +63,7 @@ if ($_SESSION["level_user"] == '1' || $_SESSION["level_user"] == '2a' || $_SESSI
                                 <thead>
                                     <tr>
                                         <td>NIK</td>
-                                        <td>Nama User</td>
+                                        <td>Nama</td>
                                         <td>Tanggal Meninggal</td>
                                         <!-- <td>Penyebab</td> -->
                                         <td class="justify-content-center">Aksi</td>
@@ -79,7 +79,7 @@ if ($_SESSION["level_user"] == '1' || $_SESSION["level_user"] == '2a' || $_SESSI
                                             </td>
 
                                             <td class="justify-content-center">
-                                                <?php if ($_SESSION['level_user'] == 1 || $_SESSION['level_user'] == '2b') { ?>
+                                                <?php if ($_SESSION['level_user'] == 1 || $_SESSION['level_user'] == '2b' || $_SESSION['level_user'] == 3) { ?>
                                                     <button type="button" class="btn btn-edit">
                                                         <a href="edit.php?id_meninggal=<?= $row["id_meninggal"]; ?>" class="fas fa-edit"></a>
                                                     </button>
