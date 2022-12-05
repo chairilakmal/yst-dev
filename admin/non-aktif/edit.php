@@ -78,6 +78,7 @@ if (isset($_POST["submit"])) {
     $penyebab_kematian          = htmlspecialchars($penyebab_kematian);
 
     $suratKematian_Lama         = $_POST["suratKematian_Lama"];
+    $fileKK_Lama                = $_POST["fileKK_Lama"];
 
     $updated_by                 = $_SESSION["nama"];
     $updated_at                 = date('Y-m-d H:i:s');
@@ -87,6 +88,14 @@ if (isset($_POST["submit"])) {
     } else {
         $suratKematian_Baru = upload("suratKematian_Baru");
     }
+
+    if ($_FILES['fileKK_Baru']['error'] === 4) {
+        $fileKK_Baru = $fileKK_Lama;
+    } else {
+        $fileKK_Baru = upload("fileKK_Baru");
+    }
+
+
 
     // GLOBAL UPDATE
     $queryDataKematian = "UPDATE t_meninggal SET
@@ -98,6 +107,7 @@ if (isset($_POST["submit"])) {
                             tempat_pemakaman            = '$tempat_pemakaman',
                             penyebab_kematian           = '$penyebab_kematian',
                             file_surat_kematian         = '$suratKematian_Baru',
+                            file_kk                     = '$fileKK_Baru',
                             updated_by                  = '$updated_by',
                             updated_at                  = '$updated_at'
                             WHERE id_meninggal          = $id_meninggal
@@ -155,6 +165,7 @@ if (isset($_POST["submit"])) {
             </div>
             <form action="" enctype="multipart/form-data" method="POST">
                 <input type="hidden" name="id_meninggal" value="<?= $dataKematian["id_meninggal"]; ?>">
+                <input type="hidden" name="fileKK_Lama" value="<?= $dataKematian["file_kk"]; ?>">
                 <input type="hidden" name="suratKematian_Lama" value="<?= $dataKematian["file_surat_kematian"]; ?>">
                 <div class="form-group label-txt">
                     <div class="form-group mt-4 mb-3">
@@ -207,12 +218,32 @@ if (isset($_POST["submit"])) {
                                 <div class="handle-file-unduh"> Lihat</div>
                             </a>
 
-                            <div class="handle-file-ubah ml-3" onclick="handleUbahFile()"> Ubah </div>
-
+                            <div class="handle-file-ubah ml-3" onclick="handleUbahFileSK('')"> Ubah </div>
                         </div>
 
-                        <div class="file-form d-none" id="file-form">
+                        <div class="file-form d-none" id="file-form-suratKematian">
                             <br><input type="file" id="suratKematian_Baru" name="suratKematian_Baru" class="form-control ">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row" style="margin-left: 1px;"> <label for="fileKK_Baru" class="label-txt"> File Kartu Keluarga </label>
+                        </div>
+                        <div class="row ml-2">
+                            <img src="../../img/<?= $dataKematian["file_kk"]; ?>" class="edit-img popup " alt="">
+                        </div>
+                        <div class="row ml-2"><?= $dataKematian["file_kk"]; ?></div>
+
+                        <div class="row ml-2 mt-2">
+                            <a href="../../img/<?= $dataKematian["file_kk"]; ?>" target="_blank">
+                                <div class="handle-file-unduh"> Lihat</div>
+                            </a>
+
+                            <div class="handle-file-ubah ml-3" onclick="handleUbahFileKK()"> Ubah </div>
+                        </div>
+
+                        <div class="file-form d-none" id="file-form-kk">
+                            <br><input type="file" id="fileKK_Baru" name="fileKK_Baru" class="form-control ">
                         </div>
                     </div>
                 </div>
@@ -239,8 +270,14 @@ if (isset($_POST["submit"])) {
     </div>
 </div>
 <script>
-    function handleUbahFile() {
-        var uploadForm = document.getElementById("file-form");
+    function handleUbahFileSK() {
+        var uploadForm = document.getElementById("file-form-suratKematian");
+        uploadForm.classList.toggle("d-none");
+        // uploadForm.classList.add("d-none");
+    }
+
+    function handleUbahFileKK() {
+        var uploadForm = document.getElementById("file-form-kk");
         uploadForm.classList.toggle("d-none");
         // uploadForm.classList.add("d-none");
     }

@@ -16,32 +16,6 @@ if ($_SESSION["level_user"] == 4) {
 //ambil id program di URL
 $id_beasiswa = $_GET["id_beasiswa"];
 
-function upload($fileKK_Baru)
-{
-    //upload gambar
-    $namaFile = $_FILES[$fileKK_Baru]['name'];
-    $ukuranFile = $_FILES[$fileKK_Baru]['size'];
-    $error = $_FILES[$fileKK_Baru]['error'];
-    $tmpName = $_FILES[$fileKK_Baru]['tmp_name'];
-
-    //cek ekstensi gambar
-    $ekstensiGambarValid = ['jpg', 'jpeg', 'png'];
-    $ekstensiGambar = explode('.', $namaFile);
-    $ekstensiGambar = strtolower(end($ekstensiGambar));
-
-
-    //generate nama baru
-    $namaFileBaru = uniqid();
-    $namaFileBaru .= '.';
-    $namaFileBaru .= $ekstensiGambar;
-
-
-    //lolos pengecekan
-    move_uploaded_file($tmpName, '../../img/' . $namaFileBaru);
-
-    return $namaFileBaru;
-}
-
 function rupiah($angka)
 {
     $hasil_rupiah = "Rp. " . number_format($angka, 0, '.', '.');
@@ -116,6 +90,23 @@ if (isset($_POST["submit"])) {
     $approved_at       = date('Y-m-d H:i:s');
     $approved_by       = $_SESSION["nama"];
 
+    $namaAnak1         = $_POST["tb_nama_anak1"];
+    $namaAnak2         = $_POST["tb_nama_anak2"];
+    $namaAnak3         = $_POST["tb_nama_anak3"];
+
+    $jenjang1          = $_POST["tb_jenjang_pendidikan1"];
+    $jenjang2          = $_POST["tb_jenjang_pendidikan2"];
+    $jenjang3          = $_POST["tb_jenjang_pendidikan3"];
+
+    $nominal1          = $_POST["tb_nominal1"] ? $_POST["tb_nominal1"] : 0;
+    $unmaskedNom1      = preg_replace('/[^0-9\-]/', '', $nominal1);
+
+    $nominal2          = $_POST["tb_nominal2"] ? $_POST["tb_nominal2"] : 0;
+    $unmaskedNom2      = preg_replace('/[^0-9\-]/', '', $nominal2);
+
+    $nominal3          = $_POST["tb_nominal3"] ? $_POST["tb_nominal3"] : 0;
+    $unmaskedNom3      = preg_replace('/[^0-9\-]/', '', $nominal3);
+
     $nama_bank1        = $_POST["tb_nama_bank1"];
     $nama_bank2        = $_POST["tb_nama_bank2"];
     $nama_bank3        = $_POST["tb_nama_bank3"];
@@ -124,25 +115,28 @@ if (isset($_POST["submit"])) {
     $nomor_rekening2   = $_POST["tb_noRekening2"] ? $_POST["tb_noRekening2"] : 0;
     $nomor_rekening3   = $_POST["tb_noRekening3"] ? $_POST["tb_noRekening3"] : 0;
 
-
-    $fileKK_Lama    = $_POST["fileKK_Lama"];
-
-    if ($_FILES['fileKK_Baru']['error'] === 4) {
-        $fileKK_Baru = $fileKK_Lama;
-    } else {
-        $fileKK_Baru = upload("fileKK_Baru");
-    }
+    $totalNominal      = $_POST["tb_total_nominal"];
+    $unmaskedTotal     = preg_replace('/[^0-9\-]/', '', $totalNominal);
 
 
     $query = "UPDATE t_beasiswa SET
         keterangan          = '$keterangan',
-        file_kk             = '$fileKK_Baru',
+        nama_anak1          = '$namaAnak1',
+        nama_anak2          = '$namaAnak2',
+        nama_anak3          = '$namaAnak3',
+        jenjang_pendidikan1 = '$jenjang1',
+        jenjang_pendidikan2 = '$jenjang2',
+        jenjang_pendidikan3 = '$jenjang3',
+        nominal_1           = '$unmaskedNom1',
+        nominal_2           = '$unmaskedNom2',
+        nominal_3           = '$unmaskedNom3',
         nama_bank1          = '$nama_bank1',        
         nama_bank2          = '$nama_bank2',
         nama_bank3          = '$nama_bank3',
         nomor_rekening1     = '$nomor_rekening1',   
         nomor_rekening2     = '$nomor_rekening2',
         nomor_rekening3     = '$nomor_rekening3',
+        total_nominal       = '$unmaskedTotal',
         is_approve          = '$status_beasiswa',
         approved_at         = '$approved_at',   
         approved_by         = '$approved_by'             
@@ -192,7 +186,6 @@ if (isset($_POST["submit"])) {
             </div>
             <form action="" enctype="multipart/form-data" method="POST">
                 <input type="hidden" name="updated_by" value="<?= $_SESSION["nama"] ?>">
-                <input type="hidden" name="fileKK_Lama" value="<?= $beasiswa["file_kk"]; ?>">
                 <div class="form-group label-txt">
                     <div class="form-group mt-4 mb-3" id="tgl_selesai_form">
                         <label for="tb_tgl_beasiswa" class="label-txt">Tanggal Pengajuan Beasiswa<span class="red-star">*</span></label>
@@ -262,6 +255,11 @@ if (isset($_POST["submit"])) {
                     </div>
 
                     <div class="form-group">
+                        <label for="tb_ket_beasiswa" class="label-txt">Keterangan</label>
+                        <textarea class="form-control" id="tb_ket_beasiswa" name="tb_ket_beasiswa" rows="6" placeholder="Keterangan"><?= $beasiswa["keterangan"]; ?></textarea>
+                    </div>
+
+                    <div class="form-group">
                         <div class="row" style="margin-left: 1px;"> <label for="fileKK_Baru" class="label-txt"> File Kartu Keluarga </label>
                         </div>
                         <div class="row ml-2">
@@ -273,19 +271,7 @@ if (isset($_POST["submit"])) {
                             <a href="../../img/<?= $beasiswa["file_kk"]; ?>" target="_blank">
                                 <div class="handle-file-unduh"> Lihat</div>
                             </a>
-
-                            <div class="handle-file-ubah ml-3" onclick="handleUbahFile()"> Ubah </div>
-
                         </div>
-
-                        <div class="file-form d-none" id="file-form">
-                            <br><input type="file" id="fileKK_Baru" name="fileKK_Baru" class="form-control ">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="tb_ket_beasiswa" class="label-txt">Keterangan</label>
-                        <textarea class="form-control" id="tb_ket_beasiswa" name="tb_ket_beasiswa" rows="6" placeholder="Keterangan"><?= $beasiswa["keterangan"]; ?></textarea>
                     </div>
 
                     <div class="form-group mb-5">
@@ -318,9 +304,9 @@ if (isset($_POST["submit"])) {
                     </div>
                 </div>
                 <?php if ($jumlah_diterima < 2) { ?>
-                <button type="submit" name="submit" value="Simpan" class="btn btn-lg btn-primary w-100 yst-login-btn border-0 mt-4 mb-4">
-                    <span class="yst-login-btn-fs">Simpan</span>
-                </button>
+                    <button type="submit" name="submit" value="Simpan" class="btn btn-lg btn-primary w-100 yst-login-btn border-0 mt-4 mb-4">
+                        <span class="yst-login-btn-fs">Simpan</span>
+                    </button>
                 <?php } ?>
             </form>
 

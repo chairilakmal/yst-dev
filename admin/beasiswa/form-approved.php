@@ -189,6 +189,12 @@ if (isset($_POST["submit"])) {
                         <input type="text" id="tb_nominal" name="tb_nominal" class="form-control" placeholder="Masukan Nominal beasiswa" value="<?= rupiah($beasiswa["total_nominal"]); ?>" readonly>
                     </div>
 
+
+                    <div class="form-group">
+                        <label for="tb_ket_beasiswa" class="label-txt">Keterangan</label>
+                        <textarea readonly class="form-control" id="tb_ket_beasiswa" name="tb_ket_beasiswa" rows="6" placeholder="Keterangan"><?= $beasiswa["keterangan"]; ?></textarea>
+                    </div>
+
                     <div class="form-group">
                         <div class="row" style="margin-left: 1px;"> <label for="fileKK_Baru" class="label-txt"> File Kartu Keluarga </label>
                         </div>
@@ -202,14 +208,6 @@ if (isset($_POST["submit"])) {
                                 <div class="handle-file-unduh"> Lihat</div>
                             </a>
                         </div>
-                        <div class="file-form d-none" id="file-form">
-                            <br><input type="file" id="fileKK_Baru" name="fileKK_Baru" class="form-control ">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="tb_ket_beasiswa" class="label-txt">Keterangan</label>
-                        <textarea readonly class="form-control" id="tb_ket_beasiswa" name="tb_ket_beasiswa" rows="6" placeholder="Keterangan"><?= $beasiswa["keterangan"]; ?></textarea>
                     </div>
 
                     <div class="form-group mb-5">
@@ -260,14 +258,14 @@ if (isset($_POST["submit"])) {
                 <?php include '../../component/admin/modalKeterangan.php'; ?>
             </form>
         </div>
-        <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="staticBackdropLabel"> Preview Image </h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button> -->
                     </div>
                     <div class="modal-body">
                         <img src="" id="popup-img" alt="image" class="w-100">

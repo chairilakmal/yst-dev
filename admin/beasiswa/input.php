@@ -282,14 +282,6 @@ if (isset($_POST["submit"])) {
                     </div>
 
                     <div class="form-group">
-                        <label for="image_uploads" class="label-txt"> File Kartu Keluarga </label><br>
-                        <!-- <img src="img/" class="edit-img popup " alt=""> -->
-                        <div class="file-form">
-                            <input type="file" id="image_uploads" name="image_uploads" class="form-control ">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
                         <label for="tb_ket_beasiswa" class="label-txt">Keterangan</label>
                         <textarea class="form-control" id="tb_ket_beasiswa" name="tb_ket_beasiswa" rows="6" placeholder="Keterangan"></textarea>
                     </div>

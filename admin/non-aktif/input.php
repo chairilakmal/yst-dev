@@ -71,6 +71,7 @@ if (isset($_POST["submit"])) {
     $penyebab_kematian          = htmlspecialchars($penyebab_kematian);
 
     $suratKematian              = upload("image_uploads");
+    $fileKK                     = upload("image_uploads2");
 
     $creator                    = $_SESSION['nama'];
 
@@ -88,7 +89,8 @@ if (isset($_POST["submit"])) {
             tgl_meninggal, 
             tempat_pemakaman, 
             penyebab_kematian, 
-            file_surat_kematian, 
+            file_surat_kematian,
+            file_kk, 
             created_by, 
             updated_by)
             VALUES (
@@ -100,7 +102,8 @@ if (isset($_POST["submit"])) {
                 '$tgl_kematian',
                 '$tempat_pemakaman',
                 '$penyebab_kematian', 
-                '$suratKematian', 
+                '$suratKematian',
+                '$fileKK', 
                 '$created_by', 
                 '$updated_by')";
 
@@ -189,6 +192,14 @@ if (isset($_POST["submit"])) {
                         <!-- <img src="img/" class="edit-img popup " alt=""> -->
                         <div class="file-form">
                             <input type="file" id="image_uploads" name="image_uploads" class="form-control ">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="image_uploads2" class="label-txt"> File Kartu Keluarga </label><br>
+                        <!-- <img src="img/" class="edit-img popup " alt=""> -->
+                        <div class="file-form">
+                            <input type="file" id="image_uploads2" name="image_uploads2" class="form-control ">
                         </div>
                     </div>
                 </div>
