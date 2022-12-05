@@ -121,7 +121,7 @@ if ($_SESSION["level_user"] == '1' || $_SESSION["level_user"] == '2a' || $_SESSI
                                                 <?php } ?>
                                                 <?php if ($_SESSION['level_user'] == '2b') { ?>
                                                     <button type="button" class="btn btn-edit">
-                                                        <a href="form-approved.php?id_beasiswa=<?= $row["id_beasiswa"]; ?>" class="fas fa-edit"></a>
+                                                        <a href="form-approved.php?id_beasiswa=<?= $row["id_beasiswa"]; ?>" class="fas fa-check-square"></a>
                                                     </button>
                                                 <?php } ?>
                                                 <button type="button" class="btn btn-delete ml-1">

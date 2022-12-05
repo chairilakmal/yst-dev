@@ -12,32 +12,6 @@ if ($_SESSION["level_user"] == 4) {
     exit;
 }
 
-function upload($image_upload)
-{
-    //upload gambar
-    $namaFile = $_FILES[$image_upload]['name'];
-    $ukuranFile = $_FILES[$image_upload]['size'];
-    $error = $_FILES[$image_upload]['error'];
-    $tmpName = $_FILES[$image_upload]['tmp_name'];
-
-
-    //cek ekstensi gambar
-    $ekstensiGambarValid = ['jpg', 'jpeg', 'png'];
-    $ekstensiGambar = explode('.', $namaFile);
-    $ekstensiGambar = strtolower(end($ekstensiGambar));
-
-    //generate nama baru
-    $namaFileBaru = uniqid();
-    $namaFileBaru .= '.';
-    $namaFileBaru .= $ekstensiGambar;
-
-
-    //lolos pengecekan
-    move_uploaded_file($tmpName, '../../img/' . $namaFileBaru);
-
-    return $namaFileBaru;
-}
-
 function queryPlafon($query)
 {
     global $conn;
@@ -110,8 +84,6 @@ if (isset($_POST["submit"])) {
     $totalNominal      = $_POST["tb_total_nominal"];
     $unmaskedTotal     = preg_replace('/[^0-9\-]/', '', $totalNominal);
 
-    $file_kk           = upload("image_uploads");
-
     $keterangan        = $_POST["tb_ket_beasiswa"];
     $keterangan        = htmlspecialchars($keterangan);
 
@@ -143,7 +115,6 @@ if (isset($_POST["submit"])) {
                 nomor_rekening2,
                 nomor_rekening3,
                 total_nominal,
-                file_kk, 
                 keterangan,
                 created_by )
               VALUES (
@@ -165,7 +136,6 @@ if (isset($_POST["submit"])) {
                 '$nomor_rekening2',
                 '$nomor_rekening3',
                 $unmaskedTotal,
-                '$file_kk', 
                 '$keterangan',
                 '$created_by' )  
              ";
