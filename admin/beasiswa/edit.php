@@ -217,11 +217,11 @@ if (isset($_POST["submit"])) {
                                         <select class="form-control" id="tb_jenjang_pendidikan<?= $x ?>" name="tb_jenjang_pendidikan<?= $x ?>" onchange="handleJenjang()">
                                             <option value="">Pilih Jenjang</option>
                                             <?php foreach ($plafonBeasiswa as $row) : ?>
-                                                <option value="<?= $row["jenjang"]; ?>" <?php
-                                                                                        if ($row["jenjang"] == $beasiswa["jenjang_pendidikan$x"]) {
-                                                                                            echo 'selected="selected"';
-                                                                                        }
-                                                                                        ?>>
+                                                <option value="<?= $row["jenjang"]; ?>" data-nominal="<?= $row["nominal"]; ?>" <?php
+                                                                                                                                if ($row["jenjang"] == $beasiswa["jenjang_pendidikan$x"]) {
+                                                                                                                                    echo 'selected="selected"';
+                                                                                                                                }
+                                                                                                                                ?>>
                                                     <?= $row["jenjang"]; ?>
                                                 </option>
 
@@ -335,54 +335,41 @@ if (isset($_POST["submit"])) {
             var nominal2 = document.getElementById("tb_nominal2");
             var nominal3 = document.getElementById("tb_nominal3");
 
+            function formatRupiah(angka, prefix) {
+                var number_string = angka.toString().replace(/[^,\d]/g, ''),
+                    split = number_string.split(','),
+                    sisa = split[0].length % 3,
+                    rupiah = split[0].substr(0, sisa),
+                    ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+                if (ribuan) {
+                    separator = sisa ? '.' : '';
+                    rupiah += separator + ribuan.join('.');
+                }
+                rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+                return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+            }
+
+
             function handleJenjang() {
 
-                // console.log('jen', jenjang1.value)
+                var value1 = parseInt(jenjang1.options[jenjang1.selectedIndex].dataset["nominal"]);
+                document.querySelector('input[name="tb_nominal1"]').value = value1;
 
-                if (jenjang1.value == 'SD / Sederajat') {
-                    var value1 = parseInt(600000);
-                } else if (jenjang1.value == 'SMP / Sederajat') {
-                    var value1 = parseInt(1200000);
-                } else if (jenjang1.value == 'SMA / Sederajat') {
-                    var value1 = parseInt(1800000);
-                } else if (jenjang1.value == 'Kuliah') {
-                    var value1 = parseInt(2400000);
-                } else {
-                    var value1 = parseInt(0);
-                }
+                var value2 = parseInt(jenjang2.options[jenjang2.selectedIndex].dataset["nominal"]);
+                document.querySelector('input[name="tb_nominal2"]').value = value2;
 
-                if (jenjang2.value == 'SD / Sederajat') {
-                    var value2 = parseInt(600000);
-                } else if (jenjang2.value == 'SMP / Sederajat') {
-                    var value2 = parseInt(1200000);
-                } else if (jenjang2.value == 'SMA / Sederajat') {
-                    var value2 = parseInt(1800000);
-                } else if (jenjang2.value == 'Kuliah') {
-                    var value2 = parseInt(2400000);
-                } else {
-                    var value2 = parseInt(0);
-                }
-
-                if (jenjang3.value == 'SD / Sederajat') {
-                    var value3 = parseInt(600000);
-                } else if (jenjang3.value == 'SMP / Sederajat') {
-                    var value3 = parseInt(1200000);
-                } else if (jenjang3.value == 'SMA / Sederajat') {
-                    var value3 = parseInt(1800000);
-                } else if (jenjang3.value == 'Kuliah') {
-                    var value3 = parseInt(2400000);
-                } else {
-                    var value3 = parseInt(0);
-                }
+                var value3 = parseInt(jenjang3.options[jenjang3.selectedIndex].dataset["nominal"]);
+                document.querySelector('input[name="tb_nominal3"]').value = value3;
 
                 let total1 = value1 ? value1 : 0;
                 let total2 = value2 ? value2 : 0;
                 let total3 = value3 ? value3 : 0;
-                document.querySelector('input[name="tb_nominal1"]').value = value1;
-                document.querySelector('input[name="tb_nominal2"]').value = value2;
-                document.querySelector('input[name="tb_nominal3"]').value = value3;
-                document.querySelector('input[name="tb_total"]').value = total1 + total2 + total3;
-                document.querySelector('input[name="tb_total_nominal"]').value = total1 + total2 + total3;
+                document.querySelector('input[name="tb_nominal1"]').value = formatRupiah(value1, 'Rp. ');
+                document.querySelector('input[name="tb_nominal2"]').value = formatRupiah(value2, 'Rp. ');
+                document.querySelector('input[name="tb_nominal3"]').value = formatRupiah(value3, 'Rp. ');
+                document.querySelector('input[name="tb_total"]').value = formatRupiah(total1 + total2 + total3, 'Rp. ');
+                document.querySelector('input[name="tb_total_nominal"]').value = formatRupiah(total1 + total2 + total3, 'Rp. ');
 
             }
 

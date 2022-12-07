@@ -230,7 +230,7 @@ if (isset($_POST["submit"])) {
                                     <div class="col"><input type="text" id="tb_nominal<?= $x ?>" name="tb_nominal<?= $x ?>" class="form-control" onkeyup="handleNominal()" onchange="handleNominal()" readonly>
                                     </div>
                                     <div class="col"><input type="text" id="tb_nama_bank<?= $x ?>" name="tb_nama_bank<?= $x ?>" class="form-control"></div>
-                                    <div class="col"><input type="number" id="tb_noRekening<?= $x ?>" name="tb_noRekeningk<?= $x ?>" class="form-control"></div>
+                                    <div class="col"><input type="number" id="tb_noRekening<?= $x ?>" name="tb_noRekening<?= $x ?>" class="form-control"></div>
                                     <!-- <div class="append-action">                        
                                     <button type="button" onclick="removeField?=$x?>()">-</button>                       
                                 </div> -->

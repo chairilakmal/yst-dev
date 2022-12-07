@@ -65,6 +65,9 @@ $beasiswa = query("SELECT * FROM t_beasiswa
                         WHERE id_beasiswa = $id_beasiswa 
                         ")[0];
 
+// var_dump($beasiswa);
+// die;
+
 if (isset($_POST["submit"])) {
 
     $beasiswa_id      = $_POST["id_beasiswa"];
@@ -196,10 +199,25 @@ if (isset($_POST["submit"])) {
                     </div>
 
                     <div class="form-group">
+                        <div class="row" style="margin-left: 1px;"> <label for="suratKematian_Baru" class="label-txt"> Evidence Kematian</label>
+                        </div>
+                        <div class="row ml-2">
+                            <img src="../../img/<?= $beasiswa["file_surat_kematian"]; ?>" class="edit-img popup " alt="">
+                        </div>
+                        <div class="row ml-2"><?= $beasiswa["file_surat_kematian"]; ?></div>
+
+                        <div class="row ml-2 mt-2">
+                            <a href="../../img/<?= $beasiswa["file_surat_kematian"]; ?>" target="_blank">
+                                <div class="handle-file-unduh"> Lihat</div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         <div class="row" style="margin-left: 1px;"> <label for="fileKK_Baru" class="label-txt"> File Kartu Keluarga </label>
                         </div>
                         <div class="row ml-2">
-                            <img src="../../img/<?= $beasiswa["file_kk"]; ?>" class="edit-img popup " alt="">
+                            <img src="../../img/<?= $beasiswa["file_kk"]; ?>" class="edit-img popup2 " data-toggle="modal" data-target="#staticBackdrop">
                         </div>
                         <div class="row ml-2"><?= $beasiswa["file_kk"]; ?></div>
 
@@ -274,6 +292,12 @@ if (isset($_POST["submit"])) {
             </div>
         </div>
     </main>
+    <script>
+        $('.popup2').click(function() {
+            var src = $(this).attr('src');
+            $('#popup-img').attr('src', src);
+        });
+    </script>
 
 </div>
 <!-- /.container-fluid -->

@@ -20,9 +20,7 @@
 <script type="text/javascript">
     jQuery(function($) {
         $('#exampleModalCenter').on('shown.bs.modal', function() {
-            // $('input[name="tb_ket_approval"]').focus();
             $('#tb_ket_approval').focus();
-            console.log('yooo', 1)
         });
     });
 </script>
