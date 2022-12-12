@@ -82,6 +82,8 @@ $jumlah_ditolak = intval($rejected[0]);
 
 if (isset($_POST["submit"])) {
 
+    $tanggal           = $_POST["tb_tgl_beasiswa"];
+
     $keterangan        = $_POST["tb_ket_beasiswa"];
     $keterangan        = htmlspecialchars($keterangan);
 
@@ -120,6 +122,7 @@ if (isset($_POST["submit"])) {
 
 
     $query = "UPDATE t_beasiswa SET
+        tgl                 = '$tanggal',
         keterangan          = '$keterangan',
         nama_anak1          = '$namaAnak1',
         nama_anak2          = '$namaAnak2',
@@ -232,7 +235,7 @@ if (isset($_POST["submit"])) {
                                         <input type="text" id="tb_nominal<?= $x ?>" name="tb_nominal<?= $x ?>" class="form-control" value="<?= rupiah($beasiswa["nominal_$x"]); ?>" onchange="handleNominal()" readonly>
                                     </div>
                                     <div class="col"><input type="text" id="tb_nama_bank<?= $x ?>" name="tb_nama_bank<?= $x ?>" class="form-control" value="<?= $beasiswa["nama_bank$x"]; ?>"></div>
-                                    <div class="col"><input type="text" id="tb_noRekening<?= $x ?>" name="tb_noRekening<?= $x ?>" class="form-control" value="<?= $beasiswa["nomor_rekening$x"]; ?>"></div>
+                                    <div class="col"><input type="number" id="tb_noRekening<?= $x ?>" name="tb_noRekening<?= $x ?>" class="form-control" value="<?= $beasiswa["nomor_rekening$x"]; ?>"></div>
 
                                     <!-- <div class="append-action">                        
                                     <button type="button" onclick="removeField?=$x?>()">-</button>                       
@@ -259,11 +262,13 @@ if (isset($_POST["submit"])) {
                         <textarea class="form-control" id="tb_ket_beasiswa" name="tb_ket_beasiswa" rows="6" placeholder="Keterangan"><?= $beasiswa["keterangan"]; ?></textarea>
                     </div>
 
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <div class="row" style="margin-left: 1px;"> <label for="fileKK_Baru" class="label-txt"> File Kartu Keluarga </label>
                         </div>
                         <div class="row ml-2">
-                            <img src="../../img/<?= $beasiswa["file_kk"]; ?>" class="edit-img popup " alt="">
+                            <img src="../../img/
+                            <?= $beasiswa["file_kk"]; ?>
+                            " class="edit-img popup " alt="">
                         </div>
                         <div class="row ml-2"><?= $beasiswa["file_kk"]; ?></div>
 
@@ -272,7 +277,7 @@ if (isset($_POST["submit"])) {
                                 <div class="handle-file-unduh"> Lihat</div>
                             </a>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="form-group mb-5">
                         <br><label for="Jumlah_Approve" class="font-weight-bold"><span class="label-form-span">Jumlah Approve : <?= $jumlah_diterima ?> </span></label><br>

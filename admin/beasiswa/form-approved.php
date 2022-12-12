@@ -202,7 +202,7 @@ if (isset($_POST["submit"])) {
                         <div class="row" style="margin-left: 1px;"> <label for="suratKematian_Baru" class="label-txt"> Evidence Kematian</label>
                         </div>
                         <div class="row ml-2">
-                            <img src="../../img/<?= $beasiswa["file_surat_kematian"]; ?>" class="edit-img popup " alt="">
+                            <img src="../../img/<?= $beasiswa["file_surat_kematian"]; ?>" class="edit-img popup1 " data-toggle="modal" data-target="#staticBackdrop">
                         </div>
                         <div class="row ml-2"><?= $beasiswa["file_surat_kematian"]; ?></div>
 
@@ -294,6 +294,10 @@ if (isset($_POST["submit"])) {
     </main>
     <script>
         $('.popup2').click(function() {
+            var src = $(this).attr('src');
+            $('#popup-img').attr('src', src);
+        });
+        $('.popup1').click(function() {
             var src = $(this).attr('src');
             $('#popup-img').attr('src', src);
         });

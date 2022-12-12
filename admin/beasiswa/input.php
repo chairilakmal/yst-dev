@@ -90,12 +90,6 @@ if (isset($_POST["submit"])) {
     $created_by                 = $_SESSION["nama"];
 
 
-    // $formData = [$nominal1, $nominal2, $nominal3, $totalNominal];
-    // var_dump('nilai asli', $unmaskedTotal);
-    // var_dump('exploded', preg_replace('/[^0-9\-]/', '', $nominal1));
-    // die;
-
-
     $query = "INSERT INTO t_beasiswa (
                 tgl,
                 user_nik, 
