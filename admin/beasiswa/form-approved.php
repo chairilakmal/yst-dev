@@ -52,12 +52,21 @@ $queryApproved = mysqli_query($conn, "SELECT *
 $approved = mysqli_fetch_array($queryApproved);
 
 
+
 $queryApproveLimit = query("SELECT *
                     FROM t_approval_beasiswa
                     WHERE beasiswa_id = $id_beasiswa
                     AND is_approve = 1");
 $approveLimit = count($queryApproveLimit);
 
+$jumlah_approval = mysqli_query($conn, "SELECT COUNT(id_approval)
+                            FROM t_approval_beasiswa
+                            WHERE is_approve = 1 AND beasiswa_id = $id_beasiswa");
+
+$countApproved = mysqli_fetch_array($jumlah_approval);
+$jumlah_diterima = intval($countApproved[0]);
+// var_dump($jumlah_diterima);
+// die;
 
 $beasiswa = query("SELECT * FROM t_beasiswa
                         LEFT JOIN t_meninggal
@@ -74,15 +83,27 @@ if (isset($_POST["submit"])) {
     $user_id          = $_POST["id_user"];
     $is_approve       = $_POST["status_beasiswa"];
     $keteranganApproval = $_POST["tb_ket_approval"];
+    $approved_at       = date('Y-m-d H:i:s');
+    $approved_by       = $_SESSION["nama"];
 
 
     $query = "INSERT INTO t_approval_beasiswa (beasiswa_id, user_id, is_approve, keterangan)
                 VALUES ('$beasiswa_id','$user_id', '$is_approve', '$keteranganApproval')  
                      ";
 
+    if ($jumlah_diterima > 0) {
+        $queryBeasiswa = "UPDATE t_beasiswa SET
+        is_approve          = 1,
+        approved_at         = '$approved_at',   
+        approved_by         = '$approved_by'             
+        WHERE id_beasiswa   = $id_beasiswa
+        ";
+    }
 
 
     mysqli_query($conn, $query);
+    mysqli_query($conn, $queryBeasiswa);
+
     // var_dump($query);
     // die;
 
