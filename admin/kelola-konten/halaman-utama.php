@@ -13,6 +13,8 @@ if ($_SESSION["level_user"] == 4) {
     exit;
 }
 
+$uploadDate = date("Ymd");
+
 function upload()
 {
     //upload gambar
@@ -36,13 +38,15 @@ function upload()
     }
 
     //generate nama baru
-    $namaFileBaru = uniqid();
+    $uploadDate = date("Y-m-d");
+    $namaFileBaru = "beranda-backdrop-$uploadDate";
+    // $namaFileBaru = "beranda-backdrop";
     $namaFileBaru .= '.';
     $namaFileBaru .= $ekstensiGambar;
 
 
     //lolos pengecekan
-    move_uploaded_file($tmpName, '../../img/' . $namaFileBaru);
+    move_uploaded_file($tmpName, '../../upload/' . $namaFileBaru);
 
     return $namaFileBaru;
 }
@@ -159,7 +163,7 @@ $Banner = queryBanner("SELECT * FROM t_konten_beranda")[0];
                     </div>
                     <div class="form-group">
                         <label for="image_uploads" class="label-txt">Gambar Latar Belakang<span class="red-star">*</span></label>
-                        <br><img src="../../img/<?= $Banner["Gambar"]; ?>" class="edit-img popup " alt="Preview Image Not Available">
+                        <br><img src="../../upload/<?= $Banner["Gambar"]; ?>" class="edit-img popup " alt="Preview Image Not Available">
                         <div class="file-form">
                             <br><input type="file" id="image_uploads" name="image_uploads" class="form-control">
                         </div>

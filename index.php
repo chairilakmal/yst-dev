@@ -221,7 +221,7 @@ $programRelawan = queryRelawan("SELECT *, SUM(t_relawan.relawan_jadi) AS jumlah_
                 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner berbagi-banner">
                         <div class="carousel-item active">
-                            <div class="landing-page-banner" style="background-image: url('img/<?= $Banner["Gambar"]; ?>');">
+                            <div class="landing-page-banner" style="background-image: url('upload/<?= $Banner["Gambar"]; ?>');">
                             </div>
                             <!-- <img class="d-block w-100 img-fluid" width="100%" height="auto" src="img/<?= $Banner["Gambar"]; ?>" alt="First slide"> -->
                             <div class="carousel-caption  d-md-block">
@@ -267,7 +267,7 @@ $programRelawan = queryRelawan("SELECT *, SUM(t_relawan.relawan_jadi) AS jumlah_
                         <div class="col-md-4">
                             <div class="card card-pilihan mb-4 shadow-sm">
                                 <a href="">
-                                    <img class="card-img-top berita-img" width="100%" src="img/<?= $row['gambar_berita']; ?>">
+                                    <img class="card-img-top berita-img" width="100%" src="upload/<?= $row['gambar_berita']; ?>">
                                 </a>
                                 <div class="card-body">
                                     <div class="nama-program">
@@ -301,7 +301,7 @@ $programRelawan = queryRelawan("SELECT *, SUM(t_relawan.relawan_jadi) AS jumlah_
                         <div class="col-md-4">
                             <div class="card card-pilihan mb-4 shadow-sm">
                                 <a href="">
-                                    <img class="card-img-top berita-img" width="100%" src="img/<?= $row['gambar_berita']; ?>">
+                                    <img class="card-img-top berita-img" width="100%" src="upload/<?= $row['gambar_berita']; ?>">
                                 </a>
                                 <div class="card-body">
                                     <div class="nama-program">
@@ -335,7 +335,7 @@ $programRelawan = queryRelawan("SELECT *, SUM(t_relawan.relawan_jadi) AS jumlah_
                         <div class="col-md-4">
                             <div class="card card-pilihan mb-4 shadow-sm">
                                 <a href="">
-                                    <img class="card-img-top berita-img" width="100%" src="img/<?= $row['foto_p_donasi']; ?>">
+                                    <img class="card-img-top berita-img" width="100%" src="upload/<?= $row['foto_p_donasi']; ?>">
                                 </a>
                                 <div class="card-body">
                                     <div class="nama-program">
@@ -375,7 +375,7 @@ $programRelawan = queryRelawan("SELECT *, SUM(t_relawan.relawan_jadi) AS jumlah_
                         <div class="col-md-4">
                             <div class="card card-pilihan mb-4 shadow-sm">
                                 <a href="">
-                                    <img class="card-img-top berita-img" width="100%" src="img/<?= $row2['foto_p_relawan']; ?>">
+                                    <img class="card-img-top berita-img" width="100%" src="upload/<?= $row2['foto_p_relawan']; ?>">
                                 </a>
                                 <div class="card-body">
                                     <div class="nama-program">

@@ -147,7 +147,7 @@ $berita = queryBerita("SELECT *
                             <div class="col-md-4">
                                 <div class="card card-pilihan mb-4 shadow-sm">
                                     <a href="">
-                                        <img class="card-img-top berita-img" width="100%" src="img/<?= $row['gambar_berita']; ?>">
+                                        <img class="card-img-top berita-img" width="100%" src="upload/<?= $row['gambar_berita']; ?>">
                                     </a>
                                     <div class="card-body">
                                         <div class="nama-program">

@@ -47,7 +47,7 @@ function upload()
 
 
     //lolos pengecekan
-    move_uploaded_file($tmpName, '../../img/' . $namaFileBaru);
+    move_uploaded_file($tmpName, '../../upload/' . $namaFileBaru);
     return $namaFileBaru;
 }
 
@@ -182,7 +182,7 @@ if (isset($_POST["submit"])) {
                     </div>
                     <div class="form-group">
                         <label for="image_uploads" class="label-txt">Foto Berita<span class="red-star">*</span></label><br>
-                        <img src="../../img/<?= $berita["gambar_berita"]; ?>" class="edit-img popup " alt="">
+                        <img src="../../upload/<?= $berita["gambar_berita"]; ?>" class="edit-img popup " alt="">
                         <div class="file-form">
                             <input type="file" id="image_uploads" name="image_uploads" class="form-control">
                         </div>
