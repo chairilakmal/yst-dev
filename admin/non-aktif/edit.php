@@ -36,7 +36,7 @@ function upload($suratKematian_Baru)
 
 
     //lolos pengecekan
-    move_uploaded_file($tmpName, '../../img/' . $namaFileBaru);
+    move_uploaded_file($tmpName, '../../upload/' . $namaFileBaru);
 
     return $namaFileBaru;
 }
@@ -209,12 +209,12 @@ if (isset($_POST["submit"])) {
                         <div class="row" style="margin-left: 1px;"> <label for="suratKematian_Baru" class="label-txt"> Evidence Kematian </label>
                         </div>
                         <div class="row ml-2">
-                            <img src="../../img/<?= $dataKematian["file_surat_kematian"]; ?>" class="edit-img popup " alt="">
+                            <img src="../../upload/<?= $dataKematian["file_surat_kematian"]; ?>" class="edit-img popup " alt="">
                         </div>
                         <div class="row ml-2"><?= $dataKematian["file_surat_kematian"]; ?></div>
 
                         <div class="row ml-2 mt-2">
-                            <a href="../../img/<?= $dataKematian["file_surat_kematian"]; ?>" target="_blank">
+                            <a href="../../upload/<?= $dataKematian["file_surat_kematian"]; ?>" target="_blank">
                                 <div class="handle-file-unduh"> Lihat</div>
                             </a>
 
@@ -230,12 +230,12 @@ if (isset($_POST["submit"])) {
                         <div class="row" style="margin-left: 1px;"> <label for="fileKK_Baru" class="label-txt"> File Kartu Keluarga </label>
                         </div>
                         <div class="row ml-2">
-                            <img src="../../img/<?= $dataKematian["file_kk"]; ?>" class="edit-img popup " alt="">
+                            <img src="../../upload/<?= $dataKematian["file_kk"]; ?>" class="edit-img popup " alt="">
                         </div>
                         <div class="row ml-2"><?= $dataKematian["file_kk"]; ?></div>
 
                         <div class="row ml-2 mt-2">
-                            <a href="../../img/<?= $dataKematian["file_kk"]; ?>" target="_blank">
+                            <a href="../../upload/<?= $dataKematian["file_kk"]; ?>" target="_blank">
                                 <div class="handle-file-unduh"> Lihat</div>
                             </a>
 

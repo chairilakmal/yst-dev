@@ -72,15 +72,15 @@ function queryDonasi($query)
     return $rows;
 }
 
-$programDonasi = queryDonasi("SELECT *, SUM(t_donasi.nominal_donasi) AS dana_terkumpul_total, 
-                    COUNT(id_user) 
-                    AS jumlah_donatur 
-                    FROM t_donasi 
-                    RIGHT JOIN t_program_donasi 
-                    ON t_program_donasi.id_program_donasi = t_donasi.id_program_donasi    
-                    WHERE status_program_donasi = 'Berjalan'             
-                    GROUP BY t_program_donasi.id_program_donasi ORDER BY t_program_donasi.id_program_donasi DESC
-                    ");
+$programDonasi = queryDonasi("SELECT t_program_donasi.* , SUM(t_donasi.nominal_donasi) AS dana_terkumpul_total, 
+COUNT(id_user) 
+AS jumlah_donatur 
+FROM t_donasi 
+RIGHT JOIN t_program_donasi 
+ON t_program_donasi.id_program_donasi = t_donasi.id_program_donasi                 
+GROUP BY t_program_donasi.id_program_donasi, t_donasi.id_donasi, t_donasi.id_program_donasi
+ ORDER BY t_program_donasi.id_program_donasi DESC
+");
 // var_dump($programDonasi);die;
 
 //Relawan
@@ -95,13 +95,13 @@ function queryRelawan($query)
     return $rows;
 }
 
-$programRelawan = queryRelawan("SELECT *, SUM(t_relawan.relawan_jadi) AS jumlah_relawan 
-                    FROM t_relawan 
-                    RIGHT JOIN t_program_relawan 
-                    ON t_program_relawan.id_program_relawan = t_relawan.id_program_relawan  
-                    WHERE status_program_relawan = 'Berjalan'             
-                    GROUP BY t_program_relawan.id_program_relawan ORDER BY t_program_relawan.id_program_relawan DESC
-                    ");
+$programRelawan = queryRelawan("SELECT t_program_relawan.*, SUM(t_relawan.relawan_jadi) AS jumlah_relawan
+FROM t_relawan
+RIGHT JOIN t_program_relawan
+ON t_program_relawan.id_program_relawan = t_relawan.id_program_relawan                 
+GROUP BY t_program_relawan.id_program_relawan 
+ORDER BY t_program_relawan.id_program_relawan DESC
+");
 ?>
 
 <html lang="en">
