@@ -131,7 +131,7 @@ $result     = mysqli_fetch_array($query);
             </div>
             <!-- END Navbar Container -->
             <div class="halaman-view mt-5 ">
-                <img class="card-img-top halaman-view-img" width="100%" src="img/<?= $result['foto_p_donasi']; ?>">
+                <img class="card-img-top halaman-view-img" width="100%" src="upload/<?= $result['foto_p_donasi']; ?>">
                 <div class="view-desc-singkat mt-2">
                     <h2 class="mt-4"><?php echo $result['nama_program_donasi'] ?></h2>
                     <p>

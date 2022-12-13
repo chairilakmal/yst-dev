@@ -47,7 +47,7 @@ function upload()
 
 
     //lolos pengecekan
-    move_uploaded_file($tmpName, '../../img/' . $namaFileBaru);
+    move_uploaded_file($tmpName, '../../upload/' . $namaFileBaru);
 
     return $namaFileBaru;
 }
@@ -72,7 +72,7 @@ function upload2()
 
 
     //lolos pengecekan
-    move_uploaded_file($tmpName2, '../../img/' . $namaFileBaru2);
+    move_uploaded_file($tmpName2, '../../upload/' . $namaFileBaru2);
     return $namaFileBaru2;
 }
 
@@ -267,7 +267,7 @@ if (isset($_POST["submit"])) {
                     </div>
                     <div class="form-group">
                         <label for="image_uploads" class="label-txt">Foto Program</label><br>
-                        <img src="../../img/<?= $programRelawan["foto_p_relawan"]; ?>" class="edit-img popup" alt="">
+                        <img src="../../upload/<?= $programRelawan["foto_p_relawan"]; ?>" class="edit-img popup" alt="">
                         <div class="file-form">
                             <input type="file" id="image_uploads" name="image_uploads" class="form-control">
                         </div>
@@ -279,7 +279,7 @@ if (isset($_POST["submit"])) {
                             <div class="form-group upload-bukti">
                                 <h3 class="mt-4">Bukti Pelaksanaan Program Relawan</h3>
                                 <label for="image_uploads2" class="label-txt">Foto Bukti Pelaksanaan Program Relawan</label><br>
-                                <img src="../../img/<?= $programRelawan["bukti_pelaksanaan"]; ?>" class="edit-img popup " alt="">
+                                <img src="../../upload/<?= $programRelawan["bukti_pelaksanaan"]; ?>" class="edit-img popup " alt="">
                                 <div class="file-form">
                                     <input type="file" id="image_uploads2" name="image_uploads2" class="form-control ">
                                 </div>

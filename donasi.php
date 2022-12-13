@@ -174,7 +174,7 @@ $programDonasi = queryDonasi("SELECT *, SUM(t_donasi.nominal_donasi) AS dana_ter
                             <div class="col-md-4">
                                 <div class="card card-pilihan mb-4 shadow-sm">
                                     <a href="">
-                                        <img class="card-img-top berita-img" width="100%" src="img/<?= $row['foto_p_donasi']; ?>">
+                                        <img class="card-img-top berita-img" width="100%" src="upload/<?= $row['foto_p_donasi']; ?>">
                                     </a>
                                     <div class="card-body">
                                         <div class="nama-program">

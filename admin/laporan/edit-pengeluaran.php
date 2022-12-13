@@ -62,7 +62,7 @@ function upload()
     $namaFileBaru .= $ekstensiGambar;
 
     //lolos pengecekan
-    move_uploaded_file($tmpName, '../../img/' . $namaFileBaru);
+    move_uploaded_file($tmpName, '../../upload/' . $namaFileBaru);
 
     return $namaFileBaru;
 }
@@ -180,12 +180,12 @@ if (isset($_POST["submit"])) {
                     <div class="row" style="margin-left: 1px;"> <label for="image_uploads" class="label-txt"> Bukti Transfer </label>
                     </div>
                     <div class="row ml-2">
-                        <img src="../../img/<?= $lapKeuangan["bukti_transfer"]; ?>" class="edit-img popup " alt="">
+                        <img src="../../upload/<?= $lapKeuangan["bukti_transfer"]; ?>" class="edit-img popup " alt="">
                     </div>
                     <div class="row ml-2"><?= $lapKeuangan["bukti_transfer"]; ?></div>
 
                     <div class="row ml-2 mt-2">
-                        <a href="../../img/<?= $lapKeuangan["bukti_transfer"]; ?>" target="_blank">
+                        <a href="../../upload/<?= $lapKeuangan["bukti_transfer"]; ?>" target="_blank">
                             <div class="handle-file-unduh"> Lihat</div>
                         </a>
 

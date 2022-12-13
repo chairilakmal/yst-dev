@@ -166,7 +166,7 @@ $programRelawan = queryRelawan("SELECT *, SUM(t_relawan.relawan_jadi) AS jumlah_
                             <div class="col-md-4">
                                 <div class="card card-pilihan mb-4 shadow-sm">
                                     <a href="">
-                                        <img class="card-img-top berita-img" width="100%" src="img/<?= $row2['foto_p_relawan']; ?>">
+                                        <img class="card-img-top berita-img" width="100%" src="upload/<?= $row2['foto_p_relawan']; ?>">
                                     </a>
                                     <div class="card-body">
                                         <div class="nama-program">

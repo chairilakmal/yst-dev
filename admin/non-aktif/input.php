@@ -34,7 +34,7 @@ function upload($image_upload)
 
 
     //lolos pengecekan
-    move_uploaded_file($tmpName, '../../img/' . $namaFileBaru);
+    move_uploaded_file($tmpName, '../../upload/' . $namaFileBaru);
 
     return $namaFileBaru;
 }

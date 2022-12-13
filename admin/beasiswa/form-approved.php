@@ -223,12 +223,12 @@ if (isset($_POST["submit"])) {
                         <div class="row" style="margin-left: 1px;"> <label for="suratKematian_Baru" class="label-txt"> Evidence Kematian</label>
                         </div>
                         <!-- <div class="row ml-2">
-                            <img src="../../img/<?= $beasiswa["file_surat_kematian"]; ?>" class="edit-img popup1 " data-toggle="modal" data-target="#staticBackdrop">
+                            <img src="../../upload/<?= $beasiswa["file_surat_kematian"]; ?>" class="edit-img popup1 " data-toggle="modal" data-target="#staticBackdrop">
                         </div> -->
                         <div class="row ml-2"><?= $beasiswa["file_surat_kematian"]; ?></div>
 
                         <div class="row ml-2 mt-2">
-                            <a href="../../img/<?= $beasiswa["file_surat_kematian"]; ?>" target="_blank">
+                            <a href="../../upload/<?= $beasiswa["file_surat_kematian"]; ?>" target="_blank">
                                 <div class="handle-file-unduh"> Lihat</div>
                             </a>
                         </div>
@@ -238,12 +238,12 @@ if (isset($_POST["submit"])) {
                         <div class="row" style="margin-left: 1px;"> <label for="fileKK_Baru" class="label-txt"> File Kartu Keluarga </label>
                         </div>
                         <!-- <div class="row ml-2">
-                            <img src="../../img/<?= $beasiswa["file_kk"]; ?>" class="edit-img popup2 " data-toggle="modal" data-target="#staticBackdrop">
+                            <img src="../../upload/<?= $beasiswa["file_kk"]; ?>" class="edit-img popup2 " data-toggle="modal" data-target="#staticBackdrop">
                         </div> -->
                         <div class="row ml-2"><?= $beasiswa["file_kk"]; ?></div>
 
                         <div class="row ml-2 mt-2">
-                            <a href="../../img/<?= $beasiswa["file_kk"]; ?>" target="_blank">
+                            <a href="../../upload/<?= $beasiswa["file_kk"]; ?>" target="_blank">
                                 <div class="handle-file-unduh"> Lihat</div>
                             </a>
                         </div>
