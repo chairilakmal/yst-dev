@@ -302,7 +302,13 @@ if (isset($_POST["submit"])) {
                         <table>
                             <?php foreach ($cariNamaReject as $row) : ?>
                                 <tr>
-                                    <td> - <?= $row["nama"]; ?></td>
+                                    <td> - <?= $row["nama"]; echo ' : ';
+                                        if ($row["keterangan"]) {
+                                            echo $row["keterangan"];
+                                        } else {
+                                            echo '-';
+                                        }?>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         </table>
