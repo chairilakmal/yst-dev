@@ -10,5 +10,5 @@ $conn = mysqli_connect("$host", "$db_user", "$db_password", "$db_name");
 date_default_timezone_set("Asia/Jakarta");
 
 if (!$conn) {
-    echo "tidak konek";
+    echo "Connection has failed";
 }

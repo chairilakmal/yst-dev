@@ -20,7 +20,7 @@ if (isset($_POST["login"])) {
     if (password_verify($password, $row["password"])) {
       //set session
       $_SESSION["id_user"] = $row["id_user"];
-      $_SESSION["nama"] = $row["nama"];
+      $_SESSION["nama"] = $row["name"];
       $_SESSION["username"] = $row["username"];
       $_SESSION["level_user"] = $row["level_user"];
       $_SESSION["wilayah_id"] = $row["wilayah_id"];

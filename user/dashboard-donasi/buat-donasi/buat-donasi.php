@@ -292,7 +292,7 @@ if (isset($_POST["submit"])) {
                     <form action="" enctype="multipart/form-data" method="POST">
                         <div class="form-group label-txt">
                             <input type="hidden" id="tb_email" name="tb_email" class="form-control" value="<?php echo $data_user['email'] ?>" readonly>
-                            <input type="hidden" id="tb_nama_user" name="tb_nama_user" class="form-control" value="<?php echo $data_user['nama'] ?>" readonly>
+                            <input type="hidden" id="tb_nama_user" name="tb_nama_user" class="form-control" value="<?php echo $data_user['name'] ?>" readonly>
                             <div class="form-group mt-4 mb-2">
                                 <label for="tb_nama_program_donasi" class="font-weight-bold"><span class="label-form-span">Nama Program Donasi</span></label><br>
                                 <input type="text" id="tb_nama_program_donasi" name="tb_nama_program_donasi" class="form-control" value="<?php echo $result['nama_program_donasi'] ?>" readonly>

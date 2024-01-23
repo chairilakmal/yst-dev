@@ -33,7 +33,7 @@ if (isset($_POST["register"])) {
     $password = password_hash($password, PASSWORD_DEFAULT);
 
     //insert ke db
-    $sql = "INSERT INTO t_user (nama,nik,no_hp,email,jk,username,password,level_user,wilayah_id)
+    $sql = "INSERT INTO t_user (name,nik,no_hp,email,jenis_kelamin,username,password,level_user,wilayah_id)
         VALUES ('$nama_lengkap','$nik','$no_hp','$email','$jenis_kelamin','$username','$password','$level_user','$wilayah_id')";
 
     mysqli_query($conn, $sql);

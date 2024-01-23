@@ -134,7 +134,7 @@ if (isset($_POST["submit"])) {
                 <div class="form-group label-txt">
                     <div class="form-group mt-4 mb-3">
                         <label for="tb_nama_lengkap" class="label-txt">Nama<span class="red-star">*</span></label>
-                        <input type="text" id="tb_nama_lengkap" name="tb_nama_lengkap" class="form-control" value="<?= $userQuery["nama"]; ?>" readonly>
+                        <input type="text" id="tb_nama_lengkap" name="tb_nama_lengkap" class="form-control" value="<?= $userQuery["name"]; ?>" readonly>
                     </div>
                     <div class="form-group mt-4 mb-3">
                         <label for="tb_nik" class="label-txt">NIK<span class="red-star">*</span></label>
