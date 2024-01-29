@@ -63,7 +63,7 @@ $programRelawan = query("SELECT t_program_relawan.*, SUM(t_relawan.relawan_jadi)
                                 </div>
                             </div>
                         </div>
-                        <button class="mr-5" onclick="location.href='input.php'">Input Program Relawan<span class="fas fa-plus-square"></span></button>
+                        <button class="mr-5" onclick="location.href='input.php'">Input Program Relawan <span class="fas fa-plus-square"></span></button>
 
                     </div>
                     <div class="card-body card-body-req">

@@ -71,6 +71,48 @@ function upload()
     return $namaFileBaru;
 }
 
+function uploadSyaratKetentuan()
+{
+    //upload gambar
+    $namaFile = $_FILES['syarat_ketentuan_uploads']['name'];
+    $ukuranFile = $_FILES['syarat_ketentuan_uploads']['size'];
+    $error = $_FILES['syarat_ketentuan_uploads']['error'];
+    $tmpName = $_FILES['syarat_ketentuan_uploads']['tmp_name'];
+
+    if ($error === 4) {
+        echo "
+                     <script>
+                         alert('gambar tidak ditemukan !');
+                     </script>
+                 ";
+        return false;
+    }
+
+    //cek ekstensi gambar
+    $ekstensiGambarValid = ['jpg', 'jpeg', 'png'];
+    $ekstensiGambar = explode('.', $namaFile);
+    $ekstensiGambar = strtolower(end($ekstensiGambar));
+
+    if (!in_array($ekstensiGambar, $ekstensiGambarValid)) {
+        echo "
+                     <script>
+                         alert('kesalahan pada format gambar !');
+                     </script>
+                 ";
+        return false;
+    }
+
+    //generate nama baru
+    $namaFileBaru = uniqid();
+    $namaFileBaru .= '.';
+    $namaFileBaru .= $ekstensiGambar;
+
+    //lolos pengecekan
+    move_uploaded_file($tmpName, '../../upload/' . $namaFileBaru);
+
+    return $namaFileBaru;
+}
+
 
 if (isset($_POST["submit"])) {
 
@@ -92,6 +134,7 @@ if (isset($_POST["submit"])) {
     $deskripsi_lengkap_relawan   = htmlspecialchars($deskripsi_lengkap_relawan);
 
     $gambar = upload();
+    $gambarSyaratKetentuan = uploadSyaratKetentuan();
 
     $status_program_relawan      = "Pending";
 
@@ -113,8 +156,8 @@ if (isset($_POST["submit"])) {
 
 
 
-    $query = "INSERT INTO t_program_relawan (nama_program_relawan,deskripsi_singkat_relawan,target_relawan,tgl_pelaksanaan,lokasi_program,deskripsi_lengkap_relawan,foto_p_relawan,status_program_relawan,tgl_prelawan,lokasi_awal,penanggung_jawab,tenggat_waktu,kategori_relawan, created_by)
-VALUES ('$nama_program_relawan','$deskripsi_singkat_relawan','$target_relawan','$tgl_pelaksanaan','$lokasi_program',' $deskripsi_lengkap_relawan','$gambar','$status_program_relawan','$tgl_prelawan','$lokasi_awal','$penanggung_jawab','$tenggat_waktu','$kategori_relawan', '$created_by')  
+    $query = "INSERT INTO t_program_relawan (nama_program_relawan,deskripsi_singkat_relawan,target_relawan,tgl_pelaksanaan,lokasi_program,deskripsi_lengkap_relawan,foto_p_relawan,status_program_relawan,tgl_prelawan,lokasi_awal,penanggung_jawab,tenggat_waktu,kategori_relawan, file_syarat_ketentuan, created_by)
+VALUES ('$nama_program_relawan','$deskripsi_singkat_relawan','$target_relawan','$tgl_pelaksanaan','$lokasi_program',' $deskripsi_lengkap_relawan','$gambar','$status_program_relawan','$tgl_prelawan','$lokasi_awal','$penanggung_jawab','$tenggat_waktu','$kategori_relawan','$gambarSyaratKetentuan', '$created_by')  
      ";
 
     mysqli_query($conn, $query);
@@ -211,6 +254,12 @@ VALUES ('$nama_program_relawan','$deskripsi_singkat_relawan','$target_relawan','
                         <label for="image_uploads" class="label-txt">Foto Program<span class="red-star">*</span></label>
                         <div class="file-form">
                             <input type="file" id="image_uploads" name="image_uploads" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="syarat_ketentuan_uploads" class="label-txt">Foto Syarat dan Ketentuan<span class="red-star">*</span></label>
+                        <div class="file-form">
+                            <input type="file" id="syarat_ketentuan_uploads" name="syarat_ketentuan_uploads" class="form-control">
                         </div>
                     </div>
                 </div>

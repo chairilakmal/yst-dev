@@ -76,6 +76,48 @@ function upload2()
     return $namaFileBaru2;
 }
 
+function uploadSyaratKetentuan()
+{
+    //upload gambar
+    $namaFile = $_FILES['syarat_ketentuan_uploads']['name'];
+    $ukuranFile = $_FILES['syarat_ketentuan_uploads']['size'];
+    $error = $_FILES['syarat_ketentuan_uploads']['error'];
+    $tmpName = $_FILES['syarat_ketentuan_uploads']['tmp_name'];
+
+    if ($error === 4) {
+        echo "
+                     <script>
+                         alert('gambar tidak ditemukan !');
+                     </script>
+                 ";
+        return false;
+    }
+
+    //cek ekstensi gambar
+    $ekstensiGambarValid = ['jpg', 'jpeg', 'png'];
+    $ekstensiGambar = explode('.', $namaFile);
+    $ekstensiGambar = strtolower(end($ekstensiGambar));
+
+    if (!in_array($ekstensiGambar, $ekstensiGambarValid)) {
+        echo "
+                     <script>
+                         alert('kesalahan pada format gambar !');
+                     </script>
+                 ";
+        return false;
+    }
+
+    //generate nama baru
+    $namaFileBaru = uniqid();
+    $namaFileBaru .= '.';
+    $namaFileBaru .= $ekstensiGambar;
+
+    //lolos pengecekan
+    move_uploaded_file($tmpName, '../../upload/' . $namaFileBaru);
+
+    return $namaFileBaru;
+}
+
 //fungsi GET Array
 function query($query)
 {
@@ -118,6 +160,8 @@ if (isset($_POST["submit"])) {
 
     $gambarLama2                 = $_POST["gambarLama2"];
 
+    $gambarLamaSnk                 = $_POST["gambarLamaSnk"];
+
     $penanggung_jawab            = $_POST["tb_penanggung_jawab"];
     $penanggung_jawab            = htmlspecialchars($penanggung_jawab);
 
@@ -138,6 +182,12 @@ if (isset($_POST["submit"])) {
         $gambar2 = upload2();
     }
 
+    if ($_FILES['syarat_ketentuan_uploads']['error'] === 4) {
+        $gambarSnk = $gambarLamaSnk;
+    } else {
+        $gambarSnk = uploadSyaratKetentuan();
+    }
+
 
     $query = "UPDATE t_program_relawan SET
                 nama_program_relawan         = '$nama_program_relawan',
@@ -150,6 +200,7 @@ if (isset($_POST["submit"])) {
                 tenggat_waktu                = '$tenggat_waktu',
                 bukti_pelaksanaan            = '$gambar2',
                 foto_p_relawan               = '$gambar',
+                file_syarat_ketentuan        = '$gambarSnk',
                 updated_by                  = '$updated_by',
                     updated_at                  = '$updated_at'
                 WHERE id_program_relawan      = $id_program_relawan
@@ -171,6 +222,7 @@ if (isset($_POST["submit"])) {
                     tenggat_waktu                = '$tenggat_waktu',
                     bukti_pelaksanaan            = '$gambar2',
                     foto_p_relawan               = '$gambar',
+                    file_syarat_ketentuan        = '$gambarSnk',
                     updated_by                  = '$updated_by',
                     updated_at                  = '$updated_at'
                     WHERE id_program_relawan      = $id_program_relawan
@@ -221,6 +273,7 @@ if (isset($_POST["submit"])) {
             <form action="" enctype="multipart/form-data" method="POST">
                 <input type="hidden" name="id_program_relawan" value="<?= $programRelawan['id_program_relawan']; ?>">
                 <input type="hidden" name="gambarLama" value="<?= $programRelawan['foto_p_relawan']; ?>">
+                <input type="hidden" name="gambarLamaSnk" value="<?= $programRelawan['file_syarat_ketentuan']; ?>">
                 <input type="hidden" name="gambarLama2" value="<?= $programRelawan['bukti_pelaksanaan']; ?>">
 
                 <div class="form-group label-txt">
@@ -272,7 +325,13 @@ if (isset($_POST["submit"])) {
                             <input type="file" id="image_uploads" name="image_uploads" class="form-control">
                         </div>
                     </div>
-
+                    <div class="form-group">
+                        <label for="syarat_ketentuan_uploads" class="label-txt">Foto Syarat dan Ketentuan<span class="red-star">*</span></label><br/>
+                        <img src="../../upload/<?= $programRelawan["file_syarat_ketentuan"]; ?>" class="edit-img popup" alt="">
+                        <div class="file-form">
+                            <input type="file" id="syarat_ketentuan_uploads" name="syarat_ketentuan_uploads" class="form-control">
+                        </div>
+                    </div>
                     <!-- Untuk upload bukti penyaluran -->
                     <?php if ($programRelawan['status_program_relawan'] == 'Siap dilaksanakan' || $programRelawan['status_program_relawan'] == 'Selesai') { ?>
                         <div class="second-bg">
