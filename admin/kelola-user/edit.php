@@ -62,7 +62,7 @@ function upload()
     return $namaFileBaru;
 }
 
-$userQuery = query("SELECT * FROM t_user WHERE id_user = $id_user")[0];
+$userQuery = query("SELECT * FROM t_users WHERE id_user = $id_user")[0];
 
 //UPDATE
 if (isset($_POST["submit"])) {
@@ -79,7 +79,7 @@ if (isset($_POST["submit"])) {
 
 
     // GLOBAL UPDATE
-    $query = "UPDATE t_user SET
+    $query = "UPDATE t_users SET
                     level_user        = '$level_user',
                     file_keluarga     = '$file_keluarga'
                   WHERE id_user       = $id_user

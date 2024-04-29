@@ -9,7 +9,7 @@ if (isset($_POST["login"])) {
   $password = $_POST["password"];
   //$password = md5($_POST["password"]);
 
-  $result = mysqli_query($conn, "SELECT * FROM t_user WHERE
+  $result = mysqli_query($conn, "SELECT * FROM t_users WHERE
     username = '$username'");
 
   //cek ketersediaan user

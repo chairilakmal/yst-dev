@@ -35,9 +35,9 @@ function query($query)
     return $rows;
 }
 
-$userAktif = query("SELECT COUNT(is_die) AS aktif FROM t_user WHERE is_die='n'");
+$userAktif = query("SELECT COUNT(is_die) AS aktif FROM t_users WHERE is_die='n'");
 
-$userMeninggal = query("SELECT COUNT(is_die) AS meninggal FROM t_user WHERE is_die='y'");
+$userMeninggal = query("SELECT COUNT(is_die) AS meninggal FROM t_users WHERE is_die='y'");
 
 $pemasukan = query("SELECT SUM(nominal) AS pemasukan FROM t_lap_keuangan WHERE status='0'");
 

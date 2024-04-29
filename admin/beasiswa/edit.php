@@ -48,14 +48,14 @@ function query($query)
 }
 
 $cariNamaApprove = query("SELECT * FROM t_approval_beasiswa
-                        LEFT JOIN t_user
-                        ON t_approval_beasiswa.user_id = t_user.id_user 
+                        LEFT JOIN t_users
+                        ON t_approval_beasiswa.user_id = t_users.id_user 
                         WHERE is_approve = 1 AND beasiswa_id = $id_beasiswa              
                         ");
 
 $cariNamaReject = query("SELECT * FROM t_approval_beasiswa
-                        LEFT JOIN t_user
-                        ON t_approval_beasiswa.user_id = t_user.id_user 
+                        LEFT JOIN t_users
+                        ON t_approval_beasiswa.user_id = t_users.id_user 
                         WHERE is_approve = 2 AND beasiswa_id = $id_beasiswa              
                         ");
 

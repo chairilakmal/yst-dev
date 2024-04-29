@@ -54,7 +54,7 @@ function query($query)
 }
 
 $currentWilayah = $_SESSION["wilayah_id"];
-$selectNIK = query("SELECT * FROM t_user
+$selectNIK = query("SELECT * FROM t_users
                 WHERE is_die = 'y' AND status_aktif = 'n'
                 ORDER BY nik ASC ");
 

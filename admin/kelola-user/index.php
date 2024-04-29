@@ -29,7 +29,7 @@ function query($query)
 $wilayahQuery = query("SELECT
                 tu.*,tw.nama_wilayah,torg.nama_jabatan
                 FROM
-                t_user tu
+                t_users tu
                 LEFT JOIN t_wilayah tw ON tu.wilayah_id = tw.id_wilayah
                 LEFT JOIN t_organigram torg ON tu.id_user = torg.user_id
                 WHERE tu.level_user != 1

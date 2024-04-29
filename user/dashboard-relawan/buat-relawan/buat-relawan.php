@@ -12,7 +12,7 @@ if (!isset($_SESSION["username"])) {
 
 $id_user           = $_SESSION['id_user'];
 
-$queryUser      = mysqli_query($conn, "SELECT * FROM t_user WHERE id_user=$id_user");
+$queryUser      = mysqli_query($conn, "SELECT * FROM t_users WHERE id_user=$id_user");
 $data_user      = mysqli_fetch_array($queryUser);
 
 

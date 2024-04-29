@@ -64,7 +64,7 @@ if ($type == 'pdonasi') {
     exit();
 } elseif ($type == 'manageuser') {
     $id_user = $_GET["id_user"];
-    mysqli_query($conn, "DELETE FROM t_user
+    mysqli_query($conn, "DELETE FROM t_users
                             WHERE  	id_user = $id_user");
 
     header('Location: admin/kelolas-user/index.php?status=deletesuccess');
